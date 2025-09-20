@@ -51,10 +51,7 @@
                     </div>
                     <div class="col-md-3 col-6 mb-3">
                         <div class="stats-card">
-                            <div class="stats-number"><% 
-                                let avg = leaderboard && leaderboard.length ? (leaderboard.reduce((sum, u) => sum + (parseFloat(u.average_score) || 0), 0) / leaderboard.length) : 0;
-                                if (isNaN(avg)) avg = 0;
-                            %><%= avg.toFixed(1) %>%</div>
+                            <div class="stats-number"><%= leaderboard && leaderboard.length ? (leaderboard.reduce((sum, u) => sum + (u.average_score || 0), 0) / leaderboard.length).toFixed(1) : 0 %>%</div>
                             <div class="stats-label">Average Score</div>
                         </div>
                     </div>
@@ -78,7 +75,7 @@
                                 <span>2</span>
                             </div>
                             <div class="podium-avatar">
-                              <img src="<%= leaderboard && leaderboard[1] && leaderboard[1].avatar %>" alt="Avatar" onerror="this.onerror=null;this.src='/images/avatar.jpg';">
+                                <img src="<%= leaderboard && leaderboard[1] && leaderboard[1].avatar %>" alt="Avatar">
                             </div>
                             <h4 class="podium-name"><%= leaderboard && leaderboard[1] && leaderboard[1].name %></h4>
                             <div class="podium-score"><%= leaderboard && leaderboard[1] && leaderboard[1].marks %> pts</div>
@@ -94,7 +91,7 @@
                                 <span>1</span>
                             </div>
                             <div class="podium-avatar">
-                              <img src="<%= leaderboard && leaderboard[0] && leaderboard[0].avatar %>" alt="Avatar" onerror="this.onerror=null;this.src='/images/avatar.jpg';">
+                                <img src="<%= leaderboard && leaderboard[0] && leaderboard[0].avatar %>" alt="Avatar">
                             </div>
                             <h4 class="podium-name"><%= leaderboard && leaderboard[0] && leaderboard[0].name %></h4>
                             <div class="podium-score"><%= leaderboard && leaderboard[0] && leaderboard[0].marks %> pts</div>
@@ -110,7 +107,7 @@
                                 <span>3</span>
                             </div>
                             <div class="podium-avatar">
-                              <img src="<%= leaderboard && leaderboard[2] && leaderboard[2].avatar %>" alt="Avatar" onerror="this.onerror=null;this.src='/images/avatar.jpg';">
+                                <img src="<%= leaderboard && leaderboard[2] && leaderboard[2].avatar %>" alt="Avatar">
                             </div>
                             <h4 class="podium-name"><%= leaderboard && leaderboard[2] && leaderboard[2].name %></h4>
                             <div class="podium-score"><%= leaderboard && leaderboard[2] && leaderboard[2].marks %> pts</div>
@@ -165,7 +162,7 @@
                                     </td>
                                     <td class="score-cell"><%= player.marks %></td>
                                     <td class="quizzes-cell"><%= player.quizzes_completed %></td>
-                                    <td class="avg-score-cell"><%= isNaN(parseFloat(player.average_score)) ? '0.0' : parseFloat(player.average_score).toFixed(1) %>%</td>
+                                    <td class="avg-score-cell"><%= player.average_score %>%</td>
                                     <td class="last-active-cell"><%= player.last_active %></td>
                                 </tr>
                                 <% }) %>

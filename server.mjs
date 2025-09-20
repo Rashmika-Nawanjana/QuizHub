@@ -8,18 +8,18 @@ import supabase from './database/supabase-client.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
-// dotenv import removed for deployment
+import 'dotenv/config';
 import session from 'express-session';
 const app = express();
 // Session middleware
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'your-secret-key', // Set SESSION_SECRET in deployment
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        sameSite: 'lax'
-    }
+        secret: process.env.SESSION_SECRET || 'your-secret-key',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false, // Set to true if using HTTPS in production
+            sameSite: 'lax' // Allows cookies to be sent from LAN IPs
+        }
 }));
 // Config
 const __filename = fileURLToPath(import.meta.url);
@@ -96,15 +96,13 @@ app.get('/leaderboard', requireAuth, async (req, res) => {
     // Build leaderboard array with user info
     // Optimize avatar URL: use public URL if possible, else fallback to default
     const getAvatarUrl = (avatar_url) => {
+        if (!avatar_url) return '/images/avatar.jpg';
         // If already a public URL, return as is
-        if (avatar_url && avatar_url.startsWith('http')) return avatar_url;
+        if (avatar_url.startsWith('http')) return avatar_url;
         // If using Supabase Storage, construct public URL (adjust bucket name if needed)
-        if (avatar_url && avatar_url.length > 0) {
-            const supabaseUrl = process.env.SUPABASE_URL;
-            return `${supabaseUrl}/storage/v1/object/public/avatars/${avatar_url}`;
-        }
-        // Fallback to default
-        return '/images/avatar.jpg';
+        const supabaseUrl = process.env.SUPABASE_URL;
+        // Example: avatars bucket
+        return `${supabaseUrl}/storage/v1/object/public/avatars/${avatar_url}`;
     };
 
     const leaderboard = (allUsers || []).map(u => {
@@ -644,7 +642,6 @@ app.get('/logout', async (req, res) => {
 });
 
 // Start server
-
-app.listen(PORT, () => {
+app.listen(PORT,'0.0.0.0', () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

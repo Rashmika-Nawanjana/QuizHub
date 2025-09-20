@@ -20,7 +20,7 @@
                 <!-- Profile Summary -->
                 <div class="profile-summary">
                     <div class="profile-avatar-small">
-                        <img src="<%= user.avatar_url ? getAvatarUrl(user.avatar_url) : '/images/avatar.jpg' %>" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #ccc;" onerror="this.onerror=null;this.src='/images/avatar.jpg';">
+                        <img src="<%= user.avatar_url || '/images/avatar.jpg' %>" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #ccc;">
                         <div class="online-indicator"></div>
                     </div>
                     <div class="profile-info-small" style="margin-left: 12px; display: flex; align-items: center;">
