@@ -1,182 +1,285 @@
-
-
-
-
-// 1. Create the app first
-
 import express from 'express';
 import supabase from '../database/supabase-client.js';
+
 const router = express.Router();
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const CALLBACK_URL = process.env.BASE_URL + '/auth/oauth/callback';
-const app = express();
-// Email/password login
+
+// Login route
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  let { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error && error.message.toLowerCase().includes('email not confirmed')) {
-    // Resend confirmation email
-    await supabase.auth.resend({ type: 'signup', email });
-    return res.render('login', { error: 'Your email is not confirmed. A new confirmation email has been sent. Please check your inbox.', activeTab: 'login' });
-  } else if (error && error.message.includes('Invalid login credentials')) {
-    // Try to sign up if user not found
-    const signup = await supabase.auth.signUp({ email, password });
-    if (signup.error) {
-      return res.render('login', { error: signup.error.message, activeTab: 'login' });
+    const { email, password } = req.body;
+    
+    if (!email || !password) {
+        return res.status(400).json({ 
+            success: false, 
+            message: 'Email and password are required' 
+        });
     }
-    // Ask user to check email for confirmation
-    return res.render('login', { success: 'Account created! Please check your email to confirm, then log in.', activeTab: 'login' });
-  } else if (error) {
-    return res.render('login', { error: error.message, activeTab: 'login' });
-  }
-  // Upsert user into Supabase users table
-  const user = data.user;
-  if (user) {
-    const { id, email, user_metadata } = user;
-    const full_name = user_metadata?.full_name || user_metadata?.name || null;
-    const avatar_url = user_metadata?.avatar_url || user_metadata?.picture || null;
-    const { data: upsertData, error: upsertError } = await supabase.from('users').upsert([
-      {
-        id,
-        email,
-        full_name,
-        avatar_url,
-        is_active: true,
-        updated_at: new Date().toISOString(),
-      }
-    ], { onConflict: 'id' });
-    if (upsertError) {
-      console.error('Supabase user upsert error:', upsertError);
-    } else {
-      console.log('Supabase user upsert success:', upsertData);
+
+    try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) {
+            console.error('Login error:', error);
+            return res.status(401).json({ 
+                success: false, 
+                message: error.message || 'Invalid credentials' 
+            });
+        }
+
+        if (!data.session) {
+            return res.status(401).json({ 
+                success: false, 
+                message: 'No session created' 
+            });
+        }
+
+        // Set HTTP-only cookie with the access token
+        res.cookie('sb-access-token', data.session.access_token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: data.session.expires_in * 1000 // Convert seconds to milliseconds
+        });
+
+        // Set refresh token cookie
+        if (data.session.refresh_token) {
+            res.cookie('sb-refresh-token', data.session.refresh_token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+            });
+        }
+
+        res.json({ 
+            success: true, 
+            message: 'Login successful',
+            user: data.user
+        });
+
+    } catch (err) {
+        console.error('Login server error:', err);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error during login' 
+        });
     }
-  // Resolve avatar URL once and cache in session
-  let avatar_url_resolved = '/images/avatar.jpg';
-  if (avatar_url) {
-    if (avatar_url.startsWith('http')) {
-      avatar_url_resolved = avatar_url;
-    } else {
-      avatar_url_resolved = `${process.env.SUPABASE_URL}/storage/v1/object/public/avatars/${avatar_url}`;
+});
+
+// Register route
+router.post('/register', async (req, res) => {
+    const { email, password, full_name, username } = req.body;
+    
+    if (!email || !password || !full_name) {
+        return res.status(400).json({ 
+            success: false, 
+            message: 'Email, password, and full name are required' 
+        });
     }
-  }
-  req.session.user = { id, email, name: full_name, avatar_url, avatar_url_resolved };
-  }
-  req.session.save(() => {
-    res.redirect('/home');
-  });
-});
 
-// Email/password signup
-router.post('/signup', async (req, res) => {
-  const { email, password, name } = req.body;
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: { data: { name } }
-  });
-  if (error) {
-    return res.render('login', { error: error.message, activeTab: 'signup' });
-  }
-  // After signup, switch to login tab and show message
-  res.render('login', { success: 'Signup successful! Please check your email to verify your account, then log in.', activeTab: 'login' });
-// Always define activeTab when rendering login page
-router.get('/login', (req, res) => {
-  res.render('login', { activeTab: 'login' });
-});
-});
+    try {
+        // Sign up user
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    full_name,
+                    username: username || full_name
+                }
+            }
+        });
 
-// Forgot password (show form)
-router.get('/forgot-password', (req, res) => {
-  res.render('forgot-password');
-});
+        if (error) {
+            console.error('Registration error:', error);
+            return res.status(400).json({ 
+                success: false, 
+                message: error.message 
+            });
+        }
 
-// Forgot password (submit)
-router.post('/forgot-password', async (req, res) => {
-  const { email } = req.body;
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: CALLBACK_URL
-  });
-  if (error) {
-    return res.render('forgot-password', { error: error.message });
-  }
-  res.render('forgot-password', { success: 'Check your email for a password reset link.' });
-});
+        if (!data.user) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Registration failed' 
+            });
+        }
 
-// Reset password (show form)
-router.get('/reset-password', (req, res) => {
-  // Supabase handles reset via email link, may not use this route unless you want a custom flow
-  res.render('reset-password', { access_token: req.query.access_token });
-});
+        // Check if email confirmation is required
+        if (!data.session && data.user && !data.user.email_confirmed_at) {
+            return res.json({ 
+                success: true, 
+                message: 'Registration successful! Please check your email for confirmation.',
+                requiresEmailConfirmation: true
+            });
+        }
 
-// Reset password (submit)
-router.post('/reset-password', async (req, res) => {
-  const { access_token, password } = req.body;
-  const { data, error } = await supabase.auth.updateUser(
-    { password },
-    { access_token }
-  );
-  if (error) {
-    return res.render('reset-password', { error: error.message });
-  }
-  res.render('login', { success: 'Password updated successfully. You can now log in.' });
-});
+        // If session is created (auto-confirm enabled)
+        if (data.session) {
+            // Set HTTP-only cookie with the access token
+            res.cookie('sb-access-token', data.session.access_token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                maxAge: data.session.expires_in * 1000
+            });
 
-// Logout
-router.get('/logout', async (req, res) => {
-  await supabase.auth.signOut();
-  req.session.destroy(() => {
-    res.redirect('/auth/login');
-  });
-});
+            // Set refresh token cookie
+            if (data.session.refresh_token) {
+                res.cookie('sb-refresh-token', data.session.refresh_token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'lax',
+                    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+                });
+            }
+        }
 
-// Google OAuth
-router.get('/google', (req, res) => {
-  const redirectTo = encodeURIComponent(CALLBACK_URL);
-  res.redirect(
-    `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${redirectTo}`
-  );
-});
+        res.json({ 
+            success: true, 
+            message: 'Registration successful!',
+            user: data.user,
+            requiresEmailConfirmation: !data.session
+        });
 
-// GitHub OAuth
-router.get('/github', (req, res) => {
-  const redirectTo = encodeURIComponent(CALLBACK_URL);
-  res.redirect(
-    `${SUPABASE_URL}/auth/v1/authorize?provider=github&redirect_to=${redirectTo}`
-  );
-});
-
-// OAuth Callback
-router.get('/oauth/callback', (req, res) => {
-  res.render('oauth-callback');
-});
-
-router.post('/session', async (req, res) => {
-  const { access_token } = req.body;
-  // Fetch user info from Supabase
-  const { data: { user }, error } = await supabase.auth.getUser(access_token);
-  if (error || !user) return res.status(401).send('Unauthorized');
-  console.log('Supabase user_metadata:', user.user_metadata);
-  // Upsert user into Supabase users table (OAuth)
-  const { id, email, user_metadata } = user;
-  const full_name = user_metadata?.full_name || user_metadata?.name || null;
-  const avatar_url = user_metadata?.avatar_url || user_metadata?.picture || null;
-  const { data: upsertData, error: upsertError } = await supabase.from('users').upsert([
-    {
-      id,
-      email,
-      full_name,
-      avatar_url,
-      is_active: true,
-      updated_at: new Date().toISOString(),
+    } catch (err) {
+        console.error('Registration server error:', err);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error during registration' 
+        });
     }
-  ], { onConflict: 'id' });
-  if (upsertError) {
-    console.error('Supabase user upsert error:', upsertError);
-  } else {
-    console.log('Supabase user upsert success:', upsertData);
-  }
-  req.session.user = { id, email, full_name, avatar_url };
-  req.session.save(() => res.sendStatus(200));
+});
+
+// Logout route
+router.post('/logout', async (req, res) => {
+    try {
+        const token = req.cookies['sb-access-token'];
+        
+        // Sign out from Supabase if we have a token
+        if (token) {
+            await supabase.auth.signOut();
+        }
+
+        // Clear cookies
+        res.clearCookie('sb-access-token');
+        res.clearCookie('sb-refresh-token');
+
+        res.json({ 
+            success: true, 
+            message: 'Logout successful' 
+        });
+
+    } catch (err) {
+        console.error('Logout error:', err);
+        // Still clear cookies even if Supabase logout fails
+        res.clearCookie('sb-access-token');
+        res.clearCookie('sb-refresh-token');
+        
+        res.json({ 
+            success: true, 
+            message: 'Logout completed' 
+        });
+    }
+});
+
+// Refresh token route
+router.post('/refresh', async (req, res) => {
+    try {
+        const refreshToken = req.cookies['sb-refresh-token'];
+        
+        if (!refreshToken) {
+            return res.status(401).json({ 
+                success: false, 
+                message: 'No refresh token available' 
+            });
+        }
+
+        const { data, error } = await supabase.auth.refreshSession({
+            refresh_token: refreshToken
+        });
+
+        if (error || !data.session) {
+            // Clear invalid cookies
+            res.clearCookie('sb-access-token');
+            res.clearCookie('sb-refresh-token');
+            
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Token refresh failed' 
+            });
+        }
+
+        // Set new cookies
+        res.cookie('sb-access-token', data.session.access_token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: data.session.expires_in * 1000
+        });
+
+        if (data.session.refresh_token) {
+            res.cookie('sb-refresh-token', data.session.refresh_token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+            });
+        }
+
+        res.json({ 
+            success: true, 
+            message: 'Token refreshed successfully',
+            user: data.user
+        });
+
+    } catch (err) {
+        console.error('Token refresh error:', err);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error during token refresh' 
+        });
+    }
+});
+
+// Check auth status
+router.get('/me', async (req, res) => {
+    try {
+        const token = req.cookies['sb-access-token'];
+        
+        if (!token) {
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Not authenticated' 
+            });
+        }
+
+        const { data: { user }, error } = await supabase.auth.getUser(token);
+
+        if (error || !user) {
+            res.clearCookie('sb-access-token');
+            res.clearCookie('sb-refresh-token');
+            
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Invalid token' 
+            });
+        }
+
+        res.json({ 
+            success: true, 
+            user 
+        });
+
+    } catch (err) {
+        console.error('Auth check error:', err);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error during auth check' 
+        });
+    }
 });
 
 export default router;

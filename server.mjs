@@ -1,17 +1,13 @@
-// Middleware: inject session user into res.locals for all routes
-
-// Leaderboard route (protected)
-
-
 import express from 'express';
 import supabase from './database/supabase-client.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
-// import 'dotenv/config';
 import cookieParser from 'cookie-parser';
+
 const app = express();
 app.use(cookieParser());
+
 // Config
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,126 +23,180 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
-// Stateless Supabase Auth middleware
-import { supabase } from './database/supabase-client.js';
-async function requireAuth(req, res, next) {
+// Session middleware: inject session user into res.locals for all routes
+async function injectUser(req, res, next) {
     const token = req.cookies['sb-access-token'];
-    if (!token) return res.redirect('/');
-    const { data: { user }, error } = await supabase.auth.getUser(token);
-    if (error || !user) return res.redirect('/');
-    req.user = user;
-    res.locals.user = user;
+    if (token) {
+        try {
+            const { data: { user }, error } = await supabase.auth.getUser(token);
+            if (!error && user) {
+                req.user = user;
+                res.locals.user = user;
+            }
+        } catch (err) {
+            console.error('Auth check error:', err);
+        }
+    }
     next();
 }
+
+// Apply user injection to all routes
+app.use(injectUser);
+
+// Auth middleware to protect routes
+async function requireAuth(req, res, next) {
+    const token = req.cookies['sb-access-token'];
+    if (!token) {
+        return res.redirect('/');
+    }
+    
+    try {
+        const { data: { user }, error } = await supabase.auth.getUser(token);
+        if (error || !user) {
+            // Clear invalid token
+            res.clearCookie('sb-access-token');
+            return res.redirect('/');
+        }
+        
+        req.user = user;
+        res.locals.user = user;
+        next();
+    } catch (err) {
+        console.error('Auth error:', err);
+        res.clearCookie('sb-access-token');
+        return res.redirect('/');
+    }
+}
+
 // Root route: show login if not logged in, else redirect to /home
-app.get('/', (req, res) => {
-    if (req.cookies['sb-access-token']) {
-        return res.redirect('/home');
+app.get('/', async (req, res) => {
+    const token = req.cookies['sb-access-token'];
+    if (token) {
+        try {
+            const { data: { user }, error } = await supabase.auth.getUser(token);
+            if (!error && user) {
+                return res.redirect('/home');
+            }
+        } catch (err) {
+            console.error('Token validation error:', err);
+        }
     }
     res.render('login', { user: null });
 });
 
+// Home page (main page after login)
+app.get('/home', requireAuth, (req, res) => {
+    res.render('index', { title: 'Home', user: req.user });
+});
 
-
+// Leaderboard route (protected)
 app.get('/leaderboard', requireAuth, async (req, res) => {
-    // Get all users
-    const { data: allUsers, error: usersError } = await supabase
-        .from('users')
-        .select('id, full_name, username, avatar_url');
+    try {
+        // Get all users
+        const { data: allUsers, error: usersError } = await supabase
+            .from('users')
+            .select('id, full_name, username, avatar_url');
 
-    // Get all quiz attempts (first attempt per user per quiz)
-    const { data: allAttempts, error: attemptsError } = await supabase
-        .from('quiz_attempts')
-        .select('id, user_id, quiz_id, score_percentage, time_spent_seconds, started_at')
-        .order('started_at', { ascending: true });
+        if (usersError) {
+            console.error('Users fetch error:', usersError);
+        }
 
-    // For each user, for each quiz, keep only the first attempt
-    const firstAttemptsMap = {};
-    (allAttempts || []).forEach(a => {
-        const key = a.user_id + '|' + a.quiz_id;
-        if (!firstAttemptsMap[key]) {
-            firstAttemptsMap[key] = a;
-        }
-    });
+        // Get all quiz attempts (first attempt per user per quiz)
+        const { data: allAttempts, error: attemptsError } = await supabase
+            .from('quiz_attempts')
+            .select('id, user_id, quiz_id, score_percentage, time_spent_seconds, started_at')
+            .order('started_at', { ascending: true });
 
-    // Aggregate: for each user, sum marks, time spent, quizzes completed, average score, last active
-    const leaderboardMap = {};
-    Object.values(firstAttemptsMap).forEach(a => {
-        if (!leaderboardMap[a.user_id]) {
-            leaderboardMap[a.user_id] = {
-                marks: 0,
-                time: 0,
-                quizzes_completed: 0,
-                scores: [],
-                last_active: null
-            };
+        if (attemptsError) {
+            console.error('Attempts fetch error:', attemptsError);
         }
-        leaderboardMap[a.user_id].marks += a.score_percentage || 0;
-        leaderboardMap[a.user_id].time += a.time_spent_seconds || 0;
-        leaderboardMap[a.user_id].quizzes_completed += 1;
-        leaderboardMap[a.user_id].scores.push(a.score_percentage || 0);
-        // Track most recent attempt
-        if (!leaderboardMap[a.user_id].last_active || new Date(a.started_at) > new Date(leaderboardMap[a.user_id].last_active)) {
-            leaderboardMap[a.user_id].last_active = a.started_at;
-        }
-    });
 
-    // Build leaderboard array with user info
-    // Optimize avatar URL: use public URL if possible, else fallback to default
-    const getAvatarUrl = (avatar_url) => {
-        if (!avatar_url) return '/images/avatar.jpg';
-        // If already a public URL, return as is
-        if (avatar_url.startsWith('http')) return avatar_url;
-        // If using Supabase Storage, construct public URL (adjust bucket name if needed)
-        const supabaseUrl = process.env.SUPABASE_URL;
-        // Example: avatars bucket
-        return `${supabaseUrl}/storage/v1/object/public/avatars/${avatar_url}`;
-    };
+        // For each user, for each quiz, keep only the first attempt
+        const firstAttemptsMap = {};
+        (allAttempts || []).forEach(a => {
+            const key = a.user_id + '|' + a.quiz_id;
+            if (!firstAttemptsMap[key]) {
+                firstAttemptsMap[key] = a;
+            }
+        });
 
-    const leaderboard = (allUsers || []).map(u => {
-        const userStats = leaderboardMap[u.id] || {};
-        // Calculate average score
-        let avgScore = 0;
-        if (userStats.scores && userStats.scores.length > 0) {
-            avgScore = userStats.scores.reduce((a, b) => a + b, 0) / userStats.scores.length;
-        }
-        // Calculate last active (hours ago)
-        let lastActive = '';
-        let lastActiveHours = undefined;
-        if (userStats.last_active) {
-            const last = new Date(userStats.last_active);
-            const now = new Date();
-            const diffMs = now - last;
-            lastActiveHours = diffMs / (1000 * 60 * 60);
-            if (lastActiveHours < 1) lastActive = 'Just now';
-            else if (lastActiveHours < 24) lastActive = Math.floor(lastActiveHours) + ' hours ago';
-            else lastActive = Math.floor(lastActiveHours / 24) + ' days ago';
-        }
-        return {
-            user_id: u.id,
-            name: u.full_name || u.username || 'User',
-            avatar: getAvatarUrl(u.avatar_url),
-            marks: userStats.marks || 0,
-            time: userStats.time || 0,
-            quizzes_completed: userStats.quizzes_completed || 0,
-            average_score: avgScore ? avgScore.toFixed(1) : 0,
-            last_active: lastActive,
-            last_active_hours: lastActiveHours
+        // Aggregate: for each user, sum marks, time spent, quizzes completed, average score, last active
+        const leaderboardMap = {};
+        Object.values(firstAttemptsMap).forEach(a => {
+            if (!leaderboardMap[a.user_id]) {
+                leaderboardMap[a.user_id] = {
+                    marks: 0,
+                    time: 0,
+                    quizzes_completed: 0,
+                    scores: [],
+                    last_active: null
+                };
+            }
+            leaderboardMap[a.user_id].marks += a.score_percentage || 0;
+            leaderboardMap[a.user_id].time += a.time_spent_seconds || 0;
+            leaderboardMap[a.user_id].quizzes_completed += 1;
+            leaderboardMap[a.user_id].scores.push(a.score_percentage || 0);
+            // Track most recent attempt
+            if (!leaderboardMap[a.user_id].last_active || new Date(a.started_at) > new Date(leaderboardMap[a.user_id].last_active)) {
+                leaderboardMap[a.user_id].last_active = a.started_at;
+            }
+        });
+
+        // Build leaderboard array with user info
+        const getAvatarUrl = (avatar_url) => {
+            if (!avatar_url) return '/images/avatar.jpg';
+            if (avatar_url.startsWith('http')) return avatar_url;
+            const supabaseUrl = process.env.SUPABASE_URL;
+            return `${supabaseUrl}/storage/v1/object/public/avatars/${avatar_url}`;
         };
-    });
 
-    // Sort by marks descending, then time ascending
-    leaderboard.sort((a, b) => b.marks - a.marks || a.time - b.time);
+        const leaderboard = (allUsers || []).map(u => {
+            const userStats = leaderboardMap[u.id] || {};
+            // Calculate average score
+            let avgScore = 0;
+            if (userStats.scores && userStats.scores.length > 0) {
+                avgScore = userStats.scores.reduce((a, b) => a + b, 0) / userStats.scores.length;
+            }
+            // Calculate last active (hours ago)
+            let lastActive = '';
+            let lastActiveHours = undefined;
+            if (userStats.last_active) {
+                const last = new Date(userStats.last_active);
+                const now = new Date();
+                const diffMs = now - last;
+                lastActiveHours = diffMs / (1000 * 60 * 60);
+                if (lastActiveHours < 1) lastActive = 'Just now';
+                else if (lastActiveHours < 24) lastActive = Math.floor(lastActiveHours) + ' hours ago';
+                else lastActive = Math.floor(lastActiveHours / 24) + ' days ago';
+            }
+            return {
+                user_id: u.id,
+                name: u.full_name || u.username || 'User',
+                avatar: getAvatarUrl(u.avatar_url),
+                marks: userStats.marks || 0,
+                time: userStats.time || 0,
+                quizzes_completed: userStats.quizzes_completed || 0,
+                average_score: avgScore ? avgScore.toFixed(1) : 0,
+                last_active: lastActive,
+                last_active_hours: lastActiveHours
+            };
+        });
 
-    res.render('leaderboard', {
-        user: req.session.user,
-        leaderboard
-    });
+        // Sort by marks descending, then time ascending
+        leaderboard.sort((a, b) => b.marks - a.marks || a.time - b.time);
+
+        res.render('leaderboard', {
+            user: req.user,
+            leaderboard
+        });
+    } catch (err) {
+        console.error('Leaderboard error:', err);
+        res.status(500).send('Server error');
+    }
 });
 
 // Review route: renders results page from review_json
-app.get('/review/:attemptId', async (req, res) => {
+app.get('/review/:attemptId', requireAuth, async (req, res) => {
     const { attemptId } = req.params;
     try {
         // Fetch the quiz attempt by ID, join quizzes to get quiz title
@@ -155,9 +205,11 @@ app.get('/review/:attemptId', async (req, res) => {
             .select('review_json, quiz_id, quizzes(title)')
             .eq('id', attemptId)
             .single();
+        
         if (error || !data) {
             return res.status(404).send('Attempt not found');
         }
+        
         // Parse the review_json
         let review;
         try {
@@ -165,6 +217,7 @@ app.get('/review/:attemptId', async (req, res) => {
         } catch (e) {
             return res.status(500).send('Corrupted review data');
         }
+        
         // Render the results page with quiz title
         const quizTitle = data.quizzes?.title || 'Quiz';
         res.render('results', {
@@ -175,62 +228,28 @@ app.get('/review/:attemptId', async (req, res) => {
             results: review,
             module: '',
             quizId: data.quiz_id,
-            user: req.session.user
+            user: req.user
         });
     } catch (err) {
         console.error('Error fetching review:', err);
         res.status(500).send('Server error');
     }
 });
+
 // Dashboard route (protected)
+app.get('/dashboard', requireAuth, async (req, res) => {
+    try {
+        const user = req.user;
+        console.log('Dashboard user:', user);
 
-// Auth middleware to protect routes
-function requireAuth(req, res, next) {
-    if (!req.session || !req.session.user) {
-        return res.redirect('/');
-    }
-    next();
-}
-// Home page (main page after login)
-app.get('/home', requireAuth, (req, res) => {
-    res.render('index', { title: 'Home', user: req.user });
-});
-
-//modules
-app.get('/modules/intro-ai', requireAuth, (req, res) => {
-    res.render('modules/intro-ai', { user: req.user });
-});
-app.get('/modules/database', requireAuth, (req, res) => {
-    res.render('modules/database', { user: req.user });
-});
-app.get('/modules/differential', requireAuth, (req, res) => {
-    res.render('modules/differential', { user: req.user });
-});
-app.get('/modules/statistics', requireAuth, (req, res) => {
-    res.render('modules/statistics', { user: req.user });
-});
-app.get('/modules/os', requireAuth, (req, res) => {
-    res.render('modules/os', { user: req.user });
-});
-app.get('/modules/architecture', requireAuth, (req, res) => {
-    res.render('modules/architecture', { user: req.user });
-});
-app.get('/modules/networking', requireAuth, (req, res) => {
-    res.render('modules/networking', { user: req.user });
-});
-app.get('/modules/thermodynamics', requireAuth, (req, res) => {
-    res.render('modules/thermodynamics', { user: req.user });
-});
-
-app.get('/dashboard', requireAuth, (req, res) => {
-    // (No groupedRecentAttempts or attempts in this outer scope)
-    (async () => {
-    const user = req.user;
-    console.log('Dashboard user:', user);
         // Fetch all modules
         const { data: modules, error: modulesError } = await supabase
             .from('modules')
             .select('*');
+
+        if (modulesError) {
+            console.error('Modules fetch error:', modulesError);
+        }
 
         // Ensure user_progress is up to date for each module
         if (modules && modules.length) {
@@ -248,12 +267,20 @@ app.get('/dashboard', requireAuth, (req, res) => {
             .select('*')
             .eq('user_id', user.id);
 
+        if (progressError) {
+            console.error('Progress fetch error:', progressError);
+        }
+
         // Fetch recent quiz attempts (with quiz and module info)
         const { data: attempts, error: attemptsError } = await supabase
             .from('quiz_attempts')
             .select('*, quizzes(title, module_id), modules(display_name, name)')
             .eq('user_id', user.id)
             .order('started_at', { ascending: false });
+
+        if (attemptsError) {
+            console.error('Attempts fetch error:', attemptsError);
+        }
 
         // Fetch all attempts for the user (for card display)
         const { data: userAttempts, error: userAttemptsError } = await supabase
@@ -262,7 +289,9 @@ app.get('/dashboard', requireAuth, (req, res) => {
             .eq('user_id', user.id)
             .order('started_at', { ascending: false });
 
-        // (Removed duplicate groupedRecentAttempts logic; only one block remains below)
+        if (userAttemptsError) {
+            console.error('User attempts fetch error:', userAttemptsError);
+        }
 
         // Map progress by module_id for quick lookup
         const progressByModule = {};
@@ -303,7 +332,7 @@ app.get('/dashboard', requireAuth, (req, res) => {
         const totalModules = modules ? modules.length : 0;
         const allScores = (progressRows || []).map(p => p.average_score_percentage || 0);
         const averageScore = allScores.length ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : 0;
-        // Streak logic can be implemented later
+        
         const stats = {
             totalQuizzes,
             averageScore,
@@ -334,17 +363,17 @@ app.get('/dashboard', requireAuth, (req, res) => {
                 scoreClass: a.score_percentage >= 90 ? 'excellent' : a.score_percentage >= 75 ? 'good' : a.score_percentage >= 60 ? 'average' : 'poor',
                 duration: a.time_spent_seconds ? `${Math.floor(a.time_spent_seconds/60)}m ${a.time_spent_seconds%60}s` : '',
                 quizId: a.quiz_id,
-                attemptId: a.id // for review button
+                attemptId: a.id
             });
         });
+        
         // Convert to array for easier EJS iteration
         groupedRecentAttempts = Object.values(groupedRecentAttempts);
 
         // Achievements: keep as dummy for now
         let achievements = [];
 
-        // --- USER ANALYTICS ---
-        // User's overall stats from user_progress
+        // User Analytics
         const userAnalytics = {
             totalQuizzes: (progressRows || []).reduce((sum, p) => sum + (p.quizzes_completed || 0), 0),
             totalTime: (progressRows || []).reduce((sum, p) => sum + (p.total_time_spent_seconds || 0), 0),
@@ -352,11 +381,15 @@ app.get('/dashboard', requireAuth, (req, res) => {
             bestScore: (progressRows || []).reduce((max, p) => Math.max(max, p.best_score_percentage || 0), 0)
         };
 
-        // --- MODULE ANALYTICS ---
-        // For each module, get average and best score across all users
+        // Module Analytics
         const { data: allProgress, error: allProgressError } = await supabase
             .from('user_progress')
             .select('*');
+
+        if (allProgressError) {
+            console.error('All progress fetch error:', allProgressError);
+        }
+
         const moduleAnalytics = (modules || []).map(m => {
             const allForModule = (allProgress || []).filter(p => p.module_id === m.id);
             const avgScore = allForModule.length ? Math.round(allForModule.reduce((a, p) => a + (p.average_score_percentage || 0), 0) / allForModule.length) : 0;
@@ -380,11 +413,37 @@ app.get('/dashboard', requireAuth, (req, res) => {
             userAnalytics,
             moduleAnalytics
         });
-    })();
+    } catch (err) {
+        console.error('Dashboard error:', err);
+        res.status(500).send('Server error');
+    }
 });
 
-
-// UPDATED QUIZ ROUTES - Replace your existing quiz routes with these:
+// Module routes
+app.get('/modules/intro-ai', requireAuth, (req, res) => {
+    res.render('modules/intro-ai', { user: req.user });
+});
+app.get('/modules/database', requireAuth, (req, res) => {
+    res.render('modules/database', { user: req.user });
+});
+app.get('/modules/differential', requireAuth, (req, res) => {
+    res.render('modules/differential', { user: req.user });
+});
+app.get('/modules/statistics', requireAuth, (req, res) => {
+    res.render('modules/statistics', { user: req.user });
+});
+app.get('/modules/os', requireAuth, (req, res) => {
+    res.render('modules/os', { user: req.user });
+});
+app.get('/modules/architecture', requireAuth, (req, res) => {
+    res.render('modules/architecture', { user: req.user });
+});
+app.get('/modules/networking', requireAuth, (req, res) => {
+    res.render('modules/networking', { user: req.user });
+});
+app.get('/modules/thermodynamics', requireAuth, (req, res) => {
+    res.render('modules/thermodynamics', { user: req.user });
+});
 
 // Quiz route - display quiz
 app.get("/quiz/:module/:quizId", requireAuth, (req, res) => {
@@ -412,8 +471,8 @@ app.get("/quiz/:module/:quizId", requireAuth, (req, res) => {
         // Send or render quiz
         res.render("quize", { 
             quiz: quizData,
-            req: req, // Pass req object to template for URL building
-            user: req.session.user
+            req: req,
+            user: req.user
         });
     } catch (error) {
         console.error('Error reading quiz file:', error);
@@ -422,122 +481,135 @@ app.get("/quiz/:module/:quizId", requireAuth, (req, res) => {
 });
 
 // Quiz submission route - handle answers and show results
-// ... (rest of your setup code above is unchanged) ...
-
 app.post("/quiz/:module/:quizId/submit", requireAuth, async (req, res) => {
     const { module: moduleName, quizId } = req.params;
-    const user_id = req.session.user && req.session.user.id;
+    const user_id = req.user.id;
+    
     // Compose a unique quiz key for this module/quiz
     const quiz_key = `${moduleName}/${quizId}`;
 
-    // Check previous attempts for this user and quiz
-    const { data: prevAttempts, error: prevAttemptsError } = await supabase
-        .from('quiz_attempts')
-        .select('id')
-        .eq('user_id', user_id)
-        .eq('quiz_key', quiz_key)
-        .not('quiz_key', 'is', null);
-    const attempt_number = prevAttempts && prevAttempts.length ? prevAttempts.length + 1 : 1;
-    // Always use the position-aware answersArray hidden field for grading
-    const rawAnswers = req.body.answersArray || req.body.answers;
-    const timeSpent = req.body.timeSpent || "0:00";
+    try {
+        // Check previous attempts for this user and quiz
+        const { data: prevAttempts, error: prevAttemptsError } = await supabase
+            .from('quiz_attempts')
+            .select('id')
+            .eq('user_id', user_id)
+            .eq('quiz_key', quiz_key)
+            .not('quiz_key', 'is', null);
+            
+        if (prevAttemptsError) {
+            console.error('Previous attempts fetch error:', prevAttemptsError);
+        }
+        
+        const attempt_number = prevAttempts && prevAttempts.length ? prevAttempts.length + 1 : 1;
 
-    // Parse answers array
-    let answersArray = [];
-    if (typeof rawAnswers === 'string') {
-        try {
-            answersArray = JSON.parse(rawAnswers);
-        } catch {
+        // Always use the position-aware answersArray hidden field for grading
+        const rawAnswers = req.body.answersArray || req.body.answers;
+        const timeSpent = req.body.timeSpent || "0:00";
+
+        // Parse answers array
+        let answersArray = [];
+        if (typeof rawAnswers === 'string') {
+            try {
+                answersArray = JSON.parse(rawAnswers);
+            } catch {
+                answersArray = Object.values(rawAnswers);
+            }
+        } else if (Array.isArray(rawAnswers)) {
+            answersArray = rawAnswers;
+        } else if (typeof rawAnswers === 'object') {
             answersArray = Object.values(rawAnswers);
         }
-    } else if (Array.isArray(rawAnswers)) {
-        answersArray = rawAnswers;
-    } else if (typeof rawAnswers === 'object') {
-        answersArray = Object.values(rawAnswers);
+
+        // Load quiz data from JSON file
+        const filePath = path.join(__dirname, 'quizes', moduleName, `${quizId}.json`);
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).send("Quiz not found");
+        }
+        const quizData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+        // Find module UUID from module name
+        const { data: moduleRow, error: moduleError } = await supabase
+            .from('modules')
+            .select('id')
+            .eq('name', moduleName)
+            .single();
+            
+        if (moduleError || !moduleRow) {
+            console.error("Module lookup failed:", moduleError);
+            return res.status(500).send("Module lookup failed");
+        }
+        const module_id = moduleRow.id;
+
+        // Find real quiz UUID from DB using module_id
+        const { data: quizRow, error: quizRowError } = await supabase
+            .from('quizzes')
+            .select('id, module_id')
+            .eq('module_id', module_id)
+            .eq('quiz_number', quizId)
+            .single();
+            
+        if (quizRowError || !quizRow) {
+            console.error("Quiz lookup failed:", quizRowError);
+            return res.status(500).send("Quiz lookup failed");
+        }
+        const quiz_uuid = quizRow.id;
+
+        // Calculate results using quizData and answersArray only
+        const results = calculateQuizResults(quizData, answersArray, timeSpent);
+        const totalQuestions = results.totalQuestions;
+        const correctCount = results.correctCount;
+        const percentage = results.percentage;
+
+        // Insert attempt (quiz_id as UUID)
+        const attemptInsert = {
+            user_id,
+            quiz_id: quiz_uuid,
+            quiz_key,
+            attempt_number,
+            total_questions: totalQuestions,
+            correct_answers: correctCount,
+            score_percentage: percentage,
+            is_completed: true,
+            time_spent_seconds: (typeof timeSpent === 'string' && timeSpent.includes(':')) ? 
+                (parseInt(timeSpent.split(':')[0], 10) * 60 + parseInt(timeSpent.split(':')[1], 10)) : null,
+            created_at: new Date().toISOString(),
+            review_json: results
+        };
+        
+        const { data: attemptRows, error: attemptError } = await supabase
+            .from('quiz_attempts')
+            .insert([attemptInsert])
+            .select();
+            
+        if (attemptError || !attemptRows || !attemptRows[0]) {
+            console.error('Quiz attempt insert error:', attemptError);
+            return res.status(500).send("Could not save attempt");
+        }
+
+        // Render results
+        res.render("results", {
+            quiz: {
+                title: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Quiz - ${quizId}`,
+                description: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Quiz Results`
+            },
+            results,
+            module: moduleName,
+            quizId,
+            user: req.user
+        });
+    } catch (err) {
+        console.error('Quiz submission error:', err);
+        res.status(500).send('Server error');
     }
-
-    // Load quiz data from JSON file
-    const filePath = path.join(__dirname, 'quizes', moduleName, `${quizId}.json`);
-    if (!fs.existsSync(filePath)) {
-        return res.status(404).send("Quiz not found");
-    }
-    const quizData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-
-    // -- Find module UUID from module name
-    const { data: moduleRow, error: moduleError } = await supabase
-        .from('modules')
-        .select('id')
-        .eq('name', moduleName)
-        .single();
-    if (moduleError || !moduleRow) {
-        console.error("Module lookup failed:", moduleError);
-        return res.status(500).send("Module lookup failed");
-    }
-    const module_id = moduleRow.id;
-
-    // -- Find real quiz UUID from DB using module_id
-    const { data: quizRow, error: quizRowError } = await supabase
-        .from('quizzes')
-        .select('id, module_id')
-        .eq('module_id', module_id)
-        .eq('quiz_number', quizId)
-        .single();
-    if (quizRowError || !quizRow) {
-        console.error("Quiz lookup failed:", quizRowError);
-        return res.status(500).send("Quiz lookup failed");
-    }
-    const quiz_uuid = quizRow.id;
-
-    // -- Calculate results using quizData and answersArray only
-    const results = calculateQuizResults(quizData, answersArray, timeSpent);
-    const totalQuestions = results.totalQuestions;
-    const correctCount = results.correctCount;
-    const percentage = results.percentage;
-
-    // -- Insert attempt (quiz_id as UUID)
-    const attemptInsert = {
-        user_id,
-        quiz_id: quiz_uuid,
-        quiz_key,
-        attempt_number,
-        total_questions: totalQuestions,
-        correct_answers: correctCount,
-        score_percentage: percentage,
-        is_completed: true,
-        time_spent_seconds: (typeof timeSpent === 'string' && timeSpent.includes(':')) ? (parseInt(timeSpent.split(':')[0], 10) * 60 + parseInt(timeSpent.split(':')[1], 10)) : null,
-        created_at: new Date().toISOString(),
-        review_json: results
-    };
-    const { data: attemptRows, error: attemptError } = await supabase
-        .from('quiz_attempts')
-        .insert([attemptInsert])
-        .select();
-    if (attemptError || !attemptRows || !attemptRows[0]) {
-        console.error('Quiz attempt insert error:', attemptError);
-        return res.status(500).send("Could not save attempt");
-    }
-
-    // -- Render results
-    res.render("results", {
-        quiz: {
-            title: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Quiz - ${quizId}`,
-            description: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Quiz Results`
-        },
-        results,
-        module: moduleName,
-        quizId,
-        user: req.session.user
-    });
 });
 
 // Alternative GET route for results (if you want to access results directly)
 app.get("/quiz/:module/:quizId/results", requireAuth, (req, res) => {
-    // This could be used to show sample results or redirect to quiz
     res.redirect(`/quiz/${req.params.module}/${req.params.quizId}`);
 });
 
-// UPDATED Helper function to calculate quiz results
+// Helper function to calculate quiz results
 function calculateQuizResults(quizData, userAnswers, timeSpent) {
     console.log('=== CALCULATING RESULTS ===');
     console.log('Quiz data length:', quizData.length);
@@ -617,27 +689,27 @@ function calculateQuizResults(quizData, userAnswers, timeSpent) {
     return finalResults;
 }
 
-
-import authRoutes from './routes/auth.js'; // Note the .js extension, even if the file is .mjs or .js // or './routes/authRoutes'
+// Import auth routes
+import authRoutes from './routes/auth.js';
 app.use('/auth', authRoutes);
 
-
-// Home page (main page after login)
-app.get('/home', (req, res) => {
-    if (!req.session || !req.session.user) {
-        return res.redirect('/');
-    }
-    res.render('index', { title: 'Home' });
-});
-
+// Logout route
 app.get('/logout', async (req, res) => {
-    await supabase.auth.signOut();
-    req.session.destroy(() => {
+    try {
+        const token = req.cookies['sb-access-token'];
+        if (token) {
+            await supabase.auth.signOut();
+        }
+        res.clearCookie('sb-access-token');
         res.redirect('/');
-    });
+    } catch (err) {
+        console.error('Logout error:', err);
+        res.clearCookie('sb-access-token');
+        res.redirect('/');
+    }
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });
