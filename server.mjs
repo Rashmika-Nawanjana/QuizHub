@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 import fs from "fs";
 // import 'dotenv/config';
 import session from 'express-session';
-// const app = express();
+const app = express();
 // Session middleware
 app.use(session({
         secret: process.env.SESSION_SECRET || 'your-secret-key',
