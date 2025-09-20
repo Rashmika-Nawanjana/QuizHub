@@ -30,6 +30,15 @@ async function injectUser(req, res, next) {
         try {
             const { data: { user }, error } = await supabase.auth.getUser(token);
             if (!error && user) {
+                // Patch avatar_url to always be a public URL
+                let avatarUrl = user.avatar_url;
+                if (!avatarUrl) {
+                    avatarUrl = '/images/avatar.jpg';
+                } else if (!avatarUrl.startsWith('http')) {
+                    const supabaseUrl = process.env.SUPABASE_URL;
+                    avatarUrl = `${supabaseUrl}/storage/v1/object/public/avatars/${avatarUrl}`;
+                }
+                user.avatar_url = avatarUrl;
                 req.user = user;
                 res.locals.user = user;
             }
@@ -49,15 +58,21 @@ async function requireAuth(req, res, next) {
     if (!token) {
         return res.redirect('/');
     }
-    
     try {
         const { data: { user }, error } = await supabase.auth.getUser(token);
         if (error || !user) {
-            // Clear invalid token
             res.clearCookie('sb-access-token');
             return res.redirect('/');
         }
-        
+        // Patch avatar_url to always be a public URL
+        let avatarUrl = user.avatar_url;
+        if (!avatarUrl) {
+            avatarUrl = '/images/avatar.jpg';
+        } else if (!avatarUrl.startsWith('http')) {
+            const supabaseUrl = process.env.SUPABASE_URL;
+            avatarUrl = `${supabaseUrl}/storage/v1/object/public/avatars/${avatarUrl}`;
+        }
+        user.avatar_url = avatarUrl;
         req.user = user;
         res.locals.user = user;
         next();
