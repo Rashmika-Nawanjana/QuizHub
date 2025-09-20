@@ -211,5 +211,34 @@ const app = new QuizApp();
 // Make app globally available
 window.app = app;
 
+// Add this function to handle dashboard navigation with Supabase Auth
+async function goToDashboard() {
+    const { data, error } = await supabase.auth.getSession();
+    const accessToken = data?.session?.access_token;
+    if (!accessToken) {
+        window.location.href = '/login.html';
+        return;
+    }
+    fetch('/dashboard', {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+            response.text().then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            });
+        }
+    });
+}
+
+// Make it available globally for button/link usage
+window.goToDashboard = goToDashboard;
+
 // Export for other modules
 export { app };
