@@ -293,4 +293,74 @@ router.get('/google', (req, res) => {
     res.redirect(url);
 });
 
+// OAuth callback handler: serves a page that extracts tokens from the URL hash and posts them to the backend
+router.get('/callback', (req, res) => {
+    res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OAuth Callback</title>
+  <script>
+    // Parse hash fragment into an object
+    function parseHash(hash) {
+      const params = {};
+      hash.replace(/^#/, '').split('&').forEach(kv => {
+        const [key, value] = kv.split('=');
+        params[key] = decodeURIComponent(value || '');
+      });
+      return params;
+    }
+    window.onload = function() {
+      const params = parseHash(window.location.hash);
+      if (params.access_token) {
+        // Send tokens to backend to set cookies/session
+        fetch('/auth/oauth-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            access_token: params.access_token,
+            refresh_token: params.refresh_token,
+            expires_in: params.expires_in
+          })
+        }).then(() => {
+          window.location = '/home';
+        }).catch(() => {
+          document.body.innerHTML = '<h2>OAuth login failed. Please try again.</h2>';
+        });
+      } else {
+        document.body.innerHTML = '<h2>No access token found in callback.</h2>';
+      }
+    };
+  </script>
+</head>
+<body>
+  <h2>Completing login...</h2>
+</body>
+</html>
+    `);
+});
+
+// Handler to receive tokens from callback page and set cookies
+router.post('/oauth-session', (req, res) => {
+  const { access_token, refresh_token, expires_in } = req.body;
+  if (!access_token) return res.status(400).json({ error: 'Missing access token' });
+  res.cookie('sb-access-token', access_token, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: parseInt(expires_in || '3600', 10) * 1000
+  });
+  if (refresh_token) {
+    res.cookie('sb-refresh-token', refresh_token, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
+  }
+  res.status(200).json({ success: true });
+});
+
 export default router;
