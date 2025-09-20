@@ -195,6 +195,8 @@ function processRecentAttempts(attempts) {
     return Object.values(groupedAttempts);
 }
 
+
+
 // Root route: show login if not logged in, else redirect to /home
 app.get('/', async (req, res) => {
     const token = req.cookies['sb-access-token'];
