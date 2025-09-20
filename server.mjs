@@ -5,7 +5,9 @@
 
 import express from 'express';
 import supabase from './database/supabase-client.js';
-import connectRedis from 'connect-redis';
+// Dynamic import for connect-redis (ESM compatibility)
+let connectRedis;
+let RedisStore;
 import { createClient } from 'redis';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -22,8 +24,11 @@ if (process.env.REDIS_URL) {
         legacyMode: true
     });
     redisClient.connect().catch(console.error);
-    const RedisStore = connectRedis(session);
-    redisStore = new RedisStore({ client: redisClient });
+    (async () => {
+        connectRedis = (await import('connect-redis')).default || (await import('connect-redis'));
+        RedisStore = connectRedis(session);
+        redisStore = new RedisStore({ client: redisClient });
+    })();
 }
 app.use(session({
     store: redisStore,
