@@ -240,5 +240,32 @@ async function goToDashboard() {
 // Make it available globally for button/link usage
 window.goToDashboard = goToDashboard;
 
+// Add this function to handle home navigation with Supabase Auth
+async function goToHome() {
+    const { data } = await supabase.auth.getSession();
+    const accessToken = data?.session?.access_token;
+    if (!accessToken) {
+        window.location.href = '/login.html';
+        return;
+    }
+    fetch('/home', {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+            response.text().then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            });
+        }
+    });
+}
+window.goToHome = goToHome;
+
 // Export for other modules
 export { app };
