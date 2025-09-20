@@ -282,4 +282,15 @@ router.get('/me', async (req, res) => {
     }
 });
 
+// Google OAuth redirect route
+router.get('/google', (req, res) => {
+    // Construct the Supabase OAuth URL for Google
+    const redirectTo = encodeURIComponent(process.env.SUPABASE_OAUTH_REDIRECT || `${req.protocol}://${req.get('host')}/auth/callback`);
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const clientId = process.env.SUPABASE_CLIENT_ID; // Not always needed, but can be used for custom providers
+    // Supabase OAuth URL for Google
+    const url = `${supabaseUrl}/auth/v1/authorize?provider=google&redirect_to=${redirectTo}`;
+    res.redirect(url);
+});
+
 export default router;
