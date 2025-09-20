@@ -9,37 +9,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
 // import 'dotenv/config';
-import session from 'express-session';
+import cookieParser from 'cookie-parser';
 const app = express();
-
-// Redis session store setup (only in production)
-let sessionOptions = {
-    secret: process.env.SESSION_SECRET || 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax'
-    }
-};
-
-if (process.env.REDIS_URL) {
-    // Dynamic import for connect-redis (ESM compatibility)
-    import('connect-redis').then(({ default: connectRedis }) => {
-        import('redis').then(({ createClient }) => {
-            const redisClient = createClient({
-                url: process.env.REDIS_URL,
-                legacyMode: true
-            });
-            redisClient.connect().catch(console.error);
-            const RedisStore = connectRedis(session);
-            sessionOptions.store = new RedisStore({ client: redisClient });
-            app.use(session(sessionOptions));
-        });
-    });
-} else {
-    app.use(session(sessionOptions));
-}
+app.use(cookieParser());
 // Config
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,16 +27,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use((req, res, next) => {
-    res.locals.user = req.session && req.session.user ? req.session.user : null;
+
+// Stateless Supabase Auth middleware
+import { supabase } from './database/supabase-client.js';
+async function requireAuth(req, res, next) {
+    const token = req.cookies['sb-access-token'];
+    if (!token) return res.redirect('/');
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    if (error || !user) return res.redirect('/');
+    req.user = user;
+    res.locals.user = user;
     next();
-});
+}
 // Root route: show login if not logged in, else redirect to /home
 app.get('/', (req, res) => {
-    if (req.session && req.session.user) {
+    if (req.cookies['sb-access-token']) {
         return res.redirect('/home');
     }
-    res.render('login', { user: req.session.user });
+    res.render('login', { user: null });
 });
 
 
@@ -213,39 +193,39 @@ function requireAuth(req, res, next) {
 }
 // Home page (main page after login)
 app.get('/home', requireAuth, (req, res) => {
-    res.render('index', { title: 'Home', user: req.session.user });
+    res.render('index', { title: 'Home', user: req.user });
 });
 
 //modules
 app.get('/modules/intro-ai', requireAuth, (req, res) => {
-    res.render('modules/intro-ai', { user: req.session.user });
+    res.render('modules/intro-ai', { user: req.user });
 });
 app.get('/modules/database', requireAuth, (req, res) => {
-    res.render('modules/database', { user: req.session.user });
+    res.render('modules/database', { user: req.user });
 });
 app.get('/modules/differential', requireAuth, (req, res) => {
-    res.render('modules/differential', { user: req.session.user });
+    res.render('modules/differential', { user: req.user });
 });
 app.get('/modules/statistics', requireAuth, (req, res) => {
-    res.render('modules/statistics', { user: req.session.user });
+    res.render('modules/statistics', { user: req.user });
 });
 app.get('/modules/os', requireAuth, (req, res) => {
-    res.render('modules/os', { user: req.session.user });
+    res.render('modules/os', { user: req.user });
 });
 app.get('/modules/architecture', requireAuth, (req, res) => {
-    res.render('modules/architecture', { user: req.session.user });
+    res.render('modules/architecture', { user: req.user });
 });
 app.get('/modules/networking', requireAuth, (req, res) => {
-    res.render('modules/networking', { user: req.session.user });
+    res.render('modules/networking', { user: req.user });
 });
 app.get('/modules/thermodynamics', requireAuth, (req, res) => {
-    res.render('modules/thermodynamics', { user: req.session.user });
+    res.render('modules/thermodynamics', { user: req.user });
 });
 
 app.get('/dashboard', requireAuth, (req, res) => {
     // (No groupedRecentAttempts or attempts in this outer scope)
     (async () => {
-    const user = req.session.user;
+    const user = req.user;
     console.log('Dashboard user:', user);
         // Fetch all modules
         const { data: modules, error: modulesError } = await supabase
