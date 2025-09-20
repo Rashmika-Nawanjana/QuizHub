@@ -5,21 +5,34 @@
 
 import express from 'express';
 import supabase from './database/supabase-client.js';
+import RedisStore from 'connect-redis';
+import { createClient } from 'redis';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
 // import 'dotenv/config';
 import session from 'express-session';
 const app = express();
-// Session middleware
+// Redis client setup for session store
+let redisClient;
+let redisStore;
+if (process.env.REDIS_URL) {
+    redisClient = createClient({
+        url: process.env.REDIS_URL,
+        legacyMode: true
+    });
+    redisClient.connect().catch(console.error);
+    redisStore = new RedisStore({ client: redisClient });
+}
 app.use(session({
-        secret: process.env.SESSION_SECRET || 'your-secret-key',
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            secure: false, // Set to true if using HTTPS in production
-            sameSite: 'lax' // Allows cookies to be sent from LAN IPs
-        }
+    store: redisStore,
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax'
+    }
 }));
 // Config
 const __filename = fileURLToPath(import.meta.url);
@@ -186,57 +199,41 @@ app.get('/review/:attemptId', async (req, res) => {
 // Dashboard route (protected)
 
 // Auth middleware to protect routes
-async function requireAuth(req, res, next) {
-    try {
-        // Get token from Authorization header: 'Bearer <token>'
-        const authHeader = req.headers.authorization;
-        const token = authHeader && authHeader.startsWith('Bearer ')
-            ? authHeader.replace('Bearer ', '')
-            : null;
-        if (!token) {
-            return res.redirect('/');
-        }
-        // Verify token with Supabase
-        const { data: { user }, error } = await supabase.auth.getUser(token);
-        if (error || !user) {
-            return res.redirect('/');
-        }
-        req.user = user;
-        next();
-    } catch (err) {
-        console.error('Auth error:', err);
+function requireAuth(req, res, next) {
+    if (!req.session || !req.session.user) {
         return res.redirect('/');
     }
+    next();
 }
 // Home page (main page after login)
 app.get('/home', requireAuth, (req, res) => {
-    res.render('index', { title: 'Home', user: req.user });
+    res.render('index', { title: 'Home', user: req.session.user });
 });
 
 //modules
 app.get('/modules/intro-ai', requireAuth, (req, res) => {
-    res.render('modules/intro-ai', { user: req.user });
+    res.render('modules/intro-ai', { user: req.session.user });
 });
 app.get('/modules/database', requireAuth, (req, res) => {
-    res.render('modules/database', { user: req.user });
+    res.render('modules/database', { user: req.session.user });
 });
 app.get('/modules/differential', requireAuth, (req, res) => {
-    res.render('modules/differential', { user: req.user });
+    res.render('modules/differential', { user: req.session.user });
 });
 app.get('/modules/statistics', requireAuth, (req, res) => {
-    res.render('modules/statistics', { user: req.user });
+    res.render('modules/statistics', { user: req.session.user });
 });
 app.get('/modules/os', requireAuth, (req, res) => {
-    res.render('modules/os', { user: req.user });
+    res.render('modules/os', { user: req.session.user });
 });
 app.get('/modules/architecture', requireAuth, (req, res) => {
-    res.render('modules/architecture', { user: req.user });
+    res.render('modules/architecture', { user: req.session.user });
 });
 app.get('/modules/networking', requireAuth, (req, res) => {
-    res.render('modules/networking', { user: req.user });
+    res.render('modules/networking', { user: req.session.user });
 });
 app.get('/modules/thermodynamics', requireAuth, (req, res) => {
-    res.render('modules/thermodynamics', { user: req.user });
+    res.render('modules/thermodynamics', { user: req.session.user });
 });
 
 app.get('/dashboard', requireAuth, (req, res) => {
