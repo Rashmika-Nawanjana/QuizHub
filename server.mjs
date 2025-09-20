@@ -8,18 +8,18 @@ import supabase from './database/supabase-client.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
-// import 'dotenv/config';
+// dotenv import removed for deployment
 import session from 'express-session';
 const app = express();
 // Session middleware
 app.use(session({
-        secret: process.env.SESSION_SECRET || 'your-secret-key',
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            secure: false, // Set to true if using HTTPS in production
-            sameSite: 'lax' // Allows cookies to be sent from LAN IPs
-        }
+    secret: process.env.SESSION_SECRET || 'your-secret-key', // Set SESSION_SECRET in deployment
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        sameSite: 'lax'
+    }
 }));
 // Config
 const __filename = fileURLToPath(import.meta.url);
@@ -644,6 +644,6 @@ app.get('/logout', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT,'0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
