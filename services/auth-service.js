@@ -105,7 +105,7 @@ export class AuthService {
     static async resetPassword(email) {
         try {
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: `${process.env.APP_URL || 'https://quizhub23.vercel.app'}/auth/reset-password`
+                redirectTo: `${process.env.APP_URL || 'http://localhost:3000'}/auth/reset-password`
             });
 
             if (error) {

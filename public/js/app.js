@@ -31,8 +31,8 @@ class QuizApp {
     async handleAuthCallback() {
         const { data, error } = await supabase.auth.getSession();
         if (data?.session) {
-            // User logged in via OAuth, redirect to home with token
-            goToHome();
+            // User logged in via OAuth, redirect to profile
+            window.location.href = '/profile.html';
         }
     }
 

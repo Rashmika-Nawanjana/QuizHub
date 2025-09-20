@@ -5,40 +5,21 @@
 
 import express from 'express';
 import supabase from './database/supabase-client.js';
-// Dynamic import for connect-redis (ESM compatibility)
-let connectRedis;
-let RedisStore;
-import { createClient } from 'redis';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
-// import 'dotenv/config';
+import 'dotenv/config';
 import session from 'express-session';
 const app = express();
-// Redis client setup for session store
-let redisClient;
-let redisStore;
-if (process.env.REDIS_URL) {
-    redisClient = createClient({
-        url: process.env.REDIS_URL,
-        legacyMode: true
-    });
-    redisClient.connect().catch(console.error);
-    (async () => {
-        connectRedis = (await import('connect-redis')).default || (await import('connect-redis'));
-        RedisStore = connectRedis(session);
-        redisStore = new RedisStore({ client: redisClient });
-    })();
-}
+// Session middleware
 app.use(session({
-    store: redisStore,
-    secret: process.env.SESSION_SECRET || 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax'
-    }
+        secret: process.env.SESSION_SECRET || 'your-secret-key',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false, // Set to true if using HTTPS in production
+            sameSite: 'lax' // Allows cookies to be sent from LAN IPs
+        }
 }));
 // Config
 const __filename = fileURLToPath(import.meta.url);
@@ -212,7 +193,10 @@ function requireAuth(req, res, next) {
     next();
 }
 // Home page (main page after login)
-app.get('/home', requireAuth, (req, res) => {
+app.get('/home', (req, res) => {
+    if (!req.session || !req.session.user) {
+        return res.redirect('/');
+    }
     res.render('index', { title: 'Home', user: req.session.user });
 });
 
@@ -658,6 +642,6 @@ app.get('/logout', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT,'0.0.0.0', () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
