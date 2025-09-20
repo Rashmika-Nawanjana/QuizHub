@@ -5,7 +5,7 @@
 
 import express from 'express';
 import supabase from './database/supabase-client.js';
-import RedisStore from 'connect-redis';
+import connectRedis from 'connect-redis';
 import { createClient } from 'redis';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -22,6 +22,7 @@ if (process.env.REDIS_URL) {
         legacyMode: true
     });
     redisClient.connect().catch(console.error);
+    const RedisStore = connectRedis(session);
     redisStore = new RedisStore({ client: redisClient });
 }
 app.use(session({
