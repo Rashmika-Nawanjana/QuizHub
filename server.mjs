@@ -645,5 +645,6 @@ app.get('/logout', async (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
