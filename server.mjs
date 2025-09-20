@@ -186,44 +186,57 @@ app.get('/review/:attemptId', async (req, res) => {
 // Dashboard route (protected)
 
 // Auth middleware to protect routes
-function requireAuth(req, res, next) {
-    if (!req.session || !req.session.user) {
+async function requireAuth(req, res, next) {
+    try {
+        // Get token from Authorization header: 'Bearer <token>'
+        const authHeader = req.headers.authorization;
+        const token = authHeader && authHeader.startsWith('Bearer ')
+            ? authHeader.replace('Bearer ', '')
+            : null;
+        if (!token) {
+            return res.redirect('/');
+        }
+        // Verify token with Supabase
+        const { data: { user }, error } = await supabase.auth.getUser(token);
+        if (error || !user) {
+            return res.redirect('/');
+        }
+        req.user = user;
+        next();
+    } catch (err) {
+        console.error('Auth error:', err);
         return res.redirect('/');
     }
-    next();
 }
 // Home page (main page after login)
-app.get('/home', (req, res) => {
-    if (!req.session || !req.session.user) {
-        return res.redirect('/');
-    }
-    res.render('index', { title: 'Home', user: req.session.user });
+app.get('/home', requireAuth, (req, res) => {
+    res.render('index', { title: 'Home', user: req.user });
 });
 
 //modules
 app.get('/modules/intro-ai', requireAuth, (req, res) => {
-    res.render('modules/intro-ai', { user: req.session.user });
+    res.render('modules/intro-ai', { user: req.user });
 });
 app.get('/modules/database', requireAuth, (req, res) => {
-    res.render('modules/database', { user: req.session.user });
+    res.render('modules/database', { user: req.user });
 });
 app.get('/modules/differential', requireAuth, (req, res) => {
-    res.render('modules/differential', { user: req.session.user });
+    res.render('modules/differential', { user: req.user });
 });
 app.get('/modules/statistics', requireAuth, (req, res) => {
-    res.render('modules/statistics', { user: req.session.user });
+    res.render('modules/statistics', { user: req.user });
 });
 app.get('/modules/os', requireAuth, (req, res) => {
-    res.render('modules/os', { user: req.session.user });
+    res.render('modules/os', { user: req.user });
 });
 app.get('/modules/architecture', requireAuth, (req, res) => {
-    res.render('modules/architecture', { user: req.session.user });
+    res.render('modules/architecture', { user: req.user });
 });
 app.get('/modules/networking', requireAuth, (req, res) => {
-    res.render('modules/networking', { user: req.session.user });
+    res.render('modules/networking', { user: req.user });
 });
 app.get('/modules/thermodynamics', requireAuth, (req, res) => {
-    res.render('modules/thermodynamics', { user: req.session.user });
+    res.render('modules/thermodynamics', { user: req.user });
 });
 
 app.get('/dashboard', requireAuth, (req, res) => {
