@@ -8,7 +8,7 @@ import supabase from './database/supabase-client.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
-import 'dotenv/config';
+// import 'dotenv/config';
 import session from 'express-session';
 const app = express();
 // Session middleware
@@ -642,6 +642,6 @@ app.get('/logout', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT,'0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
