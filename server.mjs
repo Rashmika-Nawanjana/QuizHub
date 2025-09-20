@@ -11,16 +11,35 @@ import fs from "fs";
 // import 'dotenv/config';
 import session from 'express-session';
 const app = express();
-// Session middleware
-app.use(session({
-        secret: process.env.SESSION_SECRET || 'your-secret-key',
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            secure: false, // Set to true if using HTTPS in production
-            sameSite: 'lax' // Allows cookies to be sent from LAN IPs
-        }
-}));
+
+// Redis session store setup (only in production)
+let sessionOptions = {
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax'
+    }
+};
+
+if (process.env.REDIS_URL) {
+    // Dynamic import for connect-redis (ESM compatibility)
+    import('connect-redis').then(({ default: connectRedis }) => {
+        import('redis').then(({ createClient }) => {
+            const redisClient = createClient({
+                url: process.env.REDIS_URL,
+                legacyMode: true
+            });
+            redisClient.connect().catch(console.error);
+            const RedisStore = connectRedis(session);
+            sessionOptions.store = new RedisStore({ client: redisClient });
+            app.use(session(sessionOptions));
+        });
+    });
+} else {
+    app.use(session(sessionOptions));
+}
 // Config
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -193,10 +212,7 @@ function requireAuth(req, res, next) {
     next();
 }
 // Home page (main page after login)
-app.get('/home', (req, res) => {
-    if (!req.session || !req.session.user) {
-        return res.redirect('/');
-    }
+app.get('/home', requireAuth, (req, res) => {
     res.render('index', { title: 'Home', user: req.session.user });
 });
 
