@@ -225,7 +225,7 @@ class AuthService {
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: provider, // 'google', 'github', etc.
                 options: {
-                    redirectTo: `${window.location.origin}/profile.html`
+                    redirectTo: `${window.location.origin}/index.ejs`
                 }
             });
 
