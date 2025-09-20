@@ -4,14 +4,17 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
 import cookieParser from 'cookie-parser';
+import NodeCache from 'node-cache';
 
 const app = express();
 app.use(cookieParser());
 
+// Initialize cache with 5-minute TTL for dashboard data
+const dashboardCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
+
 // Config
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -83,6 +86,115 @@ async function requireAuth(req, res, next) {
     }
 }
 
+// Optimized function to get essential dashboard data
+async function getEssentialDashboardData(userId) {
+    const cacheKey = `dashboard_essential_${userId}`;
+    let cachedData = dashboardCache.get(cacheKey);
+    
+    if (cachedData) {
+        console.log('Returning cached dashboard data');
+        return cachedData;
+    }
+
+    console.log('Fetching fresh dashboard data');
+
+    try {
+        // Single query to get user stats
+        const { data: userStats, error: statsError } = await supabase.rpc('get_user_dashboard_stats', {
+            user_uuid: userId
+        });
+
+        if (statsError) {
+            console.error('User stats error:', statsError);
+        }
+
+        // Get basic modules info (no heavy calculations)
+        const { data: modules, error: modulesError } = await supabase
+            .from('modules')
+            .select('id, name, display_name, icon, total_quizzes');
+
+        if (modulesError) {
+            console.error('Modules fetch error:', modulesError);
+        }
+
+        // Get limited recent attempts (only 10 most recent)
+        const { data: recentAttempts, error: attemptsError } = await supabase
+            .from('quiz_attempts')
+            .select(`
+                id, quiz_id, score_percentage, started_at, time_spent_seconds,
+                quizzes(title),
+                modules(name, display_name)
+            `)
+            .eq('user_id', userId)
+            .order('started_at', { ascending: false })
+            .limit(10);
+
+        if (attemptsError) {
+            console.error('Recent attempts error:', attemptsError);
+        }
+
+        const essentialData = {
+            userStats: userStats?.[0] || {
+                total_quizzes: 0,
+                average_score: 0,
+                total_modules: modules?.length || 0,
+                streak: 0
+            },
+            modules: modules || [],
+            recentAttempts: recentAttempts || []
+        };
+
+        // Cache for 5 minutes
+        dashboardCache.set(cacheKey, essentialData);
+        return essentialData;
+
+    } catch (error) {
+        console.error('Essential dashboard data error:', error);
+        return {
+            userStats: { total_quizzes: 0, average_score: 0, total_modules: 0, streak: 0 },
+            modules: [],
+            recentAttempts: []
+        };
+    }
+}
+
+// Function to process recent attempts for display
+function processRecentAttempts(attempts) {
+    const groupedAttempts = {};
+    
+    attempts.forEach((attempt, index) => {
+        const moduleKey = attempt.modules?.name || 'unknown';
+        const quizKey = attempt.quiz_id;
+        const groupKey = `${moduleKey}__${quizKey}`;
+        
+        if (!groupedAttempts[groupKey]) {
+            groupedAttempts[groupKey] = {
+                module: moduleKey,
+                moduleName: attempt.modules?.display_name || 'Module',
+                quizNumber: quizKey,
+                quizName: attempt.quizzes?.title || 'Quiz',
+                attempts: []
+            };
+        }
+        
+        groupedAttempts[groupKey].attempts.push({
+            id: attempt.id,
+            attemptNumber: groupedAttempts[groupKey].attempts.length + 1,
+            date: attempt.started_at ? attempt.started_at.split('T')[0] : '',
+            marks: attempt.score_percentage || 0,
+            scoreClass: attempt.score_percentage >= 90 ? 'excellent' : 
+                       attempt.score_percentage >= 75 ? 'good' : 
+                       attempt.score_percentage >= 60 ? 'average' : 'poor',
+            duration: attempt.time_spent_seconds ? 
+                     `${Math.floor(attempt.time_spent_seconds/60)}m ${attempt.time_spent_seconds%60}s` : '',
+            quizId: attempt.quiz_id,
+            attemptId: attempt.id
+        });
+    });
+    
+    return Object.values(groupedAttempts);
+}
+
 // Root route: show login if not logged in, else redirect to /home
 app.get('/', async (req, res) => {
     const token = req.cookies['sb-access-token'];
@@ -104,7 +216,301 @@ app.get('/home', requireAuth, (req, res) => {
     res.render('index', { title: 'Home', user: req.user });
 });
 
-// Leaderboard route (protected)
+// OPTIMIZED Dashboard route (protected)
+app.get('/dashboard', requireAuth, async (req, res) => {
+    try {
+        const user = req.user;
+        console.log('Dashboard user:', user.id);
+
+        // Get essential data only
+        const essentialData = await getEssentialDashboardData(user.id);
+
+        // Process recent attempts for display
+        const groupedRecentAttempts = processRecentAttempts(essentialData.recentAttempts);
+
+        // Prepare basic module progress (simplified)
+        const moduleProgress = essentialData.modules.map(m => ({
+            id: m.id,
+            name: m.display_name,
+            code: m.name,
+            icon: m.icon || 'fas fa-book',
+            progress: 0, // Will be loaded via AJAX
+            completedQuizzes: 0,
+            totalQuizzes: m.total_quizzes || 0,
+            averageScore: 0,
+            bestScore: 0,
+            timeSpent: '0m'
+        }));
+
+        // Render with essential data only
+        res.render('dashboard', {
+            user,
+            stats: essentialData.userStats,
+            modules: moduleProgress,
+            groupedRecentAttempts,
+            userAttempts: essentialData.recentAttempts, // For compatibility
+            achievements: [], // Will be loaded via AJAX
+            userAnalytics: {
+                totalQuizzes: essentialData.userStats.total_quizzes,
+                totalTime: 0,
+                avgScore: essentialData.userStats.average_score,
+                bestScore: 0
+            },
+            moduleAnalytics: [] // Will be loaded via AJAX
+        });
+
+    } catch (err) {
+        console.error('Dashboard error:', err);
+        res.status(500).send('Server error');
+    }
+});
+
+// API endpoints for lazy loading dashboard sections
+app.get('/api/dashboard/modules/:userId', requireAuth, async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        
+        // Fetch detailed module progress
+        const { data: modules, error: modulesError } = await supabase
+            .from('modules')
+            .select('*');
+
+        if (modules?.length) {
+            // Update user progress for each module
+            await Promise.all(modules.map(m => 
+                supabase.rpc('update_user_progress', {
+                    user_uuid: userId,
+                    module_uuid: m.id
+                })
+            ));
+        }
+
+        const { data: progressRows, error: progressError } = await supabase
+            .from('user_progress')
+            .select('*')
+            .eq('user_id', userId);
+
+        const progressByModule = {};
+        (progressRows || []).forEach(row => {
+            progressByModule[row.module_id] = row;
+        });
+
+        const moduleProgress = (modules || []).map(m => {
+            const p = progressByModule[m.id] || {};
+            const completed = p.quizzes_completed || 0;
+            const total = p.total_quizzes || m.total_quizzes || 0;
+            const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            let timeSpent = '0m';
+            if (p.total_time_spent_seconds) {
+                const h = Math.floor(p.total_time_spent_seconds / 3600);
+                const mins = Math.floor((p.total_time_spent_seconds % 3600) / 60);
+                timeSpent = h > 0 ? `${h}h ${mins}m` : `${mins}m`;
+            }
+            
+            return {
+                id: m.id,
+                name: m.display_name,
+                code: m.name,
+                icon: m.icon || 'fas fa-book',
+                progress: progressPercent,
+                completedQuizzes: completed,
+                totalQuizzes: total,
+                averageScore: p.average_score_percentage ? Math.round(p.average_score_percentage) : 0,
+                bestScore: p.best_score_percentage ? Math.round(p.best_score_percentage) : 0,
+                timeSpent
+            };
+        });
+
+        res.json(moduleProgress);
+    } catch (error) {
+        console.error('Module progress API error:', error);
+        res.status(500).json({ error: 'Failed to fetch module progress' });
+    }
+});
+
+app.get('/api/dashboard/analytics/:userId', requireAuth, async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        
+        const [userProgressData, allProgressData] = await Promise.all([
+            supabase.from('user_progress').select('*').eq('user_id', userId),
+            supabase.from('user_progress').select('*')
+        ]);
+
+        const userAnalytics = {
+            totalQuizzes: (userProgressData.data || []).reduce((sum, p) => sum + (p.quizzes_completed || 0), 0),
+            totalTime: (userProgressData.data || []).reduce((sum, p) => sum + (p.total_time_spent_seconds || 0), 0),
+            avgScore: userProgressData.data?.length ? 
+                Math.round(userProgressData.data.reduce((a, p) => a + (p.average_score_percentage || 0), 0) / userProgressData.data.length) : 0,
+            bestScore: (userProgressData.data || []).reduce((max, p) => Math.max(max, p.best_score_percentage || 0), 0)
+        };
+
+        // Get modules for analytics
+        const { data: modules } = await supabase.from('modules').select('*');
+        
+        const moduleAnalytics = (modules || []).map(m => {
+            const allForModule = (allProgressData.data || []).filter(p => p.module_id === m.id);
+            const avgScore = allForModule.length ? 
+                Math.round(allForModule.reduce((a, p) => a + (p.average_score_percentage || 0), 0) / allForModule.length) : 0;
+            const bestScore = allForModule.length ? 
+                Math.round(Math.max(...allForModule.map(p => p.best_score_percentage || 0))) : 0;
+            const totalAttempts = allForModule.reduce((a, p) => a + (p.total_attempts || 0), 0);
+            
+            return {
+                module: m.display_name,
+                avgScore,
+                bestScore,
+                totalAttempts
+            };
+        });
+
+        res.json({ userAnalytics, moduleAnalytics });
+    } catch (error) {
+        console.error('Analytics API error:', error);
+        res.status(500).json({ error: 'Failed to fetch analytics' });
+    }
+});
+
+app.get('/api/dashboard/achievements/:userId', requireAuth, async (req, res) => {
+    try {
+        // Placeholder for achievements - implement based on your requirements
+        const achievements = [];
+        res.json(achievements);
+    } catch (error) {
+        console.error('Achievements API error:', error);
+        res.status(500).json({ error: 'Failed to fetch achievements' });
+    }
+});
+
+// Cache invalidation when user completes a quiz
+app.post("/quiz/:module/:quizId/submit", requireAuth, async (req, res) => {
+    const { module: moduleName, quizId } = req.params;
+    const user_id = req.user.id;
+    
+    // Invalidate cache for this user
+    dashboardCache.del(`dashboard_essential_${user_id}`);
+    
+    // ... rest of your existing quiz submission logic
+    const quiz_key = `${moduleName}/${quizId}`;
+
+    try {
+        // Check previous attempts for this user and quiz
+        const { data: prevAttempts, error: prevAttemptsError } = await supabase
+            .from('quiz_attempts')
+            .select('id')
+            .eq('user_id', user_id)
+            .eq('quiz_key', quiz_key)
+            .not('quiz_key', 'is', null);
+            
+        if (prevAttemptsError) {
+            console.error('Previous attempts fetch error:', prevAttemptsError);
+        }
+        
+        const attempt_number = prevAttempts && prevAttempts.length ? prevAttempts.length + 1 : 1;
+
+        // Always use the position-aware answersArray hidden field for grading
+        const rawAnswers = req.body.answersArray || req.body.answers;
+        const timeSpent = req.body.timeSpent || "0:00";
+
+        // Parse answers array
+        let answersArray = [];
+        if (typeof rawAnswers === 'string') {
+            try {
+                answersArray = JSON.parse(rawAnswers);
+            } catch {
+                answersArray = Object.values(rawAnswers);
+            }
+        } else if (Array.isArray(rawAnswers)) {
+            answersArray = rawAnswers;
+        } else if (typeof rawAnswers === 'object') {
+            answersArray = Object.values(rawAnswers);
+        }
+
+        // Load quiz data from JSON file
+        const filePath = path.join(__dirname, 'quizes', moduleName, `${quizId}.json`);
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).send("Quiz not found");
+        }
+        const quizData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+        // Find module UUID from module name
+        const { data: moduleRow, error: moduleError } = await supabase
+            .from('modules')
+            .select('id')
+            .eq('name', moduleName)
+            .single();
+            
+        if (moduleError || !moduleRow) {
+            console.error("Module lookup failed:", moduleError);
+            return res.status(500).send("Module lookup failed");
+        }
+        const module_id = moduleRow.id;
+
+        // Find real quiz UUID from DB using module_id
+        const { data: quizRow, error: quizRowError } = await supabase
+            .from('quizzes')
+            .select('id, module_id')
+            .eq('module_id', module_id)
+            .eq('quiz_number', quizId)
+            .single();
+            
+        if (quizRowError || !quizRow) {
+            console.error("Quiz lookup failed:", quizRowError);
+            return res.status(500).send("Quiz lookup failed");
+        }
+        const quiz_uuid = quizRow.id;
+
+        // Calculate results using quizData and answersArray only
+        const results = calculateQuizResults(quizData, answersArray, timeSpent);
+        const totalQuestions = results.totalQuestions;
+        const correctCount = results.correctCount;
+        const percentage = results.percentage;
+
+        // Insert attempt (quiz_id as UUID)
+        const attemptInsert = {
+            user_id,
+            quiz_id: quiz_uuid,
+            quiz_key,
+            attempt_number,
+            total_questions: totalQuestions,
+            correct_answers: correctCount,
+            score_percentage: percentage,
+            is_completed: true,
+            time_spent_seconds: (typeof timeSpent === 'string' && timeSpent.includes(':')) ? 
+                (parseInt(timeSpent.split(':')[0], 10) * 60 + parseInt(timeSpent.split(':')[1], 10)) : null,
+            created_at: new Date().toISOString(),
+            review_json: results
+        };
+        
+        const { data: attemptRows, error: attemptError } = await supabase
+            .from('quiz_attempts')
+            .insert([attemptInsert])
+            .select();
+            
+        if (attemptError || !attemptRows || !attemptRows[0]) {
+            console.error('Quiz attempt insert error:', attemptError);
+            return res.status(500).send("Could not save attempt");
+        }
+
+        // Render results
+        res.render("results", {
+            quiz: {
+                title: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Quiz - ${quizId}`,
+                description: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Quiz Results`
+            },
+            results,
+            module: moduleName,
+            quizId,
+            user: req.user
+        });
+    } catch (err) {
+        console.error('Quiz submission error:', err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Leaderboard route (protected) - keep existing implementation
 app.get('/leaderboard', requireAuth, async (req, res) => {
     try {
         // Get all users
@@ -251,190 +657,7 @@ app.get('/review/:attemptId', requireAuth, async (req, res) => {
     }
 });
 
-// Dashboard route (protected)
-app.get('/dashboard', requireAuth, async (req, res) => {
-    try {
-        const user = req.user;
-        console.log('Dashboard user:', user);
-
-        // Fetch all modules
-        const { data: modules, error: modulesError } = await supabase
-            .from('modules')
-            .select('*');
-
-        if (modulesError) {
-            console.error('Modules fetch error:', modulesError);
-        }
-
-        // Ensure user_progress is up to date for each module
-        if (modules && modules.length) {
-            for (const m of modules) {
-                await supabase.rpc('update_user_progress', {
-                    user_uuid: user.id,
-                    module_uuid: m.id
-                });
-            }
-        }
-
-        // Fetch user progress for all modules
-        const { data: progressRows, error: progressError } = await supabase
-            .from('user_progress')
-            .select('*')
-            .eq('user_id', user.id);
-
-        if (progressError) {
-            console.error('Progress fetch error:', progressError);
-        }
-
-        // Fetch recent quiz attempts (with quiz and module info)
-        const { data: attempts, error: attemptsError } = await supabase
-            .from('quiz_attempts')
-            .select('*, quizzes(title, module_id), modules(display_name, name)')
-            .eq('user_id', user.id)
-            .order('started_at', { ascending: false });
-
-        if (attemptsError) {
-            console.error('Attempts fetch error:', attemptsError);
-        }
-
-        // Fetch all attempts for the user (for card display)
-        const { data: userAttempts, error: userAttemptsError } = await supabase
-            .from('quiz_attempts')
-            .select('*')
-            .eq('user_id', user.id)
-            .order('started_at', { ascending: false });
-
-        if (userAttemptsError) {
-            console.error('User attempts fetch error:', userAttemptsError);
-        }
-
-        // Map progress by module_id for quick lookup
-        const progressByModule = {};
-        (progressRows || []).forEach(row => {
-            progressByModule[row.module_id] = row;
-        });
-
-        // Compose module progress for all modules (show 0s if no attempts)
-        let moduleProgress = (modules || []).map(m => {
-            const p = progressByModule[m.id] || {};
-            // Calculate progress percent (completed/total)
-            const completed = p.quizzes_completed || 0;
-            const total = p.total_quizzes || m.total_quizzes || 0;
-            const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
-            // Format time spent
-            let timeSpent = '0m';
-            if (p.total_time_spent_seconds) {
-                const h = Math.floor(p.total_time_spent_seconds / 3600);
-                const m = Math.floor((p.total_time_spent_seconds % 3600) / 60);
-                timeSpent = h > 0 ? `${h}h ${m}m` : `${m}m`;
-            }
-            return {
-                id: m.id,
-                name: m.display_name,
-                code: m.name,
-                icon: m.icon || 'fas fa-book',
-                progress: progressPercent,
-                completedQuizzes: completed,
-                totalQuizzes: total,
-                averageScore: p.average_score_percentage ? Math.round(p.average_score_percentage) : 0,
-                bestScore: p.best_score_percentage ? Math.round(p.best_score_percentage) : 0,
-                timeSpent
-            };
-        });
-
-        // Calculate stats
-        const totalQuizzes = (progressRows || []).reduce((sum, p) => sum + (p.quizzes_completed || 0), 0);
-        const totalModules = modules ? modules.length : 0;
-        const allScores = (progressRows || []).map(p => p.average_score_percentage || 0);
-        const averageScore = allScores.length ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : 0;
-        
-        const stats = {
-            totalQuizzes,
-            averageScore,
-            totalModules,
-            streak: 0
-        };
-
-        // Prepare groupedRecentAttempts for EJS
-        let groupedRecentAttempts = {};
-        (attempts || []).forEach((a, idx) => {
-            const moduleKey = a.modules?.name || 'unknown';
-            const quizKey = a.quiz_id;
-            const groupKey = `${moduleKey}__${quizKey}`;
-            if (!groupedRecentAttempts[groupKey]) {
-                groupedRecentAttempts[groupKey] = {
-                    module: moduleKey,
-                    moduleName: a.modules?.display_name || 'Module',
-                    quizNumber: quizKey,
-                    quizName: a.quizzes?.title || 'Quiz',
-                    attempts: []
-                };
-            }
-            groupedRecentAttempts[groupKey].attempts.push({
-                id: a.id,
-                attemptNumber: groupedRecentAttempts[groupKey].attempts.length + 1,
-                date: a.started_at ? a.started_at.split('T')[0] : '',
-                marks: a.score_percentage || 0,
-                scoreClass: a.score_percentage >= 90 ? 'excellent' : a.score_percentage >= 75 ? 'good' : a.score_percentage >= 60 ? 'average' : 'poor',
-                duration: a.time_spent_seconds ? `${Math.floor(a.time_spent_seconds/60)}m ${a.time_spent_seconds%60}s` : '',
-                quizId: a.quiz_id,
-                attemptId: a.id
-            });
-        });
-        
-        // Convert to array for easier EJS iteration
-        groupedRecentAttempts = Object.values(groupedRecentAttempts);
-
-        // Achievements: keep as dummy for now
-        let achievements = [];
-
-        // User Analytics
-        const userAnalytics = {
-            totalQuizzes: (progressRows || []).reduce((sum, p) => sum + (p.quizzes_completed || 0), 0),
-            totalTime: (progressRows || []).reduce((sum, p) => sum + (p.total_time_spent_seconds || 0), 0),
-            avgScore: (progressRows || []).length ? Math.round((progressRows.reduce((a, p) => a + (p.average_score_percentage || 0), 0)) / progressRows.length) : 0,
-            bestScore: (progressRows || []).reduce((max, p) => Math.max(max, p.best_score_percentage || 0), 0)
-        };
-
-        // Module Analytics
-        const { data: allProgress, error: allProgressError } = await supabase
-            .from('user_progress')
-            .select('*');
-
-        if (allProgressError) {
-            console.error('All progress fetch error:', allProgressError);
-        }
-
-        const moduleAnalytics = (modules || []).map(m => {
-            const allForModule = (allProgress || []).filter(p => p.module_id === m.id);
-            const avgScore = allForModule.length ? Math.round(allForModule.reduce((a, p) => a + (p.average_score_percentage || 0), 0) / allForModule.length) : 0;
-            const bestScore = allForModule.length ? Math.round(Math.max(...allForModule.map(p => p.best_score_percentage || 0))) : 0;
-            const totalAttempts = allForModule.reduce((a, p) => a + (p.total_attempts || 0), 0);
-            return {
-                module: m.display_name,
-                avgScore,
-                bestScore,
-                totalAttempts
-            };
-        });
-
-        res.render('dashboard', {
-            user,
-            stats,
-            modules: moduleProgress,
-            groupedRecentAttempts,
-            achievements,
-            userAttempts,
-            userAnalytics,
-            moduleAnalytics
-        });
-    } catch (err) {
-        console.error('Dashboard error:', err);
-        res.status(500).send('Server error');
-    }
-});
-
-// Module routes
+// Module routes - keep existing
 app.get('/modules/intro-ai', requireAuth, (req, res) => {
     res.render('modules/intro-ai', { user: req.user });
 });
@@ -492,130 +715,6 @@ app.get("/quiz/:module/:quizId", requireAuth, (req, res) => {
     } catch (error) {
         console.error('Error reading quiz file:', error);
         return res.status(500).send("Error loading quiz");
-    }
-});
-
-// Quiz submission route - handle answers and show results
-app.post("/quiz/:module/:quizId/submit", requireAuth, async (req, res) => {
-    const { module: moduleName, quizId } = req.params;
-    const user_id = req.user.id;
-    
-    // Compose a unique quiz key for this module/quiz
-    const quiz_key = `${moduleName}/${quizId}`;
-
-    try {
-        // Check previous attempts for this user and quiz
-        const { data: prevAttempts, error: prevAttemptsError } = await supabase
-            .from('quiz_attempts')
-            .select('id')
-            .eq('user_id', user_id)
-            .eq('quiz_key', quiz_key)
-            .not('quiz_key', 'is', null);
-            
-        if (prevAttemptsError) {
-            console.error('Previous attempts fetch error:', prevAttemptsError);
-        }
-        
-        const attempt_number = prevAttempts && prevAttempts.length ? prevAttempts.length + 1 : 1;
-
-        // Always use the position-aware answersArray hidden field for grading
-        const rawAnswers = req.body.answersArray || req.body.answers;
-        const timeSpent = req.body.timeSpent || "0:00";
-
-        // Parse answers array
-        let answersArray = [];
-        if (typeof rawAnswers === 'string') {
-            try {
-                answersArray = JSON.parse(rawAnswers);
-            } catch {
-                answersArray = Object.values(rawAnswers);
-            }
-        } else if (Array.isArray(rawAnswers)) {
-            answersArray = rawAnswers;
-        } else if (typeof rawAnswers === 'object') {
-            answersArray = Object.values(rawAnswers);
-        }
-
-        // Load quiz data from JSON file
-        const filePath = path.join(__dirname, 'quizes', moduleName, `${quizId}.json`);
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).send("Quiz not found");
-        }
-        const quizData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-        // Find module UUID from module name
-        const { data: moduleRow, error: moduleError } = await supabase
-            .from('modules')
-            .select('id')
-            .eq('name', moduleName)
-            .single();
-            
-        if (moduleError || !moduleRow) {
-            console.error("Module lookup failed:", moduleError);
-            return res.status(500).send("Module lookup failed");
-        }
-        const module_id = moduleRow.id;
-
-        // Find real quiz UUID from DB using module_id
-        const { data: quizRow, error: quizRowError } = await supabase
-            .from('quizzes')
-            .select('id, module_id')
-            .eq('module_id', module_id)
-            .eq('quiz_number', quizId)
-            .single();
-            
-        if (quizRowError || !quizRow) {
-            console.error("Quiz lookup failed:", quizRowError);
-            return res.status(500).send("Quiz lookup failed");
-        }
-        const quiz_uuid = quizRow.id;
-
-        // Calculate results using quizData and answersArray only
-        const results = calculateQuizResults(quizData, answersArray, timeSpent);
-        const totalQuestions = results.totalQuestions;
-        const correctCount = results.correctCount;
-        const percentage = results.percentage;
-
-        // Insert attempt (quiz_id as UUID)
-        const attemptInsert = {
-            user_id,
-            quiz_id: quiz_uuid,
-            quiz_key,
-            attempt_number,
-            total_questions: totalQuestions,
-            correct_answers: correctCount,
-            score_percentage: percentage,
-            is_completed: true,
-            time_spent_seconds: (typeof timeSpent === 'string' && timeSpent.includes(':')) ? 
-                (parseInt(timeSpent.split(':')[0], 10) * 60 + parseInt(timeSpent.split(':')[1], 10)) : null,
-            created_at: new Date().toISOString(),
-            review_json: results
-        };
-        
-        const { data: attemptRows, error: attemptError } = await supabase
-            .from('quiz_attempts')
-            .insert([attemptInsert])
-            .select();
-            
-        if (attemptError || !attemptRows || !attemptRows[0]) {
-            console.error('Quiz attempt insert error:', attemptError);
-            return res.status(500).send("Could not save attempt");
-        }
-
-        // Render results
-        res.render("results", {
-            quiz: {
-                title: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Quiz - ${quizId}`,
-                description: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Quiz Results`
-            },
-            results,
-            module: moduleName,
-            quizId,
-            user: req.user
-        });
-    } catch (err) {
-        console.error('Quiz submission error:', err);
-        res.status(500).send('Server error');
     }
 });
 
