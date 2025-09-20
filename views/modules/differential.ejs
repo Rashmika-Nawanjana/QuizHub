@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Differential Equations - Mock Quiz Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+    <div class="main-container">
+        <div class="container">
+            <div id="differential" class="module-section active">
+                <div class="module-header">
+                    <a class="btn btn-outline-light mb-3" href="/">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Home
+                    </a>
+                    <h1 class="module-title"><i class="fas fa-calculator me-3"></i>Differential Equations</h1>
+                    <p class="module-description">Practice solving ordinary and partial differential equations with various methods and applications.</p>
+                </div>
+                <div class="quiz-grid">
+                    <div class="quiz-card"><div class="quiz-title">1. Laplace Transformations</div><div class="quiz-description">Laplace transforms, properties, and applications to differential equations</div><a href="/quiz/differential/1" class="btn-quiz" target="_blank"><i class="fas fa-external-link-alt"></i>Take Quiz</a></div>
+                    <div class="quiz-card"><div class="quiz-title">2. Fourier Series</div><div class="quiz-description">Fourier series expansion, coefficients, and periodic function analysis</div><a href="/quiz/differential/2" class="btn-quiz" target="_blank"><i class="fas fa-external-link-alt"></i>Take Quiz</a></div>
+                    <div class="quiz-card"><div class="quiz-title">3. Partial Differential Equations</div><div class="quiz-description">Classification, solution methods, and applications of PDEs</div><a href="#" class="btn-quiz" target="_blank"><i class="fas fa-external-link-alt"></i>Take Quiz</a></div>
+                    <div class="quiz-card"><div class="quiz-title">4. Ordinary Differential Equations</div><div class="quiz-description">Coming Soon - Stay Tuned!</div><a href="#" class="btn-quiz"><i class="fas fa-external-link-alt"></i>Coming Soon</a></div>
+                    <div class="quiz-card"><div class="quiz-title">5. Boundary Value Problems</div><div class="quiz-description">Coming Soon - Stay Tuned!</div><a href="#" class="btn-quiz"><i class="fas fa-external-link-alt"></i>Coming Soon</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('../partials/footer') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

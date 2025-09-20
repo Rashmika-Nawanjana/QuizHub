@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<%
+    var activeTab = typeof activeTab !== 'undefined' ? activeTab : 'login';
+%>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Quiz - Login</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-background">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+            </div>
+        </div>
+        
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Mock Quiz</h1>
+                </div>
+                <p class="subtitle">Test your knowledge, track your progress</p>
+            </div>
+
+            <!-- Auth tabs hidden for OAuth-only login -->
+            <!--
+            <div class="auth-tabs">
+                <button class="tab-btn <%= (typeof activeTab === 'undefined' || activeTab === 'login') ? 'active' : '' %>" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn <%= (activeTab === 'signup') ? 'active' : '' %>" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+            -->
+
+            <!-- Login Form (hidden for OAuth-only login) -->
+            <!--
+            <div id="login-form" class="auth-form <%= (typeof activeTab === 'undefined' || activeTab === 'login') ? 'active' : '' %>">
+                ...existing code...
+            </div>
+            -->
+
+            <!-- Signup Form (hidden for OAuth-only login) -->
+            <!--
+            <div id="signup-form" class="auth-form <%= (activeTab === 'signup') ? 'active' : '' %>">
+                ...existing code...
+            </div>
+            -->
+
+            <div class="divider">
+                <span>Continue with</span>
+            </div>
+            <div class="social-login">
+                <a href="/auth/google" class="social-btn google">
+                    <i class="fab fa-google"></i>
+                    <span>Google</span>
+                </a>
+                <a href="/auth/github" class="social-btn github">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+            </div>
+
+            <!-- Error/Success Messages -->
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <% if (typeof success !== 'undefined' && success) { %>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>

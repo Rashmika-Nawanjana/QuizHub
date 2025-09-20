@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Quiz Hub</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+    
+    <header class="py-4" style="background-color: var(--github-secondary-bg); border-bottom: 1px solid var(--github-border); transition: background-color 0.3s ease, border-color 0.3s ease;">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap" style="gap: 1rem; min-height: 56px;">
+                <!-- Left: Theme Toggle -->
+                <div class="theme-toggle-container order-1 order-md-1">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <i class="theme-icon fas fa-moon" id="themeIcon"></i>
+                        <span class="theme-text" id="themeText">Dark</span>
+                    </button>
+                </div>
+                <!-- Center: Title -->
+                <h1 class="navbar-brand mb-0 mx-auto order-2 order-md-2 text-center" style="font-size: 2rem; white-space: nowrap; flex: 1 1 0;">
+                    <a href="/" class="no-style">
+                        <i class="fas fa-graduation-cap me-2"></i>Mock Quiz Hub
+                    </a>
+                </h1>
+                <!-- Right: Notification Bell and User Avatar/Login -->
+                <div class="d-flex align-items-center order-3 order-md-3 ms-auto position-relative" style="gap: 1rem;">
+                    <div class="notification-container position-relative">
+                        <button class="btn btn-link p-0 position-relative" id="notificationDropdown" aria-expanded="false">
+                            <i class="fas fa-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+                        </button>
+                        <div class="notification-tooltip">
+                            <div class="fw-bold mb-2">Recent Updates</div>
+                            <div class="small mb-1">Added: OS Mid 1 Quiz</div>
+                            <div class="small mb-1">Added: OS Mid 2 Quiz</div>
+                            <div class="small mb-1">Added: OS Lab 1 Quiz</div>
+                            <div class="dropdown-divider my-1"></div>
+                            <div class="dropdown-item-text text-muted small">Check back for more updates!</div>
+                        </div>
+                    </div>
+                    <!-- Leaderboard Icon -->
+                    <a href="/leaderboard" class="btn btn-link p-0" title="Leaderboard" style="font-size: 1.5rem;">
+                        <i class="fas fa-trophy"></i>
+                    </a>
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <div class="dropdown user-avatar-container d-flex align-items-center" style="gap: 0.25rem;">
+                            <a href="/dashboard" id="profileAvatarLink" class="premium-avatar-btn btn btn-link p-0 position-relative" style="border-radius: 50%; padding: 0.2rem; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px var(--glow), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,215,0,0.3); border: 2px solid gold; background: linear-gradient(135deg, #fffbe6 0%, #fffde4 100%);">
+                                <img src="<%= user.avatar_url ? getAvatarUrl(user.avatar_url) : '/images/avatar.jpg' %>" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 8px var(--glow);" onerror="this.onerror=null;this.src='/images/avatar.jpg';">
+                            </a>
+                            <a href="#" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: inherit; text-decoration: none; font-size: 1.5rem; margin-left: 0.1rem;">
+                                <i class="fas fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="/dashboard"><i class="fas fa-user me-2"></i>Dashboard</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                    <% } else { %>
+                        <a href="/auth/login" class="btn btn-outline-primary">Login</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+         
+
+    </header>
+
+    <!-- Demo content to showcase theme switching -->
+    
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const body = document.body;
+
+        // Check for saved theme preference or default to light
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        
+        // Apply saved theme on load
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeIcon.className = 'theme-icon fas fa-sun';
+            themeText.textContent = 'Light';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            
+            // Add switching animation
+            themeIcon.classList.add('switching');
+            
+            // Toggle theme
+            if (isDark) {
+                body.removeAttribute('data-theme');
+                themeIcon.className = 'theme-icon fas fa-moon';
+                themeText.textContent = 'Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'theme-icon fas fa-sun';
+                themeText.textContent = 'Light';
+                localStorage.setItem('theme', 'dark');
+            }
+
+            // Remove animation class after animation completes
+            setTimeout(() => {
+                themeIcon.classList.remove('switching');
+            }, 600);
+        });
+    </script>
+</body>
+</html>

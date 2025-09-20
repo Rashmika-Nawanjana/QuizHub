@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link rel="stylesheet" href="/css/result.css">
+</head>
+
+<body>
+   <%- include('./partials/header') %>
+    <div class="results-container">
+        <h1>Quiz Results</h1>
+        
+        <% if (typeof quiz !== 'undefined' && quiz.title) { %>
+            <h2><%= quiz.title %></h2>
+        <% } %>
+        
+        <% if (typeof results !== 'undefined') { %>
+            <!-- Score Summary -->
+            <div class="score-summary">
+                <div class="score-circle"><%= results.percentage %>%</div>
+                <div class="grade"><%= results.grade %></div>
+                <p><%= results.message %></p>
+            </div>
+            
+            <!-- Statistics -->
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number"><%= results.totalQuestions %></div>
+                    <div>Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><%= results.correctCount %></div>
+                    <div>Correct</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><%= results.incorrectCount %></div>
+                    <div>Incorrect</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><%= results.timeSpent %></div>
+                    <div>Time</div>
+                </div>
+            </div>
+            
+            <!-- Question Review -->
+            <h3>Question Review</h3>
+            <% if (results.questionResults && results.questionResults.length > 0) { %>
+                <% results.questionResults.forEach((questionResult, index) => { %>
+                    <div class="question-review <%= questionResult.isCorrect ? 'correct' : 'incorrect' %>">
+                        <div class="question-header">
+                            Question <%= index + 1 %>: <%= questionResult.isCorrect ? '✓ Correct' : '✗ Incorrect' %>
+                        </div>
+                        <div class="question-content">
+                            <p><strong><%= questionResult.question %></strong></p>
+                            
+                            <% if (!questionResult.isCorrect) { %>
+                                <div class="answer-option user-answer">
+                                    Your answer: <%= questionResult.userAnswerText %>
+                                </div>
+                            <% } %>
+                            
+                            <div class="answer-option correct-answer">
+                                Correct answer: <%= questionResult.correctAnswerText %>
+                            </div>
+                            
+                            <% if (questionResult.explanation && questionResult.explanation.trim() !== '') { %>
+                                <p><strong>Explanation:</strong> <%= questionResult.explanation %></p>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p style="color: #8b949e; text-align: center; padding: 24px;">No question results available.</p>
+            <% } %>
+            
+        <% } else { %>
+            <div class="error-container">
+                <h2>Error: No Results Available</h2>
+                <p>There was an issue processing your quiz results.</p>
+            </div>
+        <% } %>
+        
+        <!-- Actions -->
+        <div class="actions">
+            <% if (typeof module !== 'undefined' && typeof quizId !== 'undefined') { %>
+                <a href="/quiz/<%= module %>/<%= quizId %>" class="btn">Retake Quiz</a>
+                <a href="/modules/<%= module %>" class="btn btn-secondary">Back to Module</a>
+            <% } %>
+            <a href="/" class="btn btn-secondary">Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Debug information
+        console.log('Results page loaded');
+        <% if (typeof quiz !== 'undefined') { %>
+            console.log('Quiz data:', <%- JSON.stringify(quiz) %>);
+        <% } %>
+        <% if (typeof results !== 'undefined') { %>
+            console.log('Results data:', <%- JSON.stringify(results) %>);
+        <% } %>
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Quiz Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="script.js"></script>
+    
+</head>
+<body>
+    <!-- Header -->
+    <%- include('./partials/header') %>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <!-- Home Section -->
+            <div id="home" class="module-section active">
+                <div class="welcome-section">
+                    <h1 class="welcome-title">Welcome to Mock Quiz Hub</h1>
+                    <p class="welcome-subtitle">Access practice quizzes for all your modules in one place</p>
+                    <div class="row mt-4">
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stats-card">
+                                <div class="stats-number">8</div>
+                                <div class="stats-label">Modules</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stats-card">
+                                <div class="stats-number">112</div>
+                                <div class="stats-label">Total Quizzes</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stats-card">
+                                <div class="stats-number">14</div>
+                                <div class="stats-label">Quizzes per Module</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stats-card">
+                                <div class="stats-number">∞</div>
+                                <div class="stats-label">Practice Attempts</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h2 class="text-center mb-4" style="color: var(--github-text);">Select a Module</h2>
+                        <div class="quiz-grid">
+                            <div class="quiz-card">
+                                <div class="quiz-title"><i class="fas fa-brain me-2"></i>Introduction to AI</div>
+                                <div class="quiz-description">Explore the fundamentals of artificial intelligence, machine learning, and neural networks.</div>
+                                <a href="modules/intro-ai" class="btn-quiz">
+                                    <i class="fas fa-play"></i>View Quizzes
+                                </a>
+                            </div>
+                            <div class="quiz-card">
+                                <div class="quiz-title"><i class="fas fa-database me-2"></i>Database Systems</div>
+                                <div class="quiz-description">Master SQL, database design, normalization, and transaction management.</div>
+                                <a href="modules/database" class="btn-quiz">
+                                    <i class="fas fa-play"></i>View Quizzes
+                                </a>
+                            </div>
+                            <div class="quiz-card">
+                                <div class="quiz-title"><i class="fas fa-calculator me-2"></i>Differential Equations</div>
+                                <div class="quiz-description">Practice solving ordinary and partial differential equations.</div>
+                                <a href="modules/differential" class="btn-quiz">
+                                    <i class="fas fa-play"></i>View Quizzes
+                                </a>
+                            </div>
+                            <div class="quiz-card">
+                                <div class="quiz-title"><i class="fas fa-chart-bar me-2"></i>Applied Statistics</div>
+                                <div class="quiz-description">Learn probability, hypothesis testing, and statistical analysis.</div>
+                                <a href="modules/statistics" class="btn-quiz">
+                                    <i class="fas fa-play"></i>View Quizzes
+                                </a>
+                            </div>
+                            <div class="quiz-card">
+                                <div class="quiz-title"><i class="fas fa-desktop me-2"></i>Operating Systems</div>
+                                <div class="quiz-description">Understand processes, memory management, and system architecture.</div>
+                                <a href="modules/os" class="btn-quiz">
+                                    <i class="fas fa-play"></i>View Quizzes
+                                </a>
+                            </div>
+                            <div class="quiz-card">
+                                <div class="quiz-title"><i class="fas fa-microchip me-2"></i>Computer Architecture</div>
+                                <div class="quiz-description">Study CPU design, instruction sets, and system organization.</div>
+                                <a href="modules/architecture" class="btn-quiz">
+                                    <i class="fas fa-play"></i>View Quizzes
+                                </a>
+                            </div>
+                            <div class="quiz-card">
+                                <div class="quiz-title"><i class="fas fa-network-wired me-2"></i>Data Communication</div>
+                                <div class="quiz-description">Master networking protocols, OSI model, and data transmission.</div>
+                                <a href="modules/networking" class="btn-quiz">
+                                    <i class="fas fa-play"></i>View Quizzes
+                                </a>
+                            </div>
+                            <div class="quiz-card">
+                                <div class="quiz-title"><i class="fas fa-fire me-2"></i>Thermodynamics</div>
+                                <div class="quiz-description">Practice thermodynamic laws, cycles, and energy transfer.</div>
+                                <a href="modules/thermodynamics" class="btn-quiz">
+                                    <i class="fas fa-play"></i>View Quizzes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>      
+    
+               <%- include('./partials/footer') %>
+               <link rel="stylesheet" href="./css/styles.css">

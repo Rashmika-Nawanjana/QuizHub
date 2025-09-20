@@ -1,0 +1,913 @@
+/* Premium Profile Avatar Button */
+.premium-avatar-btn {
+    border-radius: 50%;
+    padding: 0.2rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px var(--glow), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,215,0,0.3);
+    border: 2px solid gold;
+    background: linear-gradient(135deg, #fffbe6 0%, #fffde4 100%);
+    position: relative;
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
+.premium-avatar-btn:hover, .premium-avatar-btn:focus {
+    box-shadow: 0 8px 30px var(--glow), 0 4px 16px rgba(255,215,0,0.2), 0 0 0 3px gold;
+    border-color: #ffd700;
+}
+.premium-avatar-btn img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px var(--glow);
+}
+.premium-crown {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.1rem;
+    color: gold;
+    text-shadow: 0 1px 4px #fff, 0 0 8px gold;
+    pointer-events: none;
+}
+/* Notification Bell and Tooltip - Premium Design */
+.notification-container .btn-link {
+    color: var(--text-primary);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    outline: none;
+    border: none;
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255,255,255,0.9) 100%);
+    position: relative;
+    border-radius: 50%;
+    padding: 0.6rem;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 4px 20px var(--glow),
+        0 2px 8px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.notification-container .btn-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.notification-container .btn-link:hover::before {
+    opacity: 0.1;
+}
+
+.notification-container .btn-link:focus {
+    outline: none;
+    box-shadow: 
+        0 4px 20px var(--glow),
+        0 2px 8px rgba(0,0,0,0.1),
+        0 0 0 3px var(--primary-light);
+}
+
+.notification-container .btn-link .fa-bell {
+    font-size: 1.4rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--primary);
+    filter: drop-shadow(0 2px 8px var(--glow));
+    position: relative;
+    z-index: 1;
+}
+
+.notification-container .btn-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 30px var(--glow),
+        0 4px 16px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.notification-container .btn-link:hover .fa-bell {
+    color: var(--accent);
+    transform: rotate(-15deg) scale(1.1);
+    text-shadow: 0 0 12px var(--accent);
+    filter: drop-shadow(0 4px 16px var(--glow));
+}
+
+.notification-container .btn-link:active {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
+}
+
+.notification-container .btn-link .badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 4px 12px rgba(229, 57, 53, 0.4),
+        0 2px 6px rgba(0,0,0,0.2);
+    border: 2px solid var(--github-secondary-bg);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-weight: 700;
+    font-size: 0.7rem !important;
+    background: linear-gradient(135deg, #ff4444 0%, #e53935 100%) !important;
+    color: #fff !important;
+    animation: premiumBadgePulse 2s infinite;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes premiumBadgePulse {
+    0%, 70%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 4px 12px rgba(229, 57, 53, 0.4), 0 2px 6px rgba(0,0,0,0.2);
+    }
+    35% { 
+        transform: scale(1.15); 
+        box-shadow: 0 6px 20px rgba(229, 57, 53, 0.6), 0 0 16px rgba(229, 57, 53, 0.3);
+    }
+}
+
+/* Premium Tooltip Styles */
+.notification-tooltip {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    z-index: 1050;
+    min-width: 280px;
+    max-width: 350px;
+    background: linear-gradient(135deg, 
+        rgba(255,255,255,0.95) 0%, 
+        rgba(248,250,252,0.98) 50%, 
+        rgba(241,245,249,0.95) 100%);
+    color: var(--text-primary);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 60px rgba(0,0,0,0.15),
+        0 8px 32px var(--glow),
+        0 4px 16px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+    padding: 1.5rem 1.7rem 1.3rem 1.7rem;
+    font-size: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(15px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    white-space: normal;
+    backdrop-filter: blur(20px);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.notification-tooltip::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary-light) 0%, transparent 100%);
+    opacity: 0.05;
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.notification-tooltip::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, 
+        rgba(255,255,255,0.95) 0%, 
+        rgba(248,250,252,0.98) 100%);
+    transform: rotate(45deg);
+    border-top: 1px solid rgba(255,255,255,0.3);
+    border-left: 1px solid rgba(255,255,255,0.3);
+    box-shadow: -2px -2px 8px rgba(0,0,0,0.1);
+    backdrop-filter: blur(20px);
+}
+
+.notification-container .btn-link:hover + .notification-tooltip,
+.notification-container .btn-link:focus + .notification-tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.notification-tooltip .fw-bold {
+    color: var(--primary);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.notification-tooltip .small {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    padding: 0.3rem 0;
+    transition: color 0.3s ease;
+    line-height: 1.4;
+}
+
+.notification-tooltip .small:hover {
+    color: var(--primary);
+}
+
+.notification-tooltip .dropdown-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--primary-light) 20%, 
+        var(--primary) 50%, 
+        var(--primary-light) 80%, 
+        transparent 100%);
+    margin: 1rem 0 0.8rem 0;
+    opacity: 0.6;
+}
+
+.notification-tooltip .dropdown-item-text {
+    color: #999;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-top: 0.5rem;
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* Dark Theme Premium Styles */
+[data-theme="dark"] .notification-container .btn-link {
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(30,30,50,0.9) 100%);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    box-shadow: 
+        0 4px 20px var(--glow),
+        0 2px 8px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(124, 58, 237, 0.2);
+}
+
+[data-theme="dark"] .notification-container .btn-link .fa-bell {
+    color: var(--primary-light);
+    filter: drop-shadow(0 2px 8px var(--glow));
+}
+
+[data-theme="dark"] .notification-container .btn-link:hover {
+    box-shadow: 
+        0 8px 30px var(--glow),
+        0 4px 16px rgba(124, 58, 237, 0.3),
+        inset 0 1px 0 rgba(124, 58, 237, 0.3);
+}
+
+[data-theme="dark"] .notification-container .btn-link:hover .fa-bell {
+    color: var(--accent);
+    text-shadow: 0 0 12px var(--accent);
+}
+
+[data-theme="dark"] .notification-tooltip {
+    background: linear-gradient(135deg, 
+        rgba(30,30,50,0.95) 0%, 
+        rgba(45,34,80,0.98) 50%, 
+        rgba(35,33,58,0.95) 100%);
+    color: var(--text-primary);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    box-shadow: 
+        0 20px 60px rgba(0,0,0,0.4),
+        0 8px 32px var(--glow),
+        0 4px 16px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(124, 58, 237, 0.2);
+}
+
+[data-theme="dark"] .notification-tooltip::after {
+    background: linear-gradient(135deg, 
+        rgba(30,30,50,0.95) 0%, 
+        rgba(45,34,80,0.98) 100%);
+    border-top: 1px solid rgba(124, 58, 237, 0.3);
+    border-left: 1px solid rgba(124, 58, 237, 0.3);
+    box-shadow: -2px -2px 8px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .notification-tooltip .fw-bold {
+    color: var(--primary-light);
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+[data-theme="dark"] .notification-tooltip .small {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .notification-tooltip .small:hover {
+    color: var(--primary-light);
+}
+
+[data-theme="dark"] .notification-tooltip .dropdown-divider {
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--primary-light) 20%, 
+        var(--accent) 50%, 
+        var(--primary-light) 80%, 
+        transparent 100%);
+}
+
+[data-theme="dark"] .notification-tooltip .dropdown-item-text {
+    color: #888;
+}
+/* Notification Bell Styles */
+.notification-container .btn-link {
+    color: var(--text-primary);
+    transition: color 0.3s, box-shadow 0.3s;
+    outline: none;
+    border: none;
+    background: none;
+    position: relative;
+}
+
+.notification-container .btn-link .fa-bell {
+    font-size: 1.6rem;
+    transition: color 0.3s, text-shadow 0.3s;
+    color: var(--primary);
+    filter: drop-shadow(0 2px 8px var(--glow));
+}
+
+.notification-container .btn-link:hover .fa-bell,
+.notification-container .btn-link:focus .fa-bell {
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--accent), 0 0 2px var(--primary-light);
+    filter: drop-shadow(0 4px 16px var(--glow));
+}
+
+.notification-container .btn-link .badge {
+    box-shadow: 0 2px 8px var(--glow);
+    border: 2px solid var(--github-secondary-bg);
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Custom Tooltip for Bell */
+.notification-tooltip {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    z-index: 1050;
+    min-width: 220px;
+    max-width: 300px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px var(--card-shadow);
+    padding: 1rem 1.2rem;
+    font-size: 0.95rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    white-space: normal;
+}
+
+.notification-container .btn-link:hover + .notification-tooltip,
+.notification-container .btn-link:focus + .notification-tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+@media (max-width: 576px) {
+    .notification-tooltip {
+        min-width: 160px;
+        font-size: 0.85rem;
+        padding: 0.7rem 0.8rem;
+    }
+}
+
+[data-theme="dark"] .notification-container .btn-link .fa-bell {
+    color: var(--primary-light);
+    filter: drop-shadow(0 2px 8px var(--glow));
+}
+[data-theme="dark"] .notification-container .btn-link:hover .fa-bell {
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--accent), 0 0 2px var(--primary);
+}
+[data-theme="dark"] .notification-tooltip {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 8px 32px var(--glow);
+}
+:root {
+            --primary: #5624d0;
+            --primary-light: #cec0fc;
+            --primary-gradient: linear-gradient(135deg, #5624d0 0%, #7e3ff2 100%);
+            --accent: #a435f0;
+            --accent-gradient: linear-gradient(135deg, #a435f0 0%, #c34cff 100%);
+            --background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(255, 255, 255, 0.9);
+            --card-shadow: rgba(0, 0, 0, 0.05);
+            --text-primary: #1c1d1f;
+            --text-secondary: #6a6f73;
+            --success: #0ca678;
+            --glow: rgba(86, 36, 208, 0.15);
+            --navbar-bg: rgba(255, 255, 255, 0.9);
+            --footer-bg: rgba(255, 255, 255, 0.9);
+            --btn-outline-bg: rgba(255, 255, 255, 0.85);
+            --btn-outline-border: rgba(255, 255, 255, 0.9);
+            --btn-outline-hover-bg: rgba(255, 255, 255, 0.95);
+            --btn-outline-hover-border: rgba(255, 255, 255, 0.95);
+            --backdrop-overlay-1: rgba(174, 136, 255, 0.1);
+            --backdrop-overlay-2: rgba(206, 192, 252, 0.15);
+            --github-secondary-bg: rgba(255, 255, 255, 0.9);
+            --github-border: rgba(225, 228, 232, 0.8);
+        }
+
+        /* Dark Theme Variables */
+        [data-theme="dark"] {
+            --primary: #7c3aed;
+            --primary-light: #a78bfa;
+            --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+            --accent: #c084fc;
+            --accent-gradient: linear-gradient(135deg, #c084fc 0%, #d946ef 100%);
+            --background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            --card-bg: rgba(30, 30, 50, 0.8);
+            --card-border: rgba(60, 60, 80, 0.6);
+            --card-shadow: rgba(0, 0, 0, 0.3);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --success: #10b981;
+            --glow: rgba(124, 58, 237, 0.25);
+            --navbar-bg: rgba(15, 15, 35, 0.9);
+            --footer-bg: rgba(15, 15, 35, 0.9);
+            --btn-outline-bg: rgba(30, 30, 50, 0.85);
+            --btn-outline-border: rgba(60, 60, 80, 0.6);
+            --btn-outline-hover-bg: rgba(40, 40, 65, 0.95);
+            --btn-outline-hover-border: rgba(80, 80, 100, 0.8);
+            --backdrop-overlay-1: rgba(124, 58, 237, 0.15);
+            --backdrop-overlay-2: rgba(167, 139, 250, 0.1);
+            --github-secondary-bg: rgba(15, 15, 35, 0.9);
+            --github-border: rgba(60, 60, 80, 0.6);
+        }
+        
+
+        body {
+            font-family: 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--backdrop-overlay-1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, var(--backdrop-overlay-2) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+            transition: background 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: var(--text-primary) !important;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        /* Premium Theme Toggle Button */
+        .theme-toggle-container {
+            position: static;
+            top: auto;
+            left: auto;
+            transform: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid black;
+            border-radius: 50px;
+            padding: 0.75rem 1rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 5px 20px var(--card-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+            height: 45px;
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s ease;
+        }
+
+        [data-theme="dark"] .theme-toggle::before {
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent);
+        }
+
+        .theme-toggle:hover {
+            box-shadow: 
+                0 8px 30px var(--glow),
+                0 0 0 1px var(--primary),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border-color: var(--primary);
+        }
+
+        .theme-toggle:hover::before {
+            left: 100%;
+        }
+
+        .theme-toggle:active {
+            transition: transform 0.1s ease;
+        }
+
+        .theme-icon {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            margin-right: 0.5rem;
+        }
+
+        .theme-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .theme-toggle:hover .theme-icon {
+            color: var(--primary);
+            transform: rotate(180deg);
+        }
+
+        .theme-toggle:hover .theme-text {
+            color: var(--primary);
+        }
+
+        /* Icon rotation animation for theme switching */
+        .theme-icon.switching {
+            animation: themeSwitch 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes themeSwitch {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Header container positioning */
+        .container {
+            position: relative;
+        }
+
+        /* Demo content for visualization */
+        .demo-content {
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .demo-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 35px var(--card-shadow);
+            margin: 1rem auto;
+            max-width: 500px;
+            transition: all 0.3s ease;
+        }
+
+        .demo-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .demo-card p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        .no-style {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .no-style:hover,
+        .no-style:focus,
+        .no-style:active,
+        .no-style:visited {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ====================================== */
+        /* PRO TIP LIGHT BULB - DESKTOP DEFAULT  */
+        /* ====================================== */
+        /* 
+           Default positioning for desktop/large screens:
+           - Position: absolute to navbar container
+           - Right: 200px from container edge
+           - Size: 1.3rem font-size, 0.5rem padding
+        */
+        .pro-tip-bulb {
+            position: absolute;
+            right: 200px; /* Desktop: 200px from right edge */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem; /* Desktop: larger bulb icon */
+            color: #ffd700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            padding: 0.5rem; /* Desktop: comfortable padding */
+        }
+
+        .pro-tip-bulb:hover {
+            transform: translateY(-50%) scale(1.2);
+            color: #ffed4e;
+            filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));
+        }
+
+        /* ====================================== */
+        /* PRO TIP TOOLTIP - DESKTOP DEFAULT     */
+        /* ====================================== */
+        /* 
+           Default tooltip styling for desktop:
+           - Width: 320px (comfortable reading width)
+           - Positioning: centered below the bulb
+           - Font size: 0.9rem (readable)
+           - Padding: generous for desktop
+        */
+        .pro-tip-tooltip {
+            position: absolute;
+            top: 100%;
+            right: 50%;
+            transform: translateX(50%);
+            margin-top: 15px;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #2d3436;
+            padding: 1rem 1.25rem; /* Desktop: generous padding */
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            font-size: 0.9rem; /* Desktop: comfortable reading size */
+            width: 320px; /* Desktop: wide tooltip for better readability */
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(50%) translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .pro-tip-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 16px;
+            height: 16px;
+            background: #ffeaa7;
+            transform: translateX(50%) rotate(45deg);
+            border-radius: 2px;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            border-left: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .pro-tip-bulb:hover .pro-tip-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(50%) translateY(0);
+        }
+
+        .pro-tip-tooltip strong {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #2d3436;
+        }
+
+        .pro-tip-tooltip p {
+            margin: 0;
+            line-height: 1.5;
+            color: #2d3436;
+        }
+
+        /* Dark theme support for tooltip */
+        [data-theme="dark"] .pro-tip-tooltip {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: #2c3e50;
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="dark"] .pro-tip-tooltip::before {
+            background: #f39c12;
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="dark"] .pro-tip-tooltip strong,
+        [data-theme="dark"] .pro-tip-tooltip p {
+            color: #2c3e50;
+        }
+
+        /* ====================================== */
+        /* RESPONSIVE BREAKPOINTS                 */
+        /* ====================================== */
+
+        /* ====================================== */
+        /* TABLET RESPONSIVENESS (768px and down) */
+        /* ====================================== */
+        /* 
+           Changes for tablet screens:
+           - Move bulb closer to edge (150px from right)
+           - Reduce bulb size slightly (1.2rem)
+           - Narrow tooltip (280px width)
+           - Smaller font and padding for tooltip
+           - Position tooltip arrow closer to edge
+        */
+        @media (max-width: 768px) {
+            .theme-toggle-container {
+                left: auto;
+                margin-left: 0.5rem;
+            }
+            .theme-toggle {
+                padding: 0.6rem 0.8rem;
+                min-width: 80px;
+                height: 40px;
+            }
+            .theme-text {
+                font-size: 0.8rem;
+            }
+            .theme-icon {
+                font-size: 1rem;
+                margin-right: 0.4rem;
+            }
+
+            /* TABLET: Adjust light bulb positioning and size */
+            .pro-tip-bulb {
+                font-size: 1.2rem; /* Slightly smaller than desktop */
+                right: 150px; /* Closer to edge for tablet */
+                padding: 0.4rem; /* Reduced padding */
+            }
+
+            /* TABLET: Adjust tooltip size and positioning */
+            .pro-tip-tooltip {
+                width: 280px; /* Narrower for tablet screens */
+                font-size: 0.85rem; /* Smaller text */
+                padding: 0.875rem 1rem; /* Less padding */
+                right: 30px; /* Position tooltip arrow closer to edge */
+                transform: none; /* Remove centering transform */
+            }
+
+            /* TABLET: Adjust tooltip arrow position */
+            .pro-tip-tooltip::before {
+                right: 40px; /* Move arrow to match new tooltip position */
+                transform: rotate(45deg); /* Remove centering transform */
+            }
+
+            /* TABLET: Remove centering transform on hover */
+            .pro-tip-bulb:hover .pro-tip-tooltip {
+                transform: none;
+            }
+        }
+
+        /* ====================================== */
+        /* MOBILE RESPONSIVENESS (576px and down) */
+        /* ====================================== */
+        /* 
+           Changes for mobile screens:
+           - Move bulb much closer to edge (80px from right)
+           - Smaller bulb icon (1.1rem)
+           - Much narrower tooltip (240px)
+           - Smaller text and compact padding
+           - Tooltip positioned to avoid screen edges
+        */
+        @media (max-width: 576px) {
+            .theme-toggle {
+                min-width: 45px;
+                padding: 0.6rem;
+            }
+            
+            .theme-text {
+                display: none;
+            }
+            
+            .theme-icon {
+                margin-right: 0;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem !important;
+            }
+
+            /* MOBILE: Further adjust light bulb for small screens */
+            .pro-tip-bulb {
+                font-size: 1.1rem; /* Smaller for mobile */
+                right: 80px; /* Much closer to edge */
+                padding: 0.3rem; /* Minimal padding */
+            }
+
+            /* MOBILE: Compact tooltip for small screens */
+            .pro-tip-tooltip {
+                width: 240px; /* Narrow for mobile */
+                font-size: 0.8rem; /* Compact text */
+                padding: 0.75rem 0.875rem; /* Compact padding */
+                right: 20px; /* Close to screen edge but not touching */
+                border-radius: 10px; /* Slightly smaller border radius */
+            }
+
+            /* MOBILE: Adjust arrow position for compact tooltip */
+            .pro-tip-tooltip::before {
+                right: 30px; /* Position arrow appropriately */
+                width: 14px; /* Slightly smaller arrow */
+                height: 14px;
+            }
+        }
+
+        /* ====================================== */
+        /* EXTRA SMALL MOBILE (480px and down)   */
+        /* ====================================== */
+        /* 
+           Changes for very small mobile screens:
+           - Move bulb very close to edge (60px)
+           - Even smaller tooltip (220px)
+           - More compact spacing throughout
+           - Ensure tooltip doesn't overflow screen
+        */
+        @media (max-width: 480px) {
+            /* EXTRA SMALL MOBILE: Very close positioning */
+            .pro-tip-bulb {
+                right: 60px; /* Very close to edge for tiny screens */
+                font-size: 1rem; /* Smallest practical size */
+            }
+
+            /* EXTRA SMALL MOBILE: Very compact tooltip */
+            .pro-tip-tooltip {
+                width: 220px; /* Minimum practical width */
+                font-size: 0.75rem; /* Small but readable */
+                padding: 0.675rem 0.75rem; /* Very compact */
+                right: 15px; /* Close to edge with small margin */
+            }
+
+            /* EXTRA SMALL MOBILE: Proportional arrow */
+            .pro-tip-tooltip::before {
+                right: 25px;
+                width: 12px;
+                height: 12px;
+            }
+        }
