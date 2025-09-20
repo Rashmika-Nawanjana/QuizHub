@@ -8,7 +8,7 @@ import supabase from './database/supabase-client.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
-import 'dotenv/config';
+// import 'dotenv/config';
 import session from 'express-session';
 const app = express();
 // Session middleware
