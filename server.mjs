@@ -430,9 +430,40 @@ app.get('/recent-attempts', requireAuth, async (req, res) => {
 });
 
 // Module Progress route (protected)
+// Module Progress route (protected) - FIXED VERSION
 app.get('/modules', requireAuth, async (req, res) => {
     try {
-        const user = req.user;
+        const authUser = req.user;
+
+        // Fetch complete user data from database (same as dashboard and leaderboard)
+        const { data: dbUser, error: userError } = await supabase
+            .from('users')
+            .select('id, full_name, username, avatar_url')
+            .eq('id', authUser.id)
+            .single();
+
+        if (userError) {
+            console.error('Database user fetch error:', userError);
+        }
+
+        // Helper function to get proper avatar URL (same as leaderboard)
+        const getAvatarUrl = (avatar_url) => {
+            if (!avatar_url) return '/images/avatar.jpg';
+            if (avatar_url.startsWith('http')) return avatar_url;
+            const supabaseUrl = process.env.SUPABASE_URL;
+            return `${supabaseUrl}/storage/v1/object/public/avatars/${avatar_url}`;
+        };
+
+        // Combine auth user with database user data
+        const user = {
+            ...authUser,
+            full_name: dbUser?.full_name || authUser.full_name,
+            username: dbUser?.username || authUser.username,
+            avatar_url: getAvatarUrl(dbUser?.avatar_url || authUser.avatar_url),
+            // For template compatibility, add both property names
+            name: dbUser?.full_name || dbUser?.username || authUser.full_name || authUser.username || 'User',
+            avatar: getAvatarUrl(dbUser?.avatar_url || authUser.avatar_url)
+        };
 
         // Fetch all modules
         const { data: modules, error: modulesError } = await supabase
@@ -498,7 +529,7 @@ app.get('/modules', requireAuth, async (req, res) => {
         });
 
         res.render('moduleprogress', {
-            user,
+            user,  // Now contains both auth data AND database data
             modules: moduleProgress
         });
     } catch (err) {
