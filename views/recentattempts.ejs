@@ -14,7 +14,14 @@
     <!-- Layout Container -->
     <div class="dashboard-layout">
         <!-- User Profile Header -->
-        
+        <div class="profile-header">
+            <div class="profile-info">
+                <img src="<%= user.avatar_url || '/images/avatar.jpg' %>" alt="Profile" class="profile-avatar">
+                <div class="user-details">
+                    <h2><%= user.full_name %></h2>
+                    <p>Student Dashboard</p>
+                </div>
+            </div>
             <div class="header-actions">
                 <a href="/dashboard" class="back-btn">
                     <i class="fas fa-arrow-left"></i>
