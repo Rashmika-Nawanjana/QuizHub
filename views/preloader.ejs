@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading - Mock Quiz Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Premium CSS Variables */
+        :root {
+            --primary: #5624d0;
+            --primary-light: #cec0fc;
+            --primary-gradient: linear-gradient(135deg, #5624d0 0%, #7e3ff2 100%);
+            --accent: #a435f0;
+            --accent-gradient: linear-gradient(135deg, #a435f0 0%, #c34cff 100%);
+            --background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(255, 255, 255, 0.9);
+            --card-shadow: rgba(0, 0, 0, 0.05);
+            --text-primary: #1c1d1f;
+            --text-secondary: #6a6f73;
+            --glow: rgba(86, 36, 208, 0.15);
+        }
+
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(174, 136, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(206, 192, 252, 0.15) 0%, transparent 40%);
+            animation: backgroundPulse 4s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes backgroundPulse {
+            0% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Preloader Container */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        /* Main Loader Container */
+        .loader-container {
+            text-align: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 20px 50px var(--card-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+            max-width: 400px;
+            width: 90%;
+            animation: containerFloat 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes containerFloat {
+            0% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(5px);
+            }
+        }
+
+        /* Shimmer Effect */
+        .loader-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid transparent;
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 240, 240, 0.6) 100%);
+            z-index: -1;
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* Logo/Icon */
+        .loader-logo {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .loader-logo i {
+            font-size: 4rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoSpin 2s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes logoSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Title */
+        .loader-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        /* Subtitle */
+        .loader-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+        }
+
+        /* Progress Bar Container */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 10px;
+            width: 0%;
+            animation: progressAnimation 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes progressAnimation {
+            0% {
+                width: 0%;
+            }
+            50% {
+                width: 70%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* Shimmer effect on progress bar */
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: progressShimmer 1.5s linear infinite;
+        }
+
+        @keyframes progressShimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Loading Text */
+        .loading-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        /* Dots Animation */
+        .loading-dots {
+            display: inline-block;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 2s linear infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% {
+                content: '';
+            }
+            40% {
+                content: '.';
+            }
+            60% {
+                content: '..';
+            }
+            80%, 100% {
+                content: '...';
+            }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 6s linear infinite;
+        }
+
+        .particle:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(3) {
+            left: 30%;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(4) {
+            left: 70%;
+            animation-delay: 1.5s;
+        }
+
+        .particle:nth-child(5) {
+            left: 80%;
+            animation-delay: 0.5s;
+        }
+
+        .particle:nth-child(6) {
+            left: 90%;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Fade Out Animation */
+        .fade-out {
+            animation: fadeOut 0.8s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .loader-container {
+                padding: 2.5rem 2rem;
+                margin: 0 1rem;
+            }
+            
+            .loader-logo i {
+                font-size: 3rem;
+            }
+            
+            .loader-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader-container">
+            <div class="loader-logo">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="loader-title">Mock Quiz Hub</div>
+            <div class="loader-subtitle">Preparing your learning experience</div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="loading-text">
+                <span class="loading-dots">Loading</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulate loading progress
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            const progressBar = document.getElementById('progressBar');
+            
+            // Simulate realistic loading stages
+            const loadingStages = [
+                { progress: 20, delay: 500 },
+                { progress: 45, delay: 800 },
+                { progress: 70, delay: 1200 },
+                { progress: 90, delay: 1500 },
+                { progress: 100, delay: 2000 }
+            ];
+            
+            let currentStage = 0;
+            
+            function updateProgress() {
+                if (currentStage < loadingStages.length) {
+                    const stage = loadingStages[currentStage];
+                    
+                    setTimeout(() => {
+                        progressBar.style.width = stage.progress + '%';
+                        currentStage++;
+                        updateProgress();
+                    }, stage.delay);
+                } else {
+                    // Loading complete - fade out preloader
+                    setTimeout(() => {
+                        preloader.classList.add('fade-out');
+                        
+                        // Remove preloader after animation
+                        setTimeout(() => {
+                            preloader.style.display = 'none';
+                            // Here you would typically redirect or show main content
+                            window.location.href = 'index.html'; // Adjust this path as needed
+                        }, 800);
+                    }, 500);
+                }
+            }
+            
+            // Start loading simulation
+            updateProgress();
+        });
+
+        // Handle page visibility change to pause/resume animations
+        document.addEventListener('visibilitychange', function() {
+            const preloader = document.getElementById('preloader');
+            if (document.hidden) {
+                preloader.style.animationPlayState = 'paused';
+            } else {
+                preloader.style.animationPlayState = 'running';
+            }
+        });
+    </script>
+</body>
+</html>
