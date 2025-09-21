@@ -1,3 +1,76 @@
+// --- Preloader Logic ---
+document.addEventListener('DOMContentLoaded', function() {
+    const preloader = document.getElementById('preloader');
+    const progressBar = document.getElementById('progressBar');
+    let loading = false;
+
+    // Show preloader and animate progress
+    function showPreloader() {
+        if (!preloader || loading) return;
+        preloader.style.display = 'flex';
+        preloader.classList.remove('fade-out');
+        progressBar.style.width = '0%';
+        loading = true;
+        let stages = [
+            { progress: 20, delay: 300 },
+            { progress: 45, delay: 400 },
+            { progress: 70, delay: 600 },
+            { progress: 90, delay: 800 },
+            { progress: 100, delay: 1000 }
+        ];
+        let current = 0;
+        function animate() {
+            if (current < stages.length) {
+                setTimeout(() => {
+                    progressBar.style.width = stages[current].progress + '%';
+                    current++;
+                    animate();
+                }, stages[current].delay);
+            }
+        }
+        animate();
+    }
+
+    // Hide preloader after navigation
+    function hidePreloader() {
+        if (!preloader) return;
+        preloader.classList.add('fade-out');
+        setTimeout(() => {
+            preloader.style.display = 'none';
+            loading = false;
+        }, 800);
+    }
+
+    // Show preloader on link click
+    document.body.addEventListener('click', function(e) {
+        const target = e.target.closest('a,button,input[type="submit"]');
+        if (target && !target.hasAttribute('data-no-preloader')) {
+            // Prevent double click
+            if (target.disabled) return;
+            target.disabled = true;
+            showPreloader();
+        }
+    }, true);
+
+    // Show preloader on form submit
+    document.body.addEventListener('submit', function(e) {
+        const form = e.target;
+        if (form && !form.hasAttribute('data-no-preloader')) {
+            // Disable all submit buttons
+            Array.from(form.querySelectorAll('button, input[type="submit"]')).forEach(btn => btn.disabled = true);
+            showPreloader();
+        }
+    }, true);
+
+    // Hide preloader after page load
+    window.addEventListener('load', hidePreloader);
+
+    // Pause/resume animation on visibility change
+    document.addEventListener('visibilitychange', function() {
+        if (!preloader) return;
+        preloader.style.animationPlayState = document.hidden ? 'paused' : 'running';
+    });
+});
 // Main Application Controller
 import { supabase, authManager } from './supabase-client.js';
 import { AuthService } from './auth-service.js';
