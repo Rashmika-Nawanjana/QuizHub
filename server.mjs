@@ -263,9 +263,40 @@ app.get('/review/:attemptId', requireAuth, async (req, res) => {
 });
 
 // Main Dashboard route (protected)
+// Main Dashboard route (protected) - FIXED VERSION
 app.get('/dashboard', requireAuth, async (req, res) => {
     try {
-        const user = req.user;
+        const authUser = req.user;
+
+        // Fetch complete user data from database (like leaderboard does)
+        const { data: dbUser, error: userError } = await supabase
+            .from('users')
+            .select('id, full_name, username, avatar_url')
+            .eq('id', authUser.id)
+            .single();
+
+        if (userError) {
+            console.error('Database user fetch error:', userError);
+        }
+
+        // Helper function to get proper avatar URL (same as leaderboard)
+        const getAvatarUrl = (avatar_url) => {
+            if (!avatar_url) return '/images/avatar.jpg';
+            if (avatar_url.startsWith('http')) return avatar_url;
+            const supabaseUrl = process.env.SUPABASE_URL;
+            return `${supabaseUrl}/storage/v1/object/public/avatars/${avatar_url}`;
+        };
+
+        // Combine auth user with database user data
+        const user = {
+            ...authUser,
+            full_name: dbUser?.full_name || authUser.full_name,
+            username: dbUser?.username || authUser.username,
+            avatar_url: getAvatarUrl(dbUser?.avatar_url || authUser.avatar_url),
+            // For template compatibility, add both property names
+            name: dbUser?.full_name || dbUser?.username || authUser.full_name || authUser.username || 'User',
+            avatar: getAvatarUrl(dbUser?.avatar_url || authUser.avatar_url)
+        };
 
         // Calculate basic stats
         const { data: progressRows, error: progressError } = await supabase
@@ -280,7 +311,7 @@ app.get('/dashboard', requireAuth, async (req, res) => {
         const totalQuizzes = (progressRows || []).reduce((sum, p) => sum + (p.quizzes_completed || 0), 0);
         const allScores = (progressRows || []).map(p => p.average_score_percentage || 0);
         const averageScore = allScores.length ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : 0;
-        
+
         const stats = {
             totalQuizzes,
             averageScore,
@@ -289,7 +320,7 @@ app.get('/dashboard', requireAuth, async (req, res) => {
         };
 
         res.render('dashboard', {
-            user,
+            user,  // Now contains both auth data AND database data
             stats
         });
     } catch (err) {
