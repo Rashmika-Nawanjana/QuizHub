@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Quiz - Module Progress</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Layout Container -->
+    <div class="dashboard-layout">
+        <!-- User Profile Header -->
+        <div class="profile-header">
+            <div class="profile-info">
+                <img src="<%= user.avatar_url || '/images/avatar.jpg' %>" alt="Profile" class="profile-avatar">
+                <div class="user-details">
+                    <h2><%= user.full_name %></h2>
+                    <p>Student Dashboard</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/dashboard" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Dashboard
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Module Progress</h1>
+                <p>Track your progress across all course modules</p>
+            </div>
+        </div>
+
+        <!-- Modules Content -->
+        <div class="page-content">
+            <div class="modules-grid">
+                <% if (modules && modules.length > 0) { %>
+                    <% modules.forEach(module => { %>
+                    <div class="module-card-premium">
+                        <div class="module-background">
+                            <div class="module-icon-large">
+                                <i class="<%= module.icon %>"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="module-content">
+                            <div class="module-header">
+                                <h3><%= module.name %></h3>
+                                <span class="module-code"><%= module.code %></span>
+                            </div>
+                            <div class="module-progress-summary" style="margin: 8px 0; font-weight: 500; color: var(--text-secondary);">
+                                <span>
+                                    <i class="fas fa-clipboard-check"></i>
+                                    <%= module.completedQuizzes %> of <%= module.totalQuizzes %> quizzes completed
+                                </span>
+                                &nbsp;|&nbsp;
+                                <span>
+                                    <i class="fas fa-percentage"></i>
+                                    Avg: <%= module.averageScore %>%
+                                </span>
+                                &nbsp;|&nbsp;
+                                <span>
+                                    <i class="fas fa-trophy"></i>
+                                    Best: <%= module.bestScore %>%
+                                </span>
+                                &nbsp;|&nbsp;
+                                <span>
+                                    <i class="fas fa-clock"></i>
+                                    Time: <%= module.timeSpent %>
+                                </span>
+                            </div>
+                            
+                            <div class="progress-section">
+                                <div class="progress-info">
+                                    <span>Progress</span>
+                                    <span><%= module.progress %>%</span>
+                                </div>
+                                <div class="progress-bar-modern">
+                                    <div class="progress-fill" style="width: <%= module.progress %>%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="module-stats-grid">
+                                <div class="stat-mini">
+                                    <span class="stat-label">Completed</span>
+                                    <span class="stat-value"><%= module.completedQuizzes %>/<%= module.totalQuizzes %></span>
+                                </div>
+                                <div class="stat-mini">
+                                    <span class="stat-label">Avg Score</span>
+                                    <span class="stat-value"><%= module.averageScore %>%</span>
+                                </div>
+                                <div class="stat-mini">
+                                    <span class="stat-label">Best</span>
+                                    <span class="stat-value"><%= module.bestScore %>%</span>
+                                </div>
+                                <div class="stat-mini">
+                                    <span class="stat-label">Time</span>
+                                    <span class="stat-value"><%= module.timeSpent %></span>
+                                </div>
+                            </div>
+                            
+                            <div class="module-actions">
+                                <a class="btn-module-continue" href="/modules/<%= module.code %>">
+                                    <i class="fas fa-play"></i>
+                                    Continue
+                                </a>
+                                <button class="btn-module-history" onclick="viewHistory('<%= module.id %>')">
+                                    <i class="fas fa-history"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="empty-state">
+                        <i class="fas fa-book-open"></i>
+                        <h3>No Modules Found</h3>
+                        <p>No course modules are available at the moment.</p>
+                        <a href="/dashboard" class="btn-primary">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            window.location.href = '/logout';
+        }
+
+        function viewHistory(moduleId) {
+            window.location.href = `/modules/${moduleId}/history`;
+        }
+    </script>
+</body>
+</html>

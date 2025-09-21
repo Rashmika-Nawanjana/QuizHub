@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Quiz - Recent Attempts</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Layout Container -->
+    <div class="dashboard-layout">
+        <!-- User Profile Header -->
+        <div class="profile-header">
+            <div class="profile-info">
+                <img src="<%= user.avatar_url || '/images/avatar.jpg' %>" alt="Profile" class="profile-avatar">
+                <div class="user-details">
+                    <h2><%= user.full_name %></h2>
+                    <p>Student Dashboard</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/dashboard" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Dashboard
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Recent Quiz Attempts</h1>
+                <p>Your latest quiz performance and results</p>
+            </div>
+            <button class="btn-view-all" onclick="viewAllAttempts()">
+                View All History
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Recent Attempts Content -->
+        <div class="page-content">
+            <% const moduleNameMap = {
+                'os': 'Operating Systems',
+                'intro-ai': 'Intro to AI',
+                'database': 'Database',
+                'differential': 'Differential',
+                'networking': 'Networking',
+                'architecture': 'Architecture',
+                'statistics': 'Statistics',
+                'thermodynamics': 'Thermodynamics'
+            }; %>
+            
+            <% if (groupedRecentAttempts && groupedRecentAttempts.length > 0) { %>
+            <div class="attempts-grouped">
+                <% groupedRecentAttempts.forEach(group => { %>
+                    <div class="attempt-group">
+                        <div class="group-header">
+                            <h3><%= group.moduleName %> - <%= group.quizName %> (Quiz #: <%= group.quizNumber %>)</h3>
+                        </div>
+                        <div class="attempts-grid">
+                            <% group.attempts.forEach(attempt => { %>
+                            <div class="attempt-card">
+                                <div class="attempt-header">
+                                    <div class="quiz-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="quiz-info">
+                                        <h4>Attempt #<%= attempt.attemptNumber %></h4>
+                                    </div>
+                                    <div class="score-badge score-<%= attempt.scoreClass %>">
+                                        <%= attempt.marks %>%
+                                    </div>
+                                </div>
+                                <div class="attempt-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-calendar"></i>
+                                        <span><%= attempt.date %></span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span><%= attempt.duration %></span>
+                                    </div>
+                                </div>
+                                <div class="attempt-actions">
+                                    <a class="btn-secondary" href="/review/<%= attempt.attemptId %>">
+                                        <i class="fas fa-eye"></i>
+                                        Review
+                                    </a>
+                                    <button class="btn-primary" onclick="retakeQuiz('<%= attempt.quizId %>')">
+                                        <i class="fas fa-redo"></i>
+                                        Retake
+                                    </button>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+            <% } else if (userAttempts && userAttempts.length > 0) { %>
+            <div class="attempts-grid">
+                <% userAttempts.forEach(function(attempt, idx) { 
+                    let quizKeyParts = (attempt.quiz_key || '').split('/');
+                    let modCode = quizKeyParts[0] || 'Module';
+                    let quizNum = quizKeyParts[1] || '';
+                    let modName = moduleNameMap[modCode] || modCode.charAt(0).toUpperCase() + modCode.slice(1);
+                %>
+                    <div class="attempt-card">
+                        <div class="attempt-header">
+                            <div class="quiz-info">
+                                <h4><%= modName %> Quiz <%= quizNum %></h4>
+                                <span>Attempt #<%= attempt.attempt_number || (idx+1) %></span>
+                            </div>
+                            <div class="score-badge">
+                                <%= attempt.score_percentage %>%
+                            </div>
+                        </div>
+                        <div class="attempt-details">
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span><%= attempt.started_at ? attempt.started_at.split('T')[0] : '' %></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span><%= attempt.time_spent_seconds ? Math.floor(attempt.time_spent_seconds/60) + 'm ' + (attempt.time_spent_seconds%60) + 's' : '' %></span>
+                            </div>
+                        </div>
+                        <div class="attempt-actions">
+                            <a class="btn-secondary" href="/review/<%= attempt.id %>">
+                                <i class="fas fa-eye"></i>
+                                Review
+                            </a>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+            <% } else { %>
+            <div class="empty-state">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>No Recent Attempts</h3>
+                <p>You haven't taken any quizzes yet. Start your learning journey!</p>
+                <a href="/quiz/start" class="btn-primary">
+                    <i class="fas fa-play"></i>
+                    Start Your First Quiz
+                </a>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            window.location.href = '/logout';
+        }
+
+        function viewAllAttempts() {
+            window.location.href = '/all-attempts';
+        }
+
+        function retakeQuiz(quizId) {
+            window.location.href = `/quiz/${quizId}`;
+        }
+    </script>
+</body>
+</html>

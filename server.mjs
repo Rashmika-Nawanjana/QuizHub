@@ -251,11 +251,115 @@ app.get('/review/:attemptId', requireAuth, async (req, res) => {
     }
 });
 
-// Dashboard route (protected)
+// Main Dashboard route (protected)
 app.get('/dashboard', requireAuth, async (req, res) => {
     try {
         const user = req.user;
-        console.log('Dashboard user:', user);
+
+        // Calculate basic stats
+        const { data: progressRows, error: progressError } = await supabase
+            .from('user_progress')
+            .select('*')
+            .eq('user_id', user.id);
+
+        if (progressError) {
+            console.error('Progress fetch error:', progressError);
+        }
+
+        const totalQuizzes = (progressRows || []).reduce((sum, p) => sum + (p.quizzes_completed || 0), 0);
+        const allScores = (progressRows || []).map(p => p.average_score_percentage || 0);
+        const averageScore = allScores.length ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : 0;
+        
+        const stats = {
+            totalQuizzes,
+            averageScore,
+            totalModules: progressRows ? progressRows.length : 0,
+            streak: Math.floor(Math.random() * 10) + 1 // Random streak for demo
+        };
+
+        res.render('dashboard', {
+            user,
+            stats
+        });
+    } catch (err) {
+        console.error('Dashboard error:', err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Recent Attempts route (protected)
+app.get('/recent-attempts', requireAuth, async (req, res) => {
+    try {
+        const user = req.user;
+
+        // Fetch recent quiz attempts (with quiz and module info)
+        const { data: attempts, error: attemptsError } = await supabase
+            .from('quiz_attempts')
+            .select('*, quizzes(title, module_id), modules(display_name, name)')
+            .eq('user_id', user.id)
+            .order('started_at', { ascending: false })
+            .limit(20);
+
+        if (attemptsError) {
+            console.error('Attempts fetch error:', attemptsError);
+        }
+
+        // Fetch all attempts for the user (for card display)
+        const { data: userAttempts, error: userAttemptsError } = await supabase
+            .from('quiz_attempts')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('started_at', { ascending: false });
+
+        if (userAttemptsError) {
+            console.error('User attempts fetch error:', userAttemptsError);
+        }
+
+        // Prepare groupedRecentAttempts for EJS
+        let groupedRecentAttempts = {};
+        (attempts || []).forEach((a, idx) => {
+            const moduleKey = a.modules?.name || 'unknown';
+            const quizKey = a.quiz_id;
+            const groupKey = `${moduleKey}__${quizKey}`;
+            if (!groupedRecentAttempts[groupKey]) {
+                groupedRecentAttempts[groupKey] = {
+                    module: moduleKey,
+                    moduleName: a.modules?.display_name || 'Module',
+                    quizNumber: quizKey,
+                    quizName: a.quizzes?.title || 'Quiz',
+                    attempts: []
+                };
+            }
+            groupedRecentAttempts[groupKey].attempts.push({
+                id: a.id,
+                attemptNumber: groupedRecentAttempts[groupKey].attempts.length + 1,
+                date: a.started_at ? a.started_at.split('T')[0] : '',
+                marks: a.score_percentage || 0,
+                scoreClass: a.score_percentage >= 90 ? 'excellent' : a.score_percentage >= 75 ? 'good' : a.score_percentage >= 60 ? 'average' : 'poor',
+                duration: a.time_spent_seconds ? `${Math.floor(a.time_spent_seconds/60)}m ${a.time_spent_seconds%60}s` : '',
+                quizId: a.quiz_id,
+                attemptId: a.id
+            });
+        });
+        
+        // Convert to array for easier EJS iteration
+        groupedRecentAttempts = Object.values(groupedRecentAttempts);
+
+        res.render('recentattempts', {
+            user,
+            groupedRecentAttempts,
+            userAttempts
+        });
+    } catch (err) {
+        console.error('Recent attempts error:', err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Module Progress route (protected)
+app.get('/modules', requireAuth, async (req, res) => {
+    try {
+        const user = req.user;
 
         // Fetch all modules
         const { data: modules, error: modulesError } = await supabase
@@ -284,28 +388,6 @@ app.get('/dashboard', requireAuth, async (req, res) => {
 
         if (progressError) {
             console.error('Progress fetch error:', progressError);
-        }
-
-        // Fetch recent quiz attempts (with quiz and module info)
-        const { data: attempts, error: attemptsError } = await supabase
-            .from('quiz_attempts')
-            .select('*, quizzes(title, module_id), modules(display_name, name)')
-            .eq('user_id', user.id)
-            .order('started_at', { ascending: false });
-
-        if (attemptsError) {
-            console.error('Attempts fetch error:', attemptsError);
-        }
-
-        // Fetch all attempts for the user (for card display)
-        const { data: userAttempts, error: userAttemptsError } = await supabase
-            .from('quiz_attempts')
-            .select('*')
-            .eq('user_id', user.id)
-            .order('started_at', { ascending: false });
-
-        if (userAttemptsError) {
-            console.error('User attempts fetch error:', userAttemptsError);
         }
 
         // Map progress by module_id for quick lookup
@@ -342,51 +424,30 @@ app.get('/dashboard', requireAuth, async (req, res) => {
             };
         });
 
-        // Calculate stats
-        const totalQuizzes = (progressRows || []).reduce((sum, p) => sum + (p.quizzes_completed || 0), 0);
-        const totalModules = modules ? modules.length : 0;
-        const allScores = (progressRows || []).map(p => p.average_score_percentage || 0);
-        const averageScore = allScores.length ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : 0;
-        
-        const stats = {
-            totalQuizzes,
-            averageScore,
-            totalModules,
-            streak: 0
-        };
-
-        // Prepare groupedRecentAttempts for EJS
-        let groupedRecentAttempts = {};
-        (attempts || []).forEach((a, idx) => {
-            const moduleKey = a.modules?.name || 'unknown';
-            const quizKey = a.quiz_id;
-            const groupKey = `${moduleKey}__${quizKey}`;
-            if (!groupedRecentAttempts[groupKey]) {
-                groupedRecentAttempts[groupKey] = {
-                    module: moduleKey,
-                    moduleName: a.modules?.display_name || 'Module',
-                    quizNumber: quizKey,
-                    quizName: a.quizzes?.title || 'Quiz',
-                    attempts: []
-                };
-            }
-            groupedRecentAttempts[groupKey].attempts.push({
-                id: a.id,
-                attemptNumber: groupedRecentAttempts[groupKey].attempts.length + 1,
-                date: a.started_at ? a.started_at.split('T')[0] : '',
-                marks: a.score_percentage || 0,
-                scoreClass: a.score_percentage >= 90 ? 'excellent' : a.score_percentage >= 75 ? 'good' : a.score_percentage >= 60 ? 'average' : 'poor',
-                duration: a.time_spent_seconds ? `${Math.floor(a.time_spent_seconds/60)}m ${a.time_spent_seconds%60}s` : '',
-                quizId: a.quiz_id,
-                attemptId: a.id
-            });
+        res.render('moduleprogress', {
+            user,
+            modules: moduleProgress
         });
-        
-        // Convert to array for easier EJS iteration
-        groupedRecentAttempts = Object.values(groupedRecentAttempts);
+    } catch (err) {
+        console.error('Module progress error:', err);
+        res.status(500).send('Server error');
+    }
+});
 
-        // Achievements: keep as dummy for now
-        let achievements = [];
+// Analytics route (protected)
+app.get('/analytics', requireAuth, async (req, res) => {
+    try {
+        const user = req.user;
+
+        // Fetch user progress for analytics
+        const { data: progressRows, error: progressError } = await supabase
+            .from('user_progress')
+            .select('*')
+            .eq('user_id', user.id);
+
+        if (progressError) {
+            console.error('Progress fetch error:', progressError);
+        }
 
         // User Analytics
         const userAnalytics = {
@@ -396,7 +457,16 @@ app.get('/dashboard', requireAuth, async (req, res) => {
             bestScore: (progressRows || []).reduce((max, p) => Math.max(max, p.best_score_percentage || 0), 0)
         };
 
-        // Module Analytics
+        // Fetch all modules for analytics
+        const { data: modules, error: modulesError } = await supabase
+            .from('modules')
+            .select('*');
+
+        if (modulesError) {
+            console.error('Modules fetch error:', modulesError);
+        }
+
+        // Module Analytics (all users)
         const { data: allProgress, error: allProgressError } = await supabase
             .from('user_progress')
             .select('*');
@@ -418,18 +488,13 @@ app.get('/dashboard', requireAuth, async (req, res) => {
             };
         });
 
-        res.render('dashboard', {
+        res.render('analytics', {
             user,
-            stats,
-            modules: moduleProgress,
-            groupedRecentAttempts,
-            achievements,
-            userAttempts,
             userAnalytics,
             moduleAnalytics
         });
     } catch (err) {
-        console.error('Dashboard error:', err);
+        console.error('Analytics error:', err);
         res.status(500).send('Server error');
     }
 });

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Quiz - Performance Analytics</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Layout Container -->
+    <div class="dashboard-layout">
+        <!-- User Profile Header -->
+        <div class="profile-header">
+            <div class="profile-info">
+                <img src="<%= user.avatar_url || '/images/avatar.jpg' %>" alt="Profile" class="profile-avatar">
+                <div class="user-details">
+                    <h2><%= user.full_name %></h2>
+                    <p>Student Dashboard</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/dashboard" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Dashboard
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Performance Analytics</h1>
+                <p>Detailed insights into your quiz and module performance</p>
+            </div>
+        </div>
+
+        <!-- Analytics Content -->
+        <div class="page-content">
+            <div class="analytics-grid">
+                <!-- Personal Analytics Card -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3>Your Performance Summary</h3>
+                        <i class="fas fa-user-chart"></i>
+                    </div>
+                    <div class="analytics-user-details">
+                        <% if (userAnalytics) { %>
+                        <div class="analytics-stats">
+                            <div class="analytics-stat">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clipboard-check"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4><%= userAnalytics.totalQuizzes %></h4>
+                                    <p>Total Quizzes Completed</p>
+                                </div>
+                            </div>
+                            <div class="analytics-stat">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4><%= Math.floor(userAnalytics.totalTime/60) %>m <%= userAnalytics.totalTime%60 %>s</h4>
+                                    <p>Total Time Spent</p>
+                                </div>
+                            </div>
+                            <div class="analytics-stat">
+                                <div class="stat-icon">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4><%= userAnalytics.avgScore %>%</h4>
+                                    <p>Average Score</p>
+                                </div>
+                            </div>
+                            <div class="analytics-stat">
+                                <div class="stat-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h4><%= userAnalytics.bestScore %>%</h4>
+                                    <p>Best Score</p>
+                                </div>
+                            </div>
+                        </div>
+                        <% } else { %>
+                        <div class="empty-analytics">
+                            <i class="fas fa-chart-line"></i>
+                            <p>No analytics data available yet. Take some quizzes to see your performance insights!</p>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Module Analytics Table -->
+                <div class="analytics-card full-width">
+                    <div class="card-header">
+                        <h3>Module Analytics (All Users)</h3>
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="analytics-module-table-container">
+                        <% if (moduleAnalytics && moduleAnalytics.length > 0) { %>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Module</th>
+                                    <th>Average Score</th>
+                                    <th>Best Score</th>
+                                    <th>Total Attempts</th>
+                                    <th>Difficulty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% moduleAnalytics.forEach(m => { %>
+                                    <tr>
+                                        <td>
+                                            <div class="module-name">
+                                                <i class="fas fa-book"></i>
+                                                <%= m.module %>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="score-indicator avg-score"><%= m.avgScore %>%</span>
+                                        </td>
+                                        <td>
+                                            <span class="score-indicator best-score"><%= m.bestScore %>%</span>
+                                        </td>
+                                        <td>
+                                            <span class="attempt-count"><%= m.totalAttempts %></span>
+                                        </td>
+                                        <td>
+                                            <span class="difficulty-badge difficulty-<%= m.avgScore >= 80 ? 'easy' : m.avgScore >= 60 ? 'medium' : 'hard' %>">
+                                                <%= m.avgScore >= 80 ? 'Easy' : m.avgScore >= 60 ? 'Medium' : 'Hard' %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                        <% } else { %>
+                        <div class="empty-analytics">
+                            <i class="fas fa-database"></i>
+                            <p>No module analytics available</p>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Performance Trends Card -->
+                <div class="analytics-card chart-card">
+                    <div class="card-header">
+                        <h3>Performance Trend</h3>
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Module Breakdown Card -->
+                <div class="analytics-card chart-card">
+                    <div class="card-header">
+                        <h3>Module Score Distribution</h3>
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="moduleChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        function logout() {
+            window.location.href = '/logout';
+        }
+
+        // Sample data for charts - replace with actual data from server
+        const performanceData = {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            datasets: [{
+                label: 'Average Score',
+                data: [65, 72, 78, 82, 85],
+                borderColor: 'rgb(86, 36, 208)',
+                backgroundColor: 'rgba(86, 36, 208, 0.1)',
+                tension: 0.4
+            }]
+        };
+
+        const moduleData = {
+            labels: ['Operating Systems', 'Database', 'Networking', 'Statistics'],
+            datasets: [{
+                data: [85, 78, 92, 68],
+                backgroundColor: [
+                    'rgba(86, 36, 208, 0.8)',
+                    'rgba(164, 53, 240, 0.8)',
+                    'rgba(12, 166, 120, 0.8)',
+                    'rgba(245, 158, 11, 0.8)'
+                ]
+            }]
+        };
+
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'line',
+                data: performanceData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            const moduleCtx = document.getElementById('moduleChart').getContext('2d');
+            new Chart(moduleCtx, {
+                type: 'doughnut',
+                data: moduleData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
