@@ -18,24 +18,6 @@ export async function upsertUser(supabaseUser) {
   ], { onConflict: 'id' });
 }
 
-// Upsert user info on login (call this after successful login)
-// Example usage: await upsertUser(supabaseUser)
-export async function upsertUser(supabaseUser) {
-  if (!supabaseUser) return;
-  const { id, email, user_metadata } = supabaseUser;
-  const full_name = user_metadata?.full_name || user_metadata?.name || null;
-  const avatar_url = user_metadata?.avatar_url || user_metadata?.picture || null;
-  await supabase.from('users').upsert([
-    {
-      id,
-      email,
-      full_name,
-      avatar_url,
-      is_active: true,
-      updated_at: new Date().toISOString(),
-    }
-  ], { onConflict: 'id' });
-}
 // ---
 // How to get all user answers, quiz, and module for a given attempt:
 //
