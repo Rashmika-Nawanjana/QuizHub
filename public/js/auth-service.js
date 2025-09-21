@@ -2,6 +2,32 @@
 import { supabase, authManager } from './supabase-client.js';
 
 class AuthService {
+    // Ensure user is present in users table
+    static async ensureUserInTable(user) {
+        if (!user) return;
+        // Check if user exists
+        const { data: existing, error: fetchError } = await supabase
+            .from('users')
+            .select('id')
+            .eq('id', user.id)
+            .single();
+        if (existing) return; // Already exists
+        // Insert user if not present
+        const { error: insertError } = await supabase
+            .from('users')
+            .insert({
+                id: user.id,
+                email: user.email,
+                username: user.user_metadata?.username || user.email?.split('@')[0] || null,
+                full_name: user.user_metadata?.full_name || user.user_metadata?.name || null,
+                avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
+                role: 'student',
+                is_active: true
+            });
+        if (insertError) {
+            console.warn('ensureUserInTable insert warning:', insertError);
+        }
+    }
     // Sign up with email and password
     static async signUp({ email, password, fullName }) {
         try {
@@ -71,6 +97,8 @@ class AuthService {
                 session: data.session,
                 message: 'Login successful!'
             };
+            // Ensure user is in users table
+            await AuthService.ensureUserInTable(data.user);
         } catch (error) {
             console.error('SignIn error:', error);
             return {
@@ -233,6 +261,10 @@ class AuthService {
                 throw error;
             }
 
+            // Try to fetch user after OAuth (if available)
+            if (data?.user) {
+                await AuthService.ensureUserInTable(data.user);
+            }
             return {
                 success: true,
                 data
