@@ -349,10 +349,16 @@
 </div>
 
 <script>
-// Preloader Logic
-window.addEventListener('load', function() {
+// Function to show preloader when clicking links
+function showPreloader(event, targetUrl) {
+    event.preventDefault();
+    
     const preloader = document.getElementById('preloader');
     const progressBar = document.getElementById('progressBar');
+    
+    // Show preloader
+    preloader.style.opacity = '1';
+    preloader.style.visibility = 'visible';
     
     // Simulate loading progress
     const loadingStages = [
@@ -375,60 +381,47 @@ window.addEventListener('load', function() {
                 updateProgress();
             }, stage.delay);
         } else {
-            // Loading complete - fade out preloader
+            // Loading complete - redirect
             setTimeout(() => {
-                preloader.classList.add('fade-out');
-                
-                // Remove preloader after animation
-                setTimeout(() => {
-                    if (preloader.parentNode) {
-                        preloader.parentNode.removeChild(preloader);
-                    }
-                }, 500);
+                window.location.href = targetUrl;
             }, 300);
         }
     }
     
-    // Start loading simulation
     updateProgress();
+}
+
+// Auto-attach preloader to navigation links
+document.addEventListener('DOMContentLoaded', function() {
+    const preloader = document.getElementById('preloader');
+    
+    // Hide preloader initially
+    if (preloader) {
+        preloader.style.opacity = '0';
+        preloader.style.visibility = 'hidden';
+    }
+    
+    // Attach click handlers to navigation links
+    const navigationLinks = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"]');
+    navigationLinks.forEach(link => {
+        // Skip links that already have onclick or are dropdown toggles
+        if (!link.hasAttribute('onclick') && !link.hasAttribute('data-bs-toggle')) {
+            link.addEventListener('click', function(event) {
+                showPreloader(event, this.href);
+            });
+        }
+    });
 });
 
 // Handle page visibility change to pause/resume animations
 document.addEventListener('visibilitychange', function() {
     const preloader = document.getElementById('preloader');
-    if (preloader) {
+    if (preloader && preloader.style.visibility === 'visible') {
         if (document.hidden) {
             preloader.style.animationPlayState = 'paused';
         } else {
             preloader.style.animationPlayState = 'running';
         }
-    }
-});
-
-// Prevent flash of content before preloader shows
-document.addEventListener('DOMContentLoaded', function() {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        document.body.style.overflow = 'hidden';
-        
-        // Restore body scroll when preloader is removed
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList') {
-                    mutation.removedNodes.forEach(function(node) {
-                        if (node.id === 'preloader') {
-                            document.body.style.overflow = '';
-                            observer.disconnect();
-                        }
-                    });
-                }
-            });
-        });
-        
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
     }
 });
 </script>
