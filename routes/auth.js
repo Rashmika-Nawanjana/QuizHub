@@ -1,5 +1,6 @@
 import express from 'express';
 import supabase from '../database/supabase-client.js';
+import { upsertUser } from './quiz.js';
 
 const router = express.Router();
 
@@ -53,6 +54,12 @@ router.post('/login', async (req, res) => {
             });
         }
 
+        // Ensure user is in users table
+        try {
+            await upsertUser(data.user);
+        } catch (e) {
+            console.error('upsertUser error (login):', e);
+        }
         res.json({ 
             success: true, 
             message: 'Login successful',
@@ -105,6 +112,13 @@ router.post('/register', async (req, res) => {
                 success: false, 
                 message: 'Registration failed' 
             });
+        }
+
+        // Ensure user is in users table
+        try {
+            await upsertUser(data.user);
+        } catch (e) {
+            console.error('upsertUser error (register):', e);
         }
 
         // Check if email confirmation is required

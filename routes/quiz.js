@@ -44,8 +44,18 @@ const router = express.Router();
 
 // Save a quiz attempt and answers
 router.post('/submit', async (req, res) => {
+
   const { moduleName, quizNumber, answers, timeSpentSeconds } = req.body;
-  const userId = req.session.user.id;
+  const user = req.session.user;
+  const userId = user.id;
+
+  // Ensure user exists in users table (fixes foreign key error)
+  try {
+    await upsertUser(user);
+  } catch (e) {
+    console.error('upsertUser error:', e);
+    // Continue, as user may already exist
+  }
 
   // 1. Get module and quiz IDs
   const { data: module, error: moduleError } = await supabase
