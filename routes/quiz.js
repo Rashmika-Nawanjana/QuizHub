@@ -1,3 +1,22 @@
+// Upsert user info from Supabase Auth into app users table (only required fields)
+export async function upsertUser(supabaseUser) {
+  if (!supabaseUser) return;
+  const { id, email, user_metadata, created_at, updated_at } = supabaseUser;
+  const full_name = user_metadata?.full_name || user_metadata?.name || null;
+  const avatar_url = user_metadata?.avatar_url || user_metadata?.picture || null;
+  await supabase.from('users').upsert([
+    {
+      id,
+      email,
+      full_name,
+      avatar_url,
+      created_at: created_at || new Date().toISOString(),
+      updated_at: updated_at || new Date().toISOString(),
+      is_active: true,
+      role: 'student'
+    }
+  ], { onConflict: 'id' });
+}
 
 // Upsert user info on login (call this after successful login)
 // Example usage: await upsertUser(supabaseUser)
