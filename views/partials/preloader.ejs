@@ -360,35 +360,16 @@ function showPreloader(event, targetUrl) {
     preloader.style.opacity = '1';
     preloader.style.visibility = 'visible';
     
-    // Simulate loading progress
-    const loadingStages = [
-        { progress: 20, delay: 300 },
-        { progress: 45, delay: 600 },
-        { progress: 70, delay: 900 },
-        { progress: 90, delay: 1200 },
-        { progress: 100, delay: 1500 }
-    ];
+    // Quick progress animation (just visual feedback)
+    progressBar.style.width = '30%';
+    setTimeout(() => {
+        progressBar.style.width = '70%';
+    }, 100);
     
-    let currentStage = 0;
-    
-    function updateProgress() {
-        if (currentStage < loadingStages.length) {
-            const stage = loadingStages[currentStage];
-            
-            setTimeout(() => {
-                progressBar.style.width = stage.progress + '%';
-                currentStage++;
-                updateProgress();
-            }, stage.delay);
-        } else {
-            // Loading complete - redirect
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 300);
-        }
-    }
-    
-    updateProgress();
+    // Redirect immediately after brief visual feedback
+    setTimeout(() => {
+        window.location.href = targetUrl;
+    }, 200);
 }
 
 // Auto-attach preloader to navigation links
