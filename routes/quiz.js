@@ -1,24 +1,4 @@
-// Upsert user info from Supabase Auth into app users table (only required fields)
-// Upsert user info from Supabase Auth into app users table (supports both user_metadata and raw_user_meta_data)
-export async function upsertUser(supabaseUser) {
-  if (!supabaseUser) return;
-  const { id, email, raw_user_meta_data, user_metadata, created_at, updated_at } = supabaseUser;
-  const meta = raw_user_meta_data || user_metadata || {};
-  const full_name = meta.full_name || meta.name || null;
-  const avatar_url = meta.avatar_url || meta.picture || null;
-  await supabase.from('users').upsert([
-    {
-      id,
-      email,
-      full_name,
-      avatar_url,
-      created_at: created_at || new Date().toISOString(),
-      updated_at: updated_at || new Date().toISOString(),
-      is_active: true,
-      role: 'student'
-    }
-  ], { onConflict: 'id' });
-}
+
 
 // ---
 // How to get all user answers, quiz, and module for a given attempt:
@@ -44,6 +24,29 @@ import express from 'express';
 import supabase from '../database/supabase-client.js';
 
 const router = express.Router();
+
+
+// Upsert user info from Supabase Auth into app users table (only required fields)
+// Upsert user info from Supabase Auth into app users table (supports both user_metadata and raw_user_meta_data)
+export async function upsertUser(supabaseUser) {
+  if (!supabaseUser) return;
+  const { id, email, raw_user_meta_data, user_metadata, created_at, updated_at } = supabaseUser;
+  const meta = raw_user_meta_data || user_metadata || {};
+  const full_name = meta.full_name || meta.name || null;
+  const avatar_url = meta.avatar_url || meta.picture || null;
+  await supabase.from('users').upsert([
+    {
+      id,
+      email,
+      full_name,
+      avatar_url,
+      created_at: created_at || new Date().toISOString(),
+      updated_at: updated_at || new Date().toISOString(),
+      is_active: true,
+      role: 'student'
+    }
+  ], { onConflict: 'id' });
+}
 
 // Save a quiz attempt and answers
 router.post('/submit', async (req, res) => {
