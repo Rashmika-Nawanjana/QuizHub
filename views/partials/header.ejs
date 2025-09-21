@@ -10,17 +10,45 @@
     <link rel="stylesheet" href="/css/header.css">
     
     <style>
-        /* Premium Icon Styling */
+        /* CSS Variables for Light/Dark Mode */
+        :root {
+            --icon-bg: rgba(255, 255, 255, 0.9);
+            --icon-border: rgba(255, 255, 255, 0.95);
+            --icon-shadow: rgba(0, 0, 0, 0.08);
+            --icon-shadow-hover: rgba(86, 36, 208, 0.25);
+            --icon-shimmer: rgba(255, 255, 255, 0.6);
+            --notification-color: #5624d0;
+            --leaderboard-gradient: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --profile-gradient: linear-gradient(135deg, #5624d0 0%, #7e3ff2 100%);
+            --status-online: #10b981;
+            --notification-badge: #ef4444;
+        }
+
+        [data-theme="dark"] {
+            --icon-bg: rgba(30, 30, 50, 0.9);
+            --icon-border: rgba(60, 60, 80, 0.7);
+            --icon-shadow: rgba(0, 0, 0, 0.4);
+            --icon-shadow-hover: rgba(124, 58, 237, 0.4);
+            --icon-shimmer: rgba(255, 255, 255, 0.3);
+            --notification-color: #a78bfa;
+            --leaderboard-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            --profile-gradient: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            --status-online: #34d399;
+            --notification-badge: #f87171;
+        }
+
+        /* Premium Icon Button Base */
         .premium-icon-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            padding: 0.7rem;
-            backdrop-filter: blur(10px);
+            background: var(--icon-bg);
+            border: 1px solid var(--icon-border);
+            border-radius: 16px;
+            padding: 0.8rem;
+            backdrop-filter: blur(20px);
             box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.07),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                0 8px 32px var(--icon-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             color: var(--text-primary, #1c1d1f);
             text-decoration: none;
             position: relative;
@@ -28,117 +56,237 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 52px;
+            height: 52px;
+            border: 2px solid transparent;
         }
 
+        /* Advanced shimmer effect */
         .premium-icon-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent 0%, var(--icon-shimmer) 50%, transparent 100%);
+            opacity: 0;
             transition: all 0.6s ease;
+            animation: rotate 3s linear infinite;
         }
 
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Hover state with multiple effects */
         .premium-icon-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px) scale(1.05);
             box-shadow: 
-                0 8px 25px rgba(86, 36, 208, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+                0 16px 48px var(--icon-shadow-hover),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 0 0 2px rgba(86, 36, 208, 0.3);
             text-decoration: none;
+            border-color: rgba(86, 36, 208, 0.4);
         }
 
         .premium-icon-btn:hover::before {
-            left: 100%;
+            opacity: 1;
         }
 
-        /* Notification Icon */
+        /* Individual icon styling */
         .notification-icon {
-            color: #5624d0;
-            font-size: 1.2rem;
+            color: var(--notification-color);
+            font-size: 1.3rem;
+            filter: drop-shadow(0 2px 4px rgba(86, 36, 208, 0.3));
+            transition: all 0.3s ease;
         }
 
-        /* Leaderboard Icon */
+        .premium-icon-btn:hover .notification-icon {
+            color: #7c3aed;
+            filter: drop-shadow(0 4px 8px rgba(124, 58, 237, 0.4));
+            transform: scale(1.1);
+        }
+
         .leaderboard-icon {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            background: var(--leaderboard-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 1.2rem;
+            background-clip: text;
+            font-size: 1.3rem;
+            filter: drop-shadow(0 2px 4px rgba(255, 107, 53, 0.3));
+            transition: all 0.3s ease;
         }
 
         .premium-icon-btn:hover .leaderboard-icon {
-            background: linear-gradient(135deg, #ff8c42 0%, #ffa726 100%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 4px 8px rgba(251, 191, 36, 0.4));
+            transform: scale(1.1) rotate(5deg);
         }
 
-        /* Profile Icon */
         .profile-icon {
-            background: linear-gradient(135deg, #5624d0 0%, #7e3ff2 100%);
+            background: var(--profile-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-size: 1.3rem;
+            filter: drop-shadow(0 2px 4px rgba(86, 36, 208, 0.3));
+            transition: all 0.3s ease;
         }
 
         .premium-icon-btn:hover .profile-icon {
-            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 4px 8px rgba(139, 92, 246, 0.4));
+            transform: scale(1.1);
         }
 
-        /* Status indicator for profile */
+        /* Enhanced status indicator */
         .profile-status {
             position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 12px;
-            height: 12px;
-            background: #10b981;
+            top: 4px;
+            right: 4px;
+            width: 14px;
+            height: 14px;
+            background: var(--status-online);
             border: 2px solid white;
             border-radius: 50%;
+            box-shadow: 
+                0 2px 8px rgba(16, 185, 129, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3);
             animation: statusPulse 3s infinite;
         }
 
         @keyframes statusPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
         }
 
-        /* Notification badge styling */
+        /* Premium notification badge */
         .notification-badge {
             position: absolute;
-            top: -2px;
-            right: -2px;
-            background: #ef4444;
+            top: -4px;
+            right: -4px;
+            background: linear-gradient(135deg, var(--notification-badge) 0%, #dc2626 100%);
             color: white;
             font-size: 0.7rem;
+            font-weight: 700;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid white;
-            animation: pulse 2s infinite;
+            border: 3px solid white;
+            box-shadow: 
+                0 4px 12px rgba(239, 68, 68, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            animation: badgePulse 2s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes badgePulse {
             0% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4), 0 0 0 0 rgba(239, 68, 68, 0.4);
             }
             70% {
                 transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6), 0 0 0 8px rgba(239, 68, 68, 0);
             }
             100% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4), 0 0 0 0 rgba(239, 68, 68, 0);
             }
         }
 
-        /* Profile dropdown styling remains the same */
+        /* Active/Focus states */
+        .premium-icon-btn:active {
+            transform: translateY(-2px) scale(1.02);
+            transition: all 0.1s ease;
+        }
+
+        .premium-icon-btn:focus {
+            outline: none;
+            box-shadow: 
+                0 8px 32px var(--icon-shadow),
+                0 0 0 3px rgba(86, 36, 208, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        /* Dark mode enhancements */
+        [data-theme="dark"] .premium-icon-btn {
+            box-shadow: 
+                0 8px 32px var(--icon-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="dark"] .premium-icon-btn:hover {
+            box-shadow: 
+                0 16px 48px var(--icon-shadow-hover),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 0 2px rgba(124, 58, 237, 0.4);
+        }
+
+        [data-theme="dark"] .notification-badge {
+            border-color: #1a1a2e;
+        }
+
+        [data-theme="dark"] .profile-status {
+            border-color: #1a1a2e;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .premium-icon-btn {
+                width: 48px;
+                height: 48px;
+                padding: 0.7rem;
+            }
+            
+            .notification-icon,
+            .leaderboard-icon,
+            .profile-icon {
+                font-size: 1.2rem;
+            }
+            
+            .notification-badge {
+                width: 20px;
+                height: 20px;
+                font-size: 0.65rem;
+            }
+            
+            .profile-status {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        /* Loading animation for icons */
+        .premium-icon-btn.loading {
+            pointer-events: none;
+        }
+
+        .premium-icon-btn.loading i {
+            animation: iconSpin 1s linear infinite;
+        }
+
+        @keyframes iconSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
