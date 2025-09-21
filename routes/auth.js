@@ -1,6 +1,6 @@
 import express from 'express';
 import supabase from '../database/supabase-client.js';
-import { upsertUser } from './quiz.js';
+import { upsertUser } from '../utils/userSync.js';
 
 const router = express.Router();
 
