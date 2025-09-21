@@ -20,7 +20,7 @@
 //
 import express from 'express';
 import supabase from '../database/supabase-client.js';
-
+import { upsertUser } from '../utils/userSync.js';
 const router = express.Router();
 
 // Auth middleware to match main server pattern
@@ -52,31 +52,6 @@ async function requireAuth(req, res, next) {
 }
 
 // Upsert user info from Supabase Auth into app users table (supports both user_metadata and raw_user_meta_data)
-export async function upsertUser(supabaseUser) {
-  if (!supabaseUser) return;
-  const { id, email, raw_user_meta_data, user_metadata, created_at, updated_at } = supabaseUser;
-  const meta = raw_user_meta_data || user_metadata || {};
-  const full_name = meta.full_name || meta.name || null;
-  const avatar_url = meta.avatar_url || meta.picture || null;
-  
-  try {
-    await supabase.from('users').upsert([
-      {
-        id,
-        email,
-        full_name,
-        avatar_url,
-        created_at: created_at || new Date().toISOString(),
-        updated_at: updated_at || new Date().toISOString(),
-        is_active: true,
-        role: 'student'
-      }
-    ], { onConflict: 'id' });
-  } catch (error) {
-    console.error('User upsert error:', error);
-    throw error;
-  }
-}
 
 // Save a quiz attempt and answers
 router.post('/submit', requireAuth, async (req, res) => {

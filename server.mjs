@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from "fs";
 import cookieParser from 'cookie-parser';
+import { upsertUser } from './utils/userSync.js';
 
 const app = express();
 app.use(cookieParser());
@@ -100,7 +101,17 @@ app.get('/', async (req, res) => {
 });
 
 // Home page (main page after login)
-app.get('/home', requireAuth, (req, res) => {
+// Home page (main page after login) - with user sync
+app.get('/home', requireAuth, async (req, res) => {
+    try {
+        // Ensure user is synced to users table every time they access home
+        await upsertUser(req.user);
+        console.log(`User synced on home page access: ${req.user.email}`);
+    } catch (syncError) {
+        console.error('User sync error on home page:', syncError);
+        // Continue rendering even if sync fails
+    }
+    
     res.render('index', { title: 'Home', user: req.user });
 });
 
