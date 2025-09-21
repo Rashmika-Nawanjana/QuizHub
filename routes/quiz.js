@@ -1,5 +1,3 @@
-
-
 // ---
 // How to get all user answers, quiz, and module for a given attempt:
 //
@@ -25,8 +23,34 @@ import supabase from '../database/supabase-client.js';
 
 const router = express.Router();
 
+// Auth middleware to match main server pattern
+async function requireAuth(req, res, next) {
+    const token = req.cookies['sb-access-token'];
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized - no token' });
+    }
+    try {
+        const { data: { user }, error } = await supabase.auth.getUser(token);
+        if (error || !user) {
+            return res.status(401).json({ error: 'Unauthorized - invalid token' });
+        }
+        // Patch avatar_url to always be a public URL
+        let avatarUrl = user.avatar_url;
+        if (!avatarUrl) {
+            avatarUrl = '/images/avatar.jpg';
+        } else if (!avatarUrl.startsWith('http')) {
+            const supabaseUrl = process.env.SUPABASE_URL;
+            avatarUrl = `${supabaseUrl}/storage/v1/object/public/avatars/${avatarUrl}`;
+        }
+        user.avatar_url = avatarUrl;
+        req.user = user;
+        next();
+    } catch (err) {
+        console.error('Auth error:', err);
+        return res.status(401).json({ error: 'Unauthorized - auth error' });
+    }
+}
 
-// Upsert user info from Supabase Auth into app users table (only required fields)
 // Upsert user info from Supabase Auth into app users table (supports both user_metadata and raw_user_meta_data)
 export async function upsertUser(supabaseUser) {
   if (!supabaseUser) return;
@@ -34,25 +58,30 @@ export async function upsertUser(supabaseUser) {
   const meta = raw_user_meta_data || user_metadata || {};
   const full_name = meta.full_name || meta.name || null;
   const avatar_url = meta.avatar_url || meta.picture || null;
-  await supabase.from('users').upsert([
-    {
-      id,
-      email,
-      full_name,
-      avatar_url,
-      created_at: created_at || new Date().toISOString(),
-      updated_at: updated_at || new Date().toISOString(),
-      is_active: true,
-      role: 'student'
-    }
-  ], { onConflict: 'id' });
+  
+  try {
+    await supabase.from('users').upsert([
+      {
+        id,
+        email,
+        full_name,
+        avatar_url,
+        created_at: created_at || new Date().toISOString(),
+        updated_at: updated_at || new Date().toISOString(),
+        is_active: true,
+        role: 'student'
+      }
+    ], { onConflict: 'id' });
+  } catch (error) {
+    console.error('User upsert error:', error);
+    throw error;
+  }
 }
 
 // Save a quiz attempt and answers
-router.post('/submit', async (req, res) => {
-
+router.post('/submit', requireAuth, async (req, res) => {
   const { moduleName, quizNumber, answers, timeSpentSeconds } = req.body;
-  const user = req.session.user;
+  const user = req.user; // Using cookie-based auth like main server
   const userId = user.id;
 
   // Ensure user exists in users table (fixes foreign key error)
@@ -143,7 +172,6 @@ router.post('/submit', async (req, res) => {
       is_completed: true
     })
     .eq('id', attempt.id);
-
 
   // --- FIXED MODULE-WIDE PROGRESS LOGIC ---
   // Get total quizzes in this module
