@@ -20,7 +20,7 @@
 //
 import express from 'express';
 import supabase from '../database/supabase-client.js';
-import { upsertUser } from '../utils/userSync.js';
+
 const router = express.Router();
 
 // Auth middleware to match main server pattern
