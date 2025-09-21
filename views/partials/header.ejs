@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +8,138 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/header.css">
+    
+    <style>
+        /* Premium Icon Styling */
+        .premium-icon-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 0.7rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.07),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--text-primary, #1c1d1f);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .premium-icon-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .premium-icon-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(86, 36, 208, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .premium-icon-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Notification Icon */
+        .notification-icon {
+            color: #5624d0;
+            font-size: 1.2rem;
+        }
+
+        /* Leaderboard Icon */
+        .leaderboard-icon {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.2rem;
+        }
+
+        .premium-icon-btn:hover .leaderboard-icon {
+            background: linear-gradient(135deg, #ff8c42 0%, #ffa726 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Profile Icon */
+        .profile-icon {
+            background: linear-gradient(135deg, #5624d0 0%, #7e3ff2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.3rem;
+        }
+
+        .premium-icon-btn:hover .profile-icon {
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Status indicator for profile */
+        .profile-status {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border: 2px solid white;
+            border-radius: 50%;
+            animation: statusPulse 3s infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Notification badge styling */
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        /* Profile dropdown styling remains the same */
+    </style>
 </head>
 <body>
     
@@ -22,18 +153,22 @@
                         <span class="theme-text" id="themeText">Dark</span>
                     </button>
                 </div>
+                
                 <!-- Center: Title -->
                 <h1 class="navbar-brand mb-0 mx-auto order-2 order-md-2 text-center" style="font-size: 2rem; white-space: nowrap; flex: 1 1 0;">
                     <a href="/" class="no-style">
                         <i class="fas fa-graduation-cap me-2"></i>Mock Quiz Hub
                     </a>
                 </h1>
-                <!-- Right: Notification Bell and User Avatar/Login -->
+                
+                <!-- Right: Icons -->
                 <div class="d-flex align-items-center order-3 order-md-3 ms-auto position-relative" style="gap: 1rem;">
+                    
+                    <!-- Notification Icon -->
                     <div class="notification-container position-relative">
-                        <button class="btn btn-link p-0 position-relative" id="notificationDropdown" aria-expanded="false">
-                            <i class="fas fa-bell"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+                        <button class="premium-icon-btn" id="notificationDropdown" aria-expanded="false">
+                            <i class="fas fa-bell notification-icon"></i>
+                            <span class="notification-badge">1</span>
                         </button>
                         <div class="notification-tooltip">
                             <div class="fw-bold mb-2">Recent Updates</div>
@@ -44,37 +179,28 @@
                             <div class="dropdown-item-text text-muted small">Check back for more updates!</div>
                         </div>
                     </div>
+                    
                     <!-- Leaderboard Icon -->
-                    <a href="/leaderboard" class="btn btn-link p-0" title="Leaderboard" style="font-size: 1.5rem;">
-                        <i class="fas fa-trophy"></i>
+                    <a href="/leaderboard" class="premium-icon-btn" title="Leaderboard">
+                        <i class="fas fa-trophy leaderboard-icon"></i>
                     </a>
+                    
+                    <!-- Profile Icon -->
                     <% if (typeof user !== 'undefined' && user) { %>
-                        <div class="dropdown user-avatar-container d-flex align-items-center" style="gap: 0.25rem;">
-                            <a href="/dashboard" id="profileAvatarLink" class="premium-avatar-btn btn btn-link p-0 position-relative" style="border-radius: 50%; padding: 0.2rem; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px var(--glow), 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,215,0,0.3); border: 2px solid gold; background: linear-gradient(135deg, #fffbe6 0%, #fffde4 100%);">
-                                <img src="<%= user.avatar_url || '/images/avatar.jpg' %>" alt="Profile" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 8px var(--glow);">
-                            </a>
-                            <a href="#" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: inherit; text-decoration: none; font-size: 1.5rem; margin-left: 0.1rem;">
-                                <i class="fas fa-caret-down"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                <li><a class="dropdown-item" href="/dashboard"><i class="fas fa-user me-2"></i>Dashboard</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                            </ul>
-                        </div>
+                        <a href="/dashboard" class="premium-icon-btn">
+                            <i class="fas fa-user profile-icon"></i>
+                            <div class="profile-status"></div>
+                        </a>
                     <% } else { %>
-                        <a href="/auth/login" class="btn btn-outline-primary">Login</a>
+                        <a href="/auth/login" class="premium-icon-btn">
+                            <i class="fas fa-user profile-icon"></i>
+                        </a>
                     <% } %>
+                    
                 </div>
             </div>
         </div>
-
-         
-
     </header>
-
-    <!-- Demo content to showcase theme switching -->
-    
 
     <script>
         const themeToggle = document.getElementById('themeToggle');
