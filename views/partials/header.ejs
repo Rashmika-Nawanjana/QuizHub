@@ -7,50 +7,80 @@
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/header.css">
     
     <style>
         /* CSS Variables for Light/Dark Mode */
         :root {
-            --icon-bg: rgba(255, 255, 255, 0.9);
-            --icon-border: rgba(255, 255, 255, 0.95);
-            --icon-shadow: rgba(0, 0, 0, 0.08);
-            --icon-shadow-hover: rgba(86, 36, 208, 0.25);
+            --github-primary-bg: #ffffff;
+            --github-secondary-bg: #f6f8fa;
+            --github-border: #d0d7de;
+            --text-primary: #1c1d1f;
+            --text-secondary: #656d76;
+            --theme-button-bg: rgba(255, 255, 255, 0.9);
+            --theme-button-border: rgba(255, 255, 255, 0.95);
+            --theme-button-shadow: rgba(0, 0, 0, 0.08);
+            --theme-button-shadow-hover: rgba(86, 36, 208, 0.25);
             --icon-shimmer: rgba(255, 255, 255, 0.6);
             --notification-color: #5624d0;
             --leaderboard-gradient: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
             --profile-gradient: linear-gradient(135deg, #5624d0 0%, #7e3ff2 100%);
             --status-online: #10b981;
             --notification-badge: #ef4444;
+            --tooltip-bg: #ffffff;
+            --tooltip-border: #e1e5e9;
+            --tooltip-shadow: rgba(0, 0, 0, 0.1);
         }
 
         [data-theme="dark"] {
-            --icon-bg: rgba(30, 30, 50, 0.9);
-            --icon-border: rgba(60, 60, 80, 0.7);
-            --icon-shadow: rgba(0, 0, 0, 0.4);
-            --icon-shadow-hover: rgba(124, 58, 237, 0.4);
+            --github-primary-bg: #0d1117;
+            --github-secondary-bg: #161b22;
+            --github-border: #21262d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --theme-button-bg: rgba(30, 30, 50, 0.9);
+            --theme-button-border: rgba(60, 60, 80, 0.7);
+            --theme-button-shadow: rgba(0, 0, 0, 0.4);
+            --theme-button-shadow-hover: rgba(124, 58, 237, 0.4);
             --icon-shimmer: rgba(255, 255, 255, 0.3);
             --notification-color: #a78bfa;
             --leaderboard-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             --profile-gradient: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             --status-online: #34d399;
             --notification-badge: #f87171;
+            --tooltip-bg: #1c2128;
+            --tooltip-border: #30363d;
+            --tooltip-shadow: rgba(0, 0, 0, 0.5);
         }
 
-        /* Premium Icon Button Base */
-        .premium-icon-btn {
-            background: var(--icon-bg);
-            border: 1px solid var(--icon-border);
+        /* Body styling */
+        body {
+            background-color: var(--github-primary-bg);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        .no-style {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Premium Button Base Style */
+        .premium-btn {
+            background: var(--theme-button-bg);
+            border: 1px solid var(--theme-button-border);
             border-radius: 16px;
             padding: 0.8rem;
             backdrop-filter: blur(20px);
             box-shadow: 
-                0 8px 32px var(--icon-shadow),
+                0 8px 32px var(--theme-button-shadow),
                 inset 0 1px 0 rgba(255, 255, 255, 0.5),
                 0 1px 0 rgba(255, 255, 255, 0.6);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            color: var(--text-primary, #1c1d1f);
-            text-decoration: none;
+            color: var(--text-primary);
+            cursor: pointer;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -59,10 +89,11 @@
             width: 52px;
             height: 52px;
             border: 2px solid transparent;
+            text-decoration: none;
         }
 
         /* Advanced shimmer effect */
-        .premium-icon-btn::before {
+        .premium-btn::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -81,70 +112,85 @@
         }
 
         /* Hover state with multiple effects */
-        .premium-icon-btn:hover {
+        .premium-btn:hover {
             transform: translateY(-4px) scale(1.05);
             box-shadow: 
-                0 16px 48px var(--icon-shadow-hover),
+                0 16px 48px var(--theme-button-shadow-hover),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8),
                 0 0 0 2px rgba(86, 36, 208, 0.3);
             text-decoration: none;
             border-color: rgba(86, 36, 208, 0.4);
+            color: var(--text-primary);
         }
 
-        .premium-icon-btn:hover::before {
+        .premium-btn:hover::before {
             opacity: 1;
         }
 
-        /* Individual icon styling */
-        .notification-icon {
-            color: var(--notification-color);
-            font-size: 1.3rem;
-            filter: drop-shadow(0 2px 4px rgba(86, 36, 208, 0.3));
-            transition: all 0.3s ease;
+        /* Theme Toggle Specific Styling */
+        .theme-toggle {
+            gap: 0.6rem;
+            width: auto;
+            padding: 0.8rem 1.2rem;
+            border-radius: 16px;
         }
 
-        .premium-icon-btn:hover .notification-icon {
-            color: #7c3aed;
-            filter: drop-shadow(0 4px 8px rgba(124, 58, 237, 0.4));
+        .theme-icon {
+            font-size: 1.2rem;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            color: #5624d0 !important;
+        }
+
+        .theme-icon.switching {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .theme-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.025em;
+            color: var(--text-primary);
+        }
+
+        /* Individual icon styling - Ensuring visibility */
+        .premium-btn i {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+            display: block;
+            line-height: 1;
+        }
+
+        .notification-icon {
+            color: #5624d0 !important;
+        }
+
+        .premium-btn:hover .notification-icon {
+            color: #7c3aed !important;
             transform: scale(1.1);
         }
 
         .leaderboard-icon {
-            background: var(--leaderboard-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.3rem;
-            filter: drop-shadow(0 2px 4px rgba(255, 107, 53, 0.3));
-            transition: all 0.3s ease;
+            color: #ff6b35 !important;
         }
 
-        .premium-icon-btn:hover .leaderboard-icon {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 4px 8px rgba(251, 191, 36, 0.4));
+        .premium-btn:hover .leaderboard-icon {
+            color: #fbbf24 !important;
             transform: scale(1.1) rotate(5deg);
         }
 
         .profile-icon {
-            background: var(--profile-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.3rem;
-            filter: drop-shadow(0 2px 4px rgba(86, 36, 208, 0.3));
-            transition: all 0.3s ease;
+            color: #5624d0 !important;
         }
 
-        .premium-icon-btn:hover .profile-icon {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 4px 8px rgba(139, 92, 246, 0.4));
+        .premium-btn:hover .profile-icon {
+            color: #8b5cf6 !important;
             transform: scale(1.1);
+        }
+
+        .theme-icon {
+            color: #5624d0 !important;
         }
 
         /* Enhanced status indicator */
@@ -211,31 +257,123 @@
             }
         }
 
+        /* Notification Tooltip */
+        .notification-container {
+            position: relative;
+        }
+
+        .notification-tooltip {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: var(--tooltip-bg);
+            border: 1px solid var(--tooltip-border);
+            border-radius: 12px;
+            padding: 1rem;
+            min-width: 280px;
+            box-shadow: 
+                0 12px 32px var(--tooltip-shadow),
+                0 2px 8px rgba(0, 0, 0, 0.08);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+        }
+
+        .notification-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            background: var(--tooltip-bg);
+            border: 1px solid var(--tooltip-border);
+            border-bottom: none;
+            border-right: none;
+            transform: rotate(45deg);
+        }
+
+        .notification-container:hover .notification-tooltip,
+        .notification-container:focus-within .notification-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .notification-tooltip .fw-bold {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-tooltip .small {
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .dropdown-divider {
+            border-color: var(--github-border);
+            margin: 0.5rem 0;
+        }
+
+        .dropdown-item-text {
+            color: var(--text-secondary) !important;
+        }
+
         /* Active/Focus states */
-        .premium-icon-btn:active {
+        .premium-btn:active {
             transform: translateY(-2px) scale(1.02);
             transition: all 0.1s ease;
         }
 
-        .premium-icon-btn:focus {
+        .premium-btn:focus {
             outline: none;
             box-shadow: 
-                0 8px 32px var(--icon-shadow),
+                0 8px 32px var(--theme-button-shadow),
                 0 0 0 3px rgba(86, 36, 208, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
 
-        /* Dark mode enhancements */
-        [data-theme="dark"] .premium-icon-btn {
+        /* Dark mode icon adjustments */
+        [data-theme="dark"] .notification-icon {
+            color: #a78bfa !important;
+        }
+
+        [data-theme="dark"] .premium-btn:hover .notification-icon {
+            color: #c4b5fd !important;
+        }
+
+        [data-theme="dark"] .leaderboard-icon {
+            color: #fbbf24 !important;
+        }
+
+        [data-theme="dark"] .premium-btn:hover .leaderboard-icon {
+            color: #fcd34d !important;
+        }
+
+        [data-theme="dark"] .profile-icon {
+            color: #a78bfa !important;
+        }
+
+        [data-theme="dark"] .premium-btn:hover .profile-icon {
+            color: #c4b5fd !important;
+        }
+
+        [data-theme="dark"] .theme-icon {
+            color: #a78bfa !important;
+        }
             box-shadow: 
-                0 8px 32px var(--icon-shadow),
+                0 8px 32px var(--theme-button-shadow),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
                 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
-        [data-theme="dark"] .premium-icon-btn:hover {
+        [data-theme="dark"] .premium-btn:hover {
             box-shadow: 
-                0 16px 48px var(--icon-shadow-hover),
+                0 16px 48px var(--theme-button-shadow-hover),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2),
                 0 0 0 2px rgba(124, 58, 237, 0.4);
         }
@@ -250,15 +388,20 @@
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .premium-icon-btn {
+            .premium-btn {
                 width: 48px;
                 height: 48px;
                 padding: 0.7rem;
             }
             
+            .theme-toggle {
+                padding: 0.7rem 1rem;
+            }
+            
             .notification-icon,
             .leaderboard-icon,
-            .profile-icon {
+            .profile-icon,
+            .theme-icon {
                 font-size: 1.2rem;
             }
             
@@ -272,14 +415,19 @@
                 width: 12px;
                 height: 12px;
             }
+
+            .notification-tooltip {
+                min-width: 260px;
+                right: -20px;
+            }
         }
 
         /* Loading animation for icons */
-        .premium-icon-btn.loading {
+        .premium-btn.loading {
             pointer-events: none;
         }
 
-        .premium-icon-btn.loading i {
+        .premium-btn.loading i {
             animation: iconSpin 1s linear infinite;
         }
 
@@ -296,7 +444,7 @@
             <div class="d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap" style="gap: 1rem; min-height: 56px;">
                 <!-- Left: Theme Toggle -->
                 <div class="theme-toggle-container order-1 order-md-1">
-                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <button class="premium-btn theme-toggle" id="themeToggle" aria-label="Toggle theme">
                         <i class="theme-icon fas fa-moon" id="themeIcon"></i>
                         <span class="theme-text" id="themeText">Dark</span>
                     </button>
@@ -313,42 +461,44 @@
                 <div class="d-flex align-items-center order-3 order-md-3 ms-auto position-relative" style="gap: 1rem;">
                     
                     <!-- Notification Icon -->
-                    <div class="notification-container position-relative">
-                        <button class="premium-icon-btn" id="notificationDropdown" aria-expanded="false">
+                    <div class="notification-container">
+                        <button class="premium-btn" id="notificationDropdown" aria-expanded="false" title="Notifications">
                             <i class="fas fa-bell notification-icon"></i>
-                            <span class="notification-badge">1</span>
+                            <span class="notification-badge">3</span>
                         </button>
                         <div class="notification-tooltip">
                             <div class="fw-bold mb-2">Recent Updates</div>
-                            <div class="small mb-1">Added: OS Mid 1 Quiz</div>
-                            <div class="small mb-1">Added: OS Mid 2 Quiz</div>
-                            <div class="small mb-1">Added: OS Lab 1 Quiz</div>
-                            <div class="dropdown-divider my-1"></div>
-                            <div class="dropdown-item-text text-muted small">Check back for more updates!</div>
+                            <div class="small mb-1">• Added: OS Mid 1 Quiz</div>
+                            <div class="small mb-1">• Added: OS Mid 2 Quiz</div>
+                            <div class="small mb-1">• Added: OS Lab 1 Quiz</div>
+                            <div class="dropdown-divider my-2"></div>
+                            <div class="dropdown-item-text small">Check back for more updates!</div>
                         </div>
                     </div>
                     
                     <!-- Leaderboard Icon -->
-                    <a href="/leaderboard" class="premium-icon-btn" title="Leaderboard">
+                    <a href="/leaderboard" class="premium-btn" title="Leaderboard">
                         <i class="fas fa-trophy leaderboard-icon"></i>
                     </a>
                     
                     <!-- Profile Icon -->
-                    <% if (typeof user !== 'undefined' && user) { %>
-                        <a href="/dashboard" class="premium-icon-btn">
-                            <i class="fas fa-user profile-icon"></i>
-                            <div class="profile-status"></div>
-                        </a>
-                    <% } else { %>
-                        <a href="/auth/login" class="premium-icon-btn">
-                            <i class="fas fa-user profile-icon"></i>
-                        </a>
-                    <% } %>
+                    <a href="/dashboard" class="premium-btn" title="Profile">
+                        <i class="fas fa-user profile-icon"></i>
+                        <div class="profile-status"></div>
+                    </a>
                     
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Demo Content -->
+    <main class="container py-5">
+        <div class="text-center">
+            <h2 class="mb-4">Premium Header Demo</h2>
+            <p class="text-muted">Hover over the notification bell to see the tooltip. All icons now have premium styling matching the theme toggle!</p>
+        </div>
+    </main>
 
     <script>
         const themeToggle = document.getElementById('themeToggle');
@@ -389,6 +539,14 @@
             setTimeout(() => {
                 themeIcon.classList.remove('switching');
             }, 600);
+        });
+
+        // Optional: Click outside to close tooltip
+        document.addEventListener('click', (e) => {
+            const notificationContainer = document.querySelector('.notification-container');
+            if (!notificationContainer.contains(e.target)) {
+                // Tooltip will hide automatically due to :hover pseudo-class
+            }
         });
     </script>
 </body>
