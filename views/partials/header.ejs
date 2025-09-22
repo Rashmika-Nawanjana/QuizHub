@@ -365,6 +365,8 @@
         [data-theme="dark"] .theme-icon {
             color: #a78bfa !important;
         }
+
+        [data-theme="dark"] .premium-btn {
             box-shadow: 
                 0 8px 32px var(--theme-button-shadow),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
@@ -388,37 +390,115 @@
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .d-flex.align-items-center.justify-content-between {
+                gap: 0.5rem !important;
+            }
+            
             .premium-btn {
-                width: 48px;
-                height: 48px;
-                padding: 0.7rem;
+                width: 44px;
+                height: 44px;
+                padding: 0.6rem;
             }
             
             .theme-toggle {
-                padding: 0.7rem 1rem;
+                padding: 0.6rem 0.8rem;
+                gap: 0.4rem;
+            }
+            
+            .theme-text {
+                font-size: 0.8rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem !important;
+                text-align: center;
+            }
+            
+            .navbar-brand i {
+                display: none; /* Hide graduation cap icon on mobile for more space */
             }
             
             .notification-icon,
             .leaderboard-icon,
             .profile-icon,
             .theme-icon {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .notification-badge {
-                width: 20px;
-                height: 20px;
-                font-size: 0.65rem;
+                width: 18px;
+                height: 18px;
+                font-size: 0.6rem;
+                top: -3px;
+                right: -3px;
             }
             
             .profile-status {
-                width: 12px;
-                height: 12px;
+                width: 10px;
+                height: 10px;
+                top: 2px;
+                right: 2px;
             }
 
             .notification-tooltip {
-                min-width: 260px;
-                right: -20px;
+                min-width: 240px;
+                right: -30px;
+                padding: 0.8rem;
+            }
+            
+            .notification-tooltip::before {
+                right: 40px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            .d-flex.align-items-center.justify-content-between {
+                gap: 0.25rem !important;
+            }
+            
+            .premium-btn {
+                width: 40px;
+                height: 40px;
+                padding: 0.5rem;
+            }
+            
+            .theme-toggle {
+                padding: 0.5rem 0.7rem;
+            }
+            
+            .theme-text {
+                display: none; /* Hide theme text on very small screens */
+            }
+            
+            .navbar-brand {
+                font-size: 1.3rem !important;
+            }
+            
+            .notification-icon,
+            .leaderboard-icon,
+            .profile-icon,
+            .theme-icon {
+                font-size: 1rem;
+            }
+            
+            .notification-tooltip {
+                min-width: 200px;
+                right: -50px;
+                font-size: 0.85rem;
+            }
+            
+            .notification-tooltip::before {
+                right: 60px;
             }
         }
 
