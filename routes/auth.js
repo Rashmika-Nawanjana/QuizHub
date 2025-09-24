@@ -364,7 +364,7 @@ router.post('/oauth-session', (req, res) => {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
-    maxAge: parseInt(expires_in || '3600', 10) * 1000
+    maxAge: parseInt(expires_in || '604800', 10) * 1000
   });
   if (refresh_token) {
     res.cookie('sb-refresh-token', refresh_token, {
