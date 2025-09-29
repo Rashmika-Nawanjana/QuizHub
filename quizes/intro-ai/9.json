@@ -1,0 +1,722 @@
+[
+  {
+    "id": "q1",
+    "text": "What is the primary definition of planning in AI?",
+    "options": [
+      "A method for reactive decision-making based on immediate stimuli",
+      "The task of coming up with a sequence of actions that will achieve a goal",
+      "A technique for pattern recognition in complex environments",
+      "A process of learning from past experiences without future goals"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Planning is defined as the task of coming up with a sequence of actions that will achieve a goal, distinguishing it from purely reactive approaches."
+  },
+  {
+    "id": "q2",
+    "text": "Which characteristic distinguishes agents with planning capabilities from pure reactive agents?",
+    "options": [
+      "Planning agents respond faster to environmental changes",
+      "Planning agents can look ahead and determine sequences of actions to achieve goals",
+      "Reactive agents are always better in all situations",
+      "Planning agents require less computational resources"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Agents with planning capabilities differ from pure reactive agents in their ability to look ahead and determine action sequences, rather than simply reacting to current stimuli."
+  },
+  {
+    "id": "q3",
+    "text": "Which of the following is NOT mentioned as an application of planning in the lecture?",
+    "options": [
+      "Mobile robots",
+      "Hubble Space Telescope scheduler",
+      "Social media content recommendation",
+      "Software test case generation"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture lists mobile robots, Hubble Space Telescope scheduling, and software test case generation as applications, but does not mention social media content recommendation."
+  },
+  {
+    "id": "q4",
+    "text": "What type of planning problem is the focus of this lecture?",
+    "options": [
+      "Stochastic planning with uncertain outcomes",
+      "Classical planning with deterministic, fully observable, static and discrete situations",
+      "Continuous planning with dynamic environments",
+      "Partially observable planning with hidden states"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture restricts discussion to Classical Planning, which involves deterministic, fully observable, static and discrete situations."
+  },
+  {
+    "id": "q5",
+    "text": "In the context of classical planning, what does 'static' mean?",
+    "options": [
+      "The environment never changes under any circumstances",
+      "Changes occur only when the agent acts",
+      "The agent cannot move or take actions",
+      "All objects remain in fixed positions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In classical planning, 'static' means that changes occur only when the agent acts, not through external factors."
+  },
+  {
+    "id": "q6",
+    "text": "What are the four main components given in a planning problem?",
+    "options": [
+      "State, action, reward, and policy",
+      "Initial state, goal description, possible actions, and state representation",
+      "Sensors, actuators, controller, and environment",
+      "Input, processing, output, and feedback"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A planning problem is given: a state representation, an initial state, a goal description, and a set of possible actions."
+  },
+  {
+    "id": "q7",
+    "text": "What does a planning problem ask you to find?",
+    "options": [
+      "The optimal state representation for the domain",
+      "A sequence of actions to go from initial state to a goal state",
+      "The shortest path in physical space",
+      "The maximum reward achievable"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The planning problem asks to find a sequence of actions that takes the system from the initial state to a state where the goal is achieved."
+  },
+  {
+    "id": "q8",
+    "text": "What does PDDL stand for?",
+    "options": [
+      "Procedural Domain Definition Language",
+      "Planning Domain Definition Language",
+      "Parallel Data Description Language",
+      "Predictive Decision Design Language"
+    ],
+    "correctAnswer": 1,
+    "explanation": "PDDL stands for Planning Domain Definition Language, which is the basic language of classical planners."
+  },
+  {
+    "id": "q9",
+    "text": "According to the lecture, a good planning language should be:",
+    "options": [
+      "As expressive as possible regardless of efficiency",
+      "Expressive enough to describe problems and restrictive enough for efficient algorithms",
+      "Simple enough that only basic problems can be represented",
+      "Compatible with all programming languages"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The language should be expressive enough to describe a variety of problems, yet restrictive enough to let efficient algorithms operate on it."
+  },
+  {
+    "id": "q10",
+    "text": "In PDDL syntax, how is a state represented?",
+    "options": [
+      "As a disjunction of literals",
+      "As a conjunction of ground atomic fluents",
+      "As a probability distribution over possible states",
+      "As a tree structure of nested predicates"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In PDDL, state representation uses a conjunction of ground atomic fluents."
+  },
+  {
+    "id": "q11",
+    "text": "Which of the following is a valid type of literal in PDDL?",
+    "options": [
+      "Higher-order logic predicates",
+      "Propositional and first-order literals",
+      "Fuzzy logic statements",
+      "Temporal logic expressions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "PDDL literals can be propositional (like Poor∧Unknown) or first-order (like At(Plane1, Sydney))."
+  },
+  {
+    "id": "q12",
+    "text": "What restriction applies to first-order literals in PDDL?",
+    "options": [
+      "They must contain at least one function",
+      "They must be ground and function-free",
+      "They can only use universal quantifiers",
+      "They must reference exactly two objects"
+    ],
+    "correctAnswer": 1,
+    "explanation": "First-order literals in PDDL must be ground (no unbound variables) and function-free (no function symbols like Father(Fred))."
+  },
+  {
+    "id": "q13",
+    "text": "What does the closed-world assumption mean in PDDL?",
+    "options": [
+      "The planning domain is limited to indoor environments",
+      "Whatever is not mentioned is assumed to be false",
+      "No new information can be added during planning",
+      "All states must be explicitly enumerated"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The closed-world assumption means that whatever is not explicitly mentioned in the state is assumed to be false."
+  },
+  {
+    "id": "q14",
+    "text": "How is a goal represented in PDDL?",
+    "options": [
+      "As a complete specification of all state variables",
+      "As a partially specified state",
+      "As a probability distribution over desired outcomes",
+      "As a sequence of required actions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A goal in PDDL is represented as a partially specified state, containing only the literals that must be true."
+  },
+  {
+    "id": "q15",
+    "text": "When does a propositional state s satisfy a goal g in PDDL?",
+    "options": [
+      "When s and g are identical",
+      "When s contains all the atoms of g",
+      "When g contains all the atoms of s",
+      "When s and g share at least one atom"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A state s satisfies goal g if s contains all the atoms of g. For example, (Rich∧Famous∧Happy) satisfies (Rich∧Famous)."
+  },
+  {
+    "id": "q16",
+    "text": "What are the two main components of an action schema in PDDL?",
+    "options": [
+      "Cost and duration",
+      "Preconditions and effects",
+      "Variables and constants",
+      "Input and output"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An action schema in PDDL contains preconditions (what must hold to execute the action) and effects (changes caused by the action)."
+  },
+  {
+    "id": "q17",
+    "text": "What do preconditions in an action schema specify?",
+    "options": [
+      "The cost of executing the action",
+      "What must hold in a state for the action to be executable",
+      "The time required to complete the action",
+      "The probability of action success"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Preconditions specify what must hold in the current state for the action to be executable."
+  },
+  {
+    "id": "q18",
+    "text": "In the Fly action example, what is included in the EFFECT clause?",
+    "options": [
+      "The plane gains fuel",
+      "¬At(p, from) ∧ At(p, to)",
+      "The plane changes altitude",
+      "Passengers board and disembark"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The EFFECT of the Fly action is ¬At(p, from) ∧ At(p, to), indicating the plane is no longer at the origin and is now at the destination."
+  },
+  {
+    "id": "q19",
+    "text": "What type of literals should appear in the preconditions of a PDDL action?",
+    "options": [
+      "Any combination of positive and negative literals",
+      "Conjunction of function-free positive literals",
+      "Disjunctions with at least one negative literal",
+      "Probabilistic statements about state variables"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Preconditions in PDDL should be a conjunction of function-free positive literals, with variables appearing in the parameter list."
+  },
+  {
+    "id": "q20",
+    "text": "What can the effects of an action be broken into?",
+    "options": [
+      "Immediate and delayed effects",
+      "Add list and delete list",
+      "Primary and secondary effects",
+      "Local and global effects"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The effects of an action can be broken into an add list (positive literals added) and a delete list (negative literals removed)."
+  },
+  {
+    "id": "q21",
+    "text": "When is an action applicable in PDDL semantics?",
+    "options": [
+      "When it appears first in the action list",
+      "In any state that satisfies the precondition",
+      "Only when explicitly called by the planner",
+      "When all other actions have been tried"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An action is applicable in any state that satisfies the precondition of the action."
+  },
+  {
+    "id": "q22",
+    "text": "How is applicability of an action established in PDDL?",
+    "options": [
+      "By random selection from available actions",
+      "By finding a substitution that makes the state satisfy the precondition",
+      "By checking if the action name matches the goal",
+      "By verifying the action has no negative effects"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Applicability is established by finding a substitution (like {p/P1, from/JFK, to/SFO}) that makes the current state satisfy the action's precondition."
+  },
+  {
+    "id": "q23",
+    "text": "What happens to literals not mentioned in an action's effects when the action is executed?",
+    "options": [
+      "They are all set to false",
+      "They remain unchanged",
+      "They become undefined",
+      "They are randomly modified"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The assumption is that every literal not mentioned in the effect remains unchanged, which helps avoid the frame problem."
+  },
+  {
+    "id": "q24",
+    "text": "What is a solution to a planning problem in PDDL?",
+    "options": [
+      "Any sequence of valid actions",
+      "An action sequence that results in a state satisfying the goal",
+      "The shortest possible action sequence",
+      "A state that contains all possible literals"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A solution is an action sequence that, when executed from the initial state, results in a state that satisfies the goal."
+  },
+  {
+    "id": "q25",
+    "text": "What problem does the assumption about unchanged literals help avoid?",
+    "options": [
+      "The halting problem",
+      "The frame problem",
+      "The binding problem",
+      "The qualification problem"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The assumption that literals not mentioned in effects remain unchanged helps avoid the frame problem."
+  },
+  {
+    "id": "q26",
+    "text": "What does ADL stand for?",
+    "options": [
+      "Advanced Decision Logic",
+      "Action Description Language",
+      "Automated Domain Learning",
+      "Agent Definition Language"
+    ],
+    "correctAnswer": 1,
+    "explanation": "ADL stands for Action Description Language, which is a more expressive variant of STRIPS."
+  },
+  {
+    "id": "q27",
+    "text": "Why was ADL developed according to the lecture?",
+    "options": [
+      "STRIPS was too slow for practical applications",
+      "STRIPS was not sufficiently expressive",
+      "STRIPS required too much memory",
+      "STRIPS was incompatible with modern systems"
+    ],
+    "correctAnswer": 1,
+    "explanation": "ADL was developed because it was noted that STRIPS is not sufficiently expressive for many planning problems."
+  },
+  {
+    "id": "q28",
+    "text": "In ADL, what type information is included in the Fly action that wasn't explicitly in STRIPS?",
+    "options": [
+      "Timing constraints",
+      "Type declarations (p:Plane, from:Airport, to:Airport)",
+      "Cost functions",
+      "Probability distributions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "ADL includes type declarations like 'p:Plane, from:Airport, to:Airport' which makes the representation more explicit than STRIPS."
+  },
+  {
+    "id": "q29",
+    "text": "What additional constraint appears in the ADL version of Fly that simplifies the STRIPS version?",
+    "options": [
+      "The plane must have fuel",
+      "The constraint (from ≠ to)",
+      "The airports must be on the same continent",
+      "The plane must be empty"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The ADL version includes the constraint (from ≠ to), explicitly preventing flying from an airport to itself."
+  },
+  {
+    "id": "q30",
+    "text": "Which planning algorithm category uses nodes representing states of the world?",
+    "options": [
+      "Plan space search",
+      "State-space search",
+      "Logic-based planning",
+      "Hierarchical task networks"
+    ],
+    "correctAnswer": 1,
+    "explanation": "State-space search algorithms use nodes that represent states of the world, with transitions representing actions."
+  },
+  {
+    "id": "q31",
+    "text": "What are the two main types of state-space search mentioned?",
+    "options": [
+      "Breadth-first and depth-first search",
+      "Forward and backward state-space search",
+      "Best-first and greedy search",
+      "Informed and uninformed search"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The two main types of state-space search are forward state-space search (progression) and backward state-space search (regression)."
+  },
+  {
+    "id": "q32",
+    "text": "What is another name for forward state-space search?",
+    "options": [
+      "Regression planning",
+      "Progression planning",
+      "Reverse planning",
+      "Goal-directed planning"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Forward state-space search is also called progression planning because it progresses forward from the initial state."
+  },
+  {
+    "id": "q33",
+    "text": "In forward state-space search, which actions are applicable in a given state?",
+    "options": [
+      "Only actions that directly achieve the goal",
+      "All actions whose preconditions are satisfied",
+      "Actions randomly selected by the planner",
+      "Actions with the lowest cost"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In forward search, all actions whose preconditions are satisfied in the current state are applicable."
+  },
+  {
+    "id": "q34",
+    "text": "How is a successor state determined in forward state-space search?",
+    "options": [
+      "By randomly modifying the current state",
+      "By adding positive effect literals and deleting negative effect literals",
+      "By selecting the state closest to the goal",
+      "By reversing all literals in the current state"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The successor state is determined by adding the positive effect literals and deleting the negative effect literals from the current state."
+  },
+  {
+    "id": "q35",
+    "text": "What property guarantees that any plan returned by forward search is a solution?",
+    "options": [
+      "Completeness",
+      "Soundness",
+      "Optimality",
+      "Admissibility"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Forward search is sound, meaning any plan it returns is guaranteed to be a solution."
+  },
+  {
+    "id": "q36",
+    "text": "What property of forward search guarantees that a solution will be found if one exists?",
+    "options": [
+      "Soundness",
+      "Completeness",
+      "Optimality",
+      "Consistency"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Forward search is complete, meaning if a solution exists, at least one of its nondeterministic traces will return a solution."
+  },
+  {
+    "id": "q37",
+    "text": "Which of the following is NOT mentioned as a deterministic implementation of state-space search?",
+    "options": [
+      "Breadth-first search",
+      "A* search",
+      "Simulated annealing",
+      "Greedy search"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture mentions breadth-first, depth-first, best-first (A*), and greedy search, but not simulated annealing."
+  },
+  {
+    "id": "q38",
+    "text": "How can loop checking be implemented in planning?",
+    "options": [
+      "By limiting the maximum number of actions",
+      "By keeping a record of the state sequence and checking for repeated or subsumed states",
+      "By always choosing the shortest action sequence",
+      "By randomizing action selection"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Loop checking can be done by keeping a record of the state sequence and checking if a state has been repeated or if sk ⊆ si for some earlier state."
+  },
+  {
+    "id": "q39",
+    "text": "What is a major problem with forward state-space search?",
+    "options": [
+      "It cannot find optimal solutions",
+      "It has a large branching factor due to many applicable actions that don't progress toward the goal",
+      "It requires exponential memory",
+      "It can only solve propositional planning problems"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Forward search has a large branching factor because it considers many applicable actions that don't necessarily progress toward the goal."
+  },
+  {
+    "id": "q40",
+    "text": "In the Blocks World domain, which of the following is NOT a mentioned predicate?",
+    "options": [
+      "on(a, b)",
+      "clear(a)",
+      "weight(a)",
+      "Holding(a)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The mentioned predicates are Holding(a), handEmpty, onTable(a), on(a,b), and clear(a). Weight is not mentioned."
+  },
+  {
+    "id": "q41",
+    "text": "What constraint exists in the Blocks World regarding picking up blocks?",
+    "options": [
+      "Blocks can be picked up in any configuration",
+      "Cannot pick up a block that has another one on it",
+      "Can pick up multiple blocks simultaneously",
+      "Blocks must be picked up in alphabetical order"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In the Blocks World, the robot arm cannot pick up a block that has another block on top of it."
+  },
+  {
+    "id": "q42",
+    "text": "According to the Blocks World slides, approximately how many states exist for Blocks World size 5?",
+    "options": [
+      "Around 100 states",
+      "Around 1,000 states",
+      "Around 10,000 states",
+      "Around 100,000 states"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The slides show that Blocks World size 5 has approximately 10,000 states, demonstrating exponential growth in state space."
+  },
+  {
+    "id": "q43",
+    "text": "What are the two categories of solutions to handle forward search inefficiency?",
+    "options": [
+      "Hardware acceleration and parallel processing",
+      "Domain-specific and domain-independent approaches",
+      "Deterministic and stochastic methods",
+      "Complete and incomplete search strategies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Solutions include domain-specific approaches (search control rules, heuristics) and domain-independent approaches (heuristics automatically generated from problem description)."
+  },
+  {
+    "id": "q44",
+    "text": "What is the role of a heuristic function in planning?",
+    "options": [
+      "To guarantee finding the optimal solution",
+      "To estimate distance from a state to the goal and guide search",
+      "To generate all possible action sequences",
+      "To verify the correctness of a plan"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A heuristic function estimates the distance from the current state to the goal and guides the search toward more promising states."
+  },
+  {
+    "id": "q45",
+    "text": "Which search strategy is mentioned as being able to make use of heuristics?",
+    "options": [
+      "Depth-first search",
+      "A* search",
+      "Breadth-first search",
+      "Uniform-cost search"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A* is mentioned as an example of a search strategy that can make use of heuristics effectively."
+  },
+  {
+    "id": "q46",
+    "text": "What are the two distinct objectives for heuristic selection mentioned in the lecture?",
+    "options": [
+      "Speed and accuracy",
+      "Find a solution quickly and find a good (cheap) solution",
+      "Completeness and soundness",
+      "Memory efficiency and time efficiency"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The two objectives are to find a solution quickly versus finding a good (cheap) solution, which may require different heuristics."
+  },
+  {
+    "id": "q47",
+    "text": "In the heuristic comparison example, which node would be chosen if seeking a quick solution?",
+    "options": [
+      "The node with accumulated cost 50 and estimated distance 10",
+      "The node with accumulated cost 5 and estimated distance 30",
+      "Either node with equal probability",
+      "Neither node, start over"
+    ],
+    "correctAnswer": 0,
+    "explanation": "For a quick solution, choose the node with lower estimated distance to goal (10), even though its accumulated cost is higher (50)."
+  },
+  {
+    "id": "q48",
+    "text": "How do domain-independent heuristics typically decide how close a state is to the goal?",
+    "options": [
+      "By measuring physical distance",
+      "By counting how many facts are different from the goal",
+      "By estimating time to completion",
+      "By calculating resource consumption"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Domain-independent heuristics often count how many facts are different between the current state and the goal state."
+  },
+  {
+    "id": "q49",
+    "text": "What is another name for backward state-space search?",
+    "options": [
+      "Progression planning",
+      "Regression planning",
+      "Forward planning",
+      "Reactive planning"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Backward state-space search is also called regression planning because it regresses backward from the goal."
+  },
+  {
+    "id": "q50",
+    "text": "What is the main advantage of backward search over forward search?",
+    "options": [
+      "It requires less memory",
+      "It generates only relevant actions",
+      "It is faster in all cases",
+      "It guarantees optimal solutions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Backward search generates only relevant actions because it only considers actions that achieve one of the goal conjuncts."
+  },
+  {
+    "id": "q51",
+    "text": "When is an action considered relevant to a conjunctive goal in backward search?",
+    "options": [
+      "When it has the lowest cost",
+      "When it achieves at least one of the conjuncts of the goal",
+      "When it has no negative effects",
+      "When it appears first in the action list"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An action is relevant to a conjunctive goal if it achieves one of the conjuncts of the goal."
+  },
+  {
+    "id": "q52",
+    "text": "What important constraint must actions satisfy in backward search?",
+    "options": [
+      "Actions must be executed in alphabetical order",
+      "Actions must not undo any desired literals (must be consistent)",
+      "Actions must have identical costs",
+      "Actions must come from the same action schema"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In backward search, actions must be chosen such that they are consistent and do not undo any desired literals."
+  },
+  {
+    "id": "q53",
+    "text": "For an action to be relevant for a goal g, what must be true?",
+    "options": [
+      "The action must have no preconditions",
+      "The action must make at least one of g's literals true and not make any false",
+      "The action must achieve all of g's literals simultaneously",
+      "The action must be the cheapest available action"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An action is relevant if g ∩ effects(a) ≠ ∅ (makes at least one literal true) and doesn't make any of g's literals false."
+  },
+  {
+    "id": "q54",
+    "text": "What is the formula for computing the new set of subgoals γ⁻¹(g,a) in backward search?",
+    "options": [
+      "γ⁻¹(g,a) = g ∪ effects(a)",
+      "γ⁻¹(g,a) = (g - effects(a)) ∪ precond(a)",
+      "γ⁻¹(g,a) = precond(a) - effects(a)",
+      "γ⁻¹(g,a) = g ∩ precond(a)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "If action a is relevant for goal g, then γ⁻¹(g,a) = (g - effects(a)) ∪ precond(a)."
+  },
+  {
+    "id": "q55",
+    "text": "What problem does backward search still face despite generating only relevant actions?",
+    "options": [
+      "It cannot find solutions",
+      "It can have a very large branching factor",
+      "It always finds suboptimal solutions",
+      "It requires infinite memory"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Backward search can also have a very large branching factor, and deterministic implementations can waste time trying all branches."
+  },
+  {
+    "id": "q56",
+    "text": "Which planning algorithm approach is mentioned as an alternative to state-space search?",
+    "options": [
+      "Neural network planning",
+      "Plan space search (Partial Order Planning)",
+      "Genetic algorithm planning",
+      "Rule-based planning"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Plan space search, specifically Partial Order Planning (POP), is mentioned as an alternative to state-space search approaches."
+  },
+  {
+    "id": "q57",
+    "text": "In state-space search, what does a path through the state space represent?",
+    "options": [
+      "A heuristic estimate",
+      "A plan",
+      "A goal state",
+      "An action schema"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In state-space search, a path through the state space from initial state to goal represents a plan."
+  },
+  {
+    "id": "q58",
+    "text": "What are the two suggested solutions mentioned for improving the efficiency of backward search?",
+    "options": [
+      "Parallelization and caching",
+      "Lifting and STRIPS algorithm",
+      "Pruning and memoization",
+      "Randomization and restart"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture mentions lifting and the STRIPS algorithm as solutions for improving backward search efficiency."
+  },
+  {
+    "id": "q59",
+    "text": "What is typically used as the step cost in forward state-space search?",
+    "options": [
+      "The number of literals in the state",
+      "One per action (though differential costs are possible)",
+      "The heuristic estimate to the goal",
+      "Zero for all actions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Step cost is usually one per action in forward search, but it is easy to allow for differential costs if needed."
+  },
+  {
+    "id": "q60",
+    "text": "Which of the following best describes what a planning algorithm should take advantage of?",
+    "options": [
+      "Random exploration of the state space",
+      "The logical structure of the planning problem",
+      "Hardware acceleration capabilities",
+      "User intervention during search"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Planning algorithms based on logical approaches should take advantage of the logical structure of the problem, which is why problems should be expressed in a suitable logical language."
+  }
+]
