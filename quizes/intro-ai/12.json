@@ -1,0 +1,722 @@
+[
+  {
+    "id": "q1",
+    "text": "In a stochastic grid world, when an agent executes the 'North' action, what happens 80% of the time?",
+    "options": [
+      "The agent moves North if there is no wall, otherwise stays put",
+      "The agent moves West or East with equal probability",
+      "The agent moves in a random direction including South",
+      "The agent always moves North regardless of walls"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In the stochastic grid world example, 80% of the time the North action takes the agent North if there is no wall there. If there is a wall, the agent stays put."
+  },
+  {
+    "id": "q2",
+    "text": "In the stochastic grid world with noisy movement, what is the combined probability that a 'North' action results in the agent moving West or East?",
+    "options": [
+      "10%",
+      "20%",
+      "80%",
+      "90%"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The North action takes the agent West 10% of the time and East 10% of the time, for a combined probability of 20%."
+  },
+  {
+    "id": "q3",
+    "text": "What happens when an agent attempts to move in a direction where there is a wall in the stochastic grid world?",
+    "options": [
+      "The agent bounces back in the opposite direction",
+      "The agent receives a negative reward penalty",
+      "The agent moves to a random adjacent free cell",
+      "The agent stays in its current position"
+    ],
+    "correctAnswer": 3,
+    "explanation": "According to the lecture, if there is a wall in the direction the agent would have been taken, the agent stays put."
+  },
+  {
+    "id": "q4",
+    "text": "An MDP (Markov Decision Process) is technically defined as a tuple consisting of how many components?",
+    "options": [
+      "4-tuple",
+      "3-tuple",
+      "5-tuple",
+      "2-tuple"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explicitly states that 'Technically, an MDP is a 4-tuple' consisting of state set, action set, transition function, and reward function."
+  },
+  {
+    "id": "q5",
+    "text": "Which component of an MDP defines the probability of transitioning from state s to state s' when executing action a?",
+    "options": [
+      "Policy function π(s)",
+      "Reward function R(s,a,s')",
+      "Value function V(s)",
+      "Transition function T(s,a,s')"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The transition function T(s,a,s') defines transition probabilities for each state-action pair, specifically the probability of going from s to s' when executing action a."
+  },
+  {
+    "id": "q6",
+    "text": "In the robot car example with states Cool, Warm, and Overheated, what reward does the agent receive when taking the Fast action from the Overheated state?",
+    "options": [
+      "+2",
+      "+1",
+      "0",
+      "-10"
+    ],
+    "correctAnswer": 3,
+    "explanation": "According to the diagram in the lecture, taking the Fast action from the Overheated state results in a reward of -10."
+  },
+  {
+    "id": "q7",
+    "text": "What is the primary objective when solving an MDP?",
+    "options": [
+      "Find the shortest path to the goal state",
+      "Minimize the total number of actions taken",
+      "Calculate a policy to maximize the discounted sum of future rewards",
+      "Avoid all states with negative rewards"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture states the objective is to 'calculate a strategy for acting so as to maximize the (discounted) sum of future rewards' by calculating a policy."
+  },
+  {
+    "id": "q8",
+    "text": "What does a policy π in an MDP map?",
+    "options": [
+      "Actions to expected rewards",
+      "States to actions (S → A)",
+      "States to values",
+      "Actions to successor states"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines a policy as 'π*: S → A', meaning it gives an action for each state, mapping states to actions."
+  },
+  {
+    "id": "q9",
+    "text": "In the grid world examples showing different optimal policies, which reward function R(s) leads to a policy that tries to exit the grid as quickly as possible by taking the shortest path?",
+    "options": [
+      "R(s) = -0.01",
+      "R(s) = -0.03",
+      "R(s) = -0.4",
+      "R(s) = -2.0"
+    ],
+    "correctAnswer": 3,
+    "explanation": "When R(s) = -2.0 (large negative living reward), the agent is heavily penalized for each step, so it seeks the shortest path to exit quickly, even risking the negative terminal state."
+  },
+  {
+    "id": "q10",
+    "text": "What does the 'Markov' property in Markov Decision Processes mean?",
+    "options": [
+      "Future states depend on the entire history of past states",
+      "Action outcomes depend only on the current state, not the history",
+      "The transition probabilities change over time",
+      "All states are equally likely to be visited"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states that for MDPs, 'Markov' means action outcomes depend only on the current state, and given the present state, the future and past are independent."
+  },
+  {
+    "id": "q11",
+    "text": "Why is using expectimax directly to solve MDPs problematic?",
+    "options": [
+      "It requires too much memory storage",
+      "It cannot handle stochastic transitions",
+      "Issues with determining search depth and handling loops",
+      "It only works for deterministic environments"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture identifies two main problems with using expectimax: 'how deep do we search?' and 'how do we deal w/ loops?'"
+  },
+  {
+    "id": "q12",
+    "text": "In discounted reward systems, if the discount factor γ = 0.5, what is the present worth of a reward of value 8 that will be received two time steps in the future?",
+    "options": [
+      "1",
+      "2",
+      "4",
+      "8"
+    ],
+    "correctAnswer": 1,
+    "explanation": "With γ = 0.5, a reward two steps in the future is worth γ² × reward = 0.5² × 8 = 0.25 × 8 = 2."
+  },
+  {
+    "id": "q13",
+    "text": "According to the lecture, which of the following is NOT a valid reason for using discount factors in MDPs?",
+    "options": [
+      "Sooner rewards probably have higher utility than later rewards",
+      "It helps algorithms converge",
+      "It makes the MDP deterministic",
+      "It reflects preference for immediate rewards"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Discounting does not make an MDP deterministic. The reasons given for discounting are: sooner rewards have higher utility, it helps algorithms converge, and it reflects time preference."
+  },
+  {
+    "id": "q14",
+    "text": "Given the utility function U([r₁, r₂, r₃]) with discount γ = 0.5, what is U([1, 2, 3])?",
+    "options": [
+      "2.75",
+      "3.0",
+      "6.0",
+      "1.5"
+    ],
+    "correctAnswer": 0,
+    "explanation": "U([1,2,3]) = 1×1 + 0.5×2 + 0.25×3 = 1 + 1 + 0.75 = 2.75, as shown in the lecture example."
+  },
+  {
+    "id": "q15",
+    "text": "In the general discounted utility formula, if we have a sequence of rewards [r₀, r₁, r₂, ...], what is the coefficient of reward rₜ?",
+    "options": [
+      "γᵗ",
+      "t × γ",
+      "γ / t",
+      "γ^(t-1)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The general formula shows that the utility is Σ γᵗ × rₜ, so the coefficient of reward rₜ is γᵗ."
+  },
+  {
+    "id": "q16",
+    "text": "In the discounting example with states a through e, where Exit is only available in states a and e, what is the optimal policy when γ = 1?",
+    "options": [
+      "Exit immediately from state a",
+      "Go to state e first to maximize total reward before exiting",
+      "Alternate between East and West movements",
+      "Stay in state d indefinitely"
+    ],
+    "correctAnswer": 1,
+    "explanation": "When γ = 1 (no discounting), the agent values all future rewards equally, so it should go to state e (+10 reward) before exiting rather than exiting early at state a (+1 reward)."
+  },
+  {
+    "id": "q17",
+    "text": "What does V*(s) represent in MDP terminology?",
+    "options": [
+      "The immediate reward received in state s",
+      "The expected utility starting in s and acting optimally",
+      "The probability of reaching state s",
+      "The number of steps to reach a terminal state from s"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines V*(s) as 'the value (utility) of a state s: expected utility starting in s and acting optimally.'"
+  },
+  {
+    "id": "q18",
+    "text": "What is a q-state in MDP terminology?",
+    "options": [
+      "A state with no available actions",
+      "The pair (s,a) representing a state and action taken from that state",
+      "A state in a queue waiting to be processed",
+      "The final state in a trajectory"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines a q-state as (s,a), representing 'having taken action a from state s', and Q*(s,a) is the expected utility of this state-action pair."
+  },
+  {
+    "id": "q19",
+    "text": "What does Q*(s,a) represent?",
+    "options": [
+      "The probability of taking action a in state s",
+      "The immediate reward for taking action a in state s",
+      "The number of times action a has been taken in state s",
+      "The expected utility of taking action a from state s and thereafter acting optimally"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Q*(s,a) is defined as 'expected utility starting out having taken action a from state s and (thereafter) acting optimally.'"
+  },
+  {
+    "id": "q20",
+    "text": "How is the optimal policy π*(s) related to Q* values?",
+    "options": [
+      "π*(s) = argmax_a Q*(s,a)",
+      "π*(s) = sum of all Q*(s,a) values",
+      "π*(s) = average of Q*(s,a) over all actions",
+      "π*(s) = minimum Q*(s,a) value"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The optimal policy selects the action that maximizes the Q-value: π*(s) = argmax_a Q*(s,a), choosing the best action in each state."
+  },
+  {
+    "id": "q21",
+    "text": "What are the Bellman equations used for in MDPs?",
+    "options": [
+      "To define V* and Q* recursively in terms of each other",
+      "To calculate transition probabilities",
+      "To determine the state space size",
+      "To generate random policies"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that V* and Q* 'can be defined recursively' and these recursive definitions are 'Called Bellman equations.'"
+  },
+  {
+    "id": "q22",
+    "text": "In the Bellman equation for V*(s), which operation is applied over all possible actions?",
+    "options": [
+      "Summation",
+      "Minimum",
+      "Average",
+      "Maximum"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The Bellman equation for V*(s) takes the maximum over actions: V*(s) = max_a Q*(s,a), selecting the best action's value."
+  },
+  {
+    "id": "q23",
+    "text": "What does Vₖ(s) represent in value iteration?",
+    "options": [
+      "The value of state s after k iterations of the algorithm",
+      "The optimal value of s if the game ends in k more time steps",
+      "The kth best action to take in state s",
+      "The probability of reaching state s in k steps"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines Vₖ(s) as 'the optimal value of s if the game ends in k more time steps' or 'what a depth-k expectimax would give from s.'"
+  },
+  {
+    "id": "q24",
+    "text": "In the value iteration algorithm, what are all V₀(s) values typically initialized to?",
+    "options": [
+      "0",
+      "Random values",
+      "The immediate reward R(s)",
+      "Infinity"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture shows value iteration initialization as 'V₀(s) = 0', starting with zero values for all states."
+  },
+  {
+    "id": "q25",
+    "text": "What is the update equation for value iteration?",
+    "options": [
+      "Vₖ₊₁(s) = R(s) + γ × max_a Σₛ' T(s,a,s') × Vₖ(s')",
+      "Vₖ₊₁(s) = max_a [Σₛ' T(s,a,s') × (R(s,a,s') + γ × Vₖ(s'))]",
+      "Vₖ₊₁(s) = Σₛ' T(s,a,s') × Vₖ(s')",
+      "Vₖ₊₁(s) = γ × Vₖ(s)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The value iteration update is Vₖ₊₁(s) = max_a [Σₛ' T(s,a,s') × (R(s,a,s') + γ × Vₖ(s'))], taking the max over actions of the expected future value."
+  },
+  {
+    "id": "q26",
+    "text": "What is the time complexity of one iteration of value iteration over all states?",
+    "options": [
+      "O(S × A)",
+      "O(S²A)",
+      "O(S + A)",
+      "O(S³)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'time complexity = O(S^2 A)' because for each state, we consider each action, and for each action we sum over all possible next states."
+  },
+  {
+    "id": "q27",
+    "text": "Which statement about value iteration convergence is correct?",
+    "options": [
+      "Value iteration only converges for deterministic MDPs",
+      "The policy typically converges before the value function converges",
+      "Value iteration requires exactly S iterations to converge",
+      "Convergence is only guaranteed if γ = 1"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture notes state 'policy typically converges before value function converges...' as an important property of value iteration."
+  },
+  {
+    "id": "q28",
+    "text": "In the value iteration example with no discount (γ=1), after one iteration from initial values [0,0,0], what is the value of the leftmost state?",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "correctAnswer": 2,
+    "explanation": "After one iteration shown in the lecture, the values become [2,1,0], so the leftmost state has value 2."
+  },
+  {
+    "id": "q29",
+    "text": "After two iterations in the no-discount value iteration example starting from [0,0,0], what is the value of the leftmost state?",
+    "options": [
+      "2.0",
+      "2.5",
+      "3.0",
+      "3.5"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The lecture shows that after two iterations, the values are [3.5, 2.5, 0], making the leftmost state value 3.5."
+  },
+  {
+    "id": "q30",
+    "text": "For an MDP with maximum tree depth M, what can we say about V_M?",
+    "options": [
+      "V_M equals zero for all states",
+      "V_M holds the actual untruncated optimal values",
+      "V_M only approximates the true values",
+      "V_M requires further iterations to converge"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The convergence proof states 'If the tree has maximum depth M, then V_M holds the actual untruncated values.'"
+  },
+  {
+    "id": "q31",
+    "text": "In the convergence proof for value iteration with discount γ < 1, what is the maximum difference between Vₖ and Vₖ₊₁?",
+    "options": [
+      "γᵏ × max|R|",
+      "k × γ × max|R|",
+      "γ × max|R|",
+      "max|R| / γᵏ"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The proof shows 'Vₖ and Vₖ₊₁ are at most γᵏ max|R| different' because the difference is only in the bottom layer which is discounted by γᵏ."
+  },
+  {
+    "id": "q32",
+    "text": "Why does discounting help with convergence in value iteration?",
+    "options": [
+      "It reduces the number of states to consider",
+      "It makes transitions deterministic",
+      "The difference between successive iterations decreases exponentially",
+      "It eliminates the need for a reward function"
+    ],
+    "correctAnswer": 2,
+    "explanation": "As shown in the proof, with γ < 1, the difference between Vₖ and Vₖ₊₁ is bounded by γᵏ × max|R|, which decreases exponentially as k increases."
+  },
+  {
+    "id": "q33",
+    "text": "What is the relationship between value iteration and the Bellman equations?",
+    "options": [
+      "Value iteration is a fixed point solution method for the Bellman equations",
+      "The Bellman equations are approximations of value iteration",
+      "They are unrelated approaches to solving MDPs",
+      "Value iteration replaces the need for Bellman equations"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states 'Value iteration is just a fixed point solution method' for solving the Bellman equations that characterize optimal values."
+  },
+  {
+    "id": "q34",
+    "text": "Once you have computed V* using value iteration, how do you extract the optimal policy?",
+    "options": [
+      "Run value iteration again with different parameters",
+      "Randomly select actions with probability proportional to V*",
+      "Do one step of expectimax: π*(s) = argmax_a Σₛ' T(s,a,s')[R(s,a,s') + γV*(s')]",
+      "Select the action that minimizes the transition probability"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture shows that given V* values, you 'do one step of expectimax' to compute the policy, selecting the action that maximizes expected value."
+  },
+  {
+    "id": "q35",
+    "text": "Which of the following best describes what an optimal policy maximizes?",
+    "options": [
+      "The number of states visited",
+      "Expected utility if the policy is followed",
+      "The immediate reward in the current state",
+      "The probability of reaching a goal state"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines an optimal policy as 'one that maximizes expected utility if followed.'"
+  },
+  {
+    "id": "q36",
+    "text": "In the robot car example, what is the transition probability of staying in the Cool state when taking the Slow action?",
+    "options": [
+      "0.5",
+      "1.0",
+      "0.8",
+      "0.0"
+    ],
+    "correctAnswer": 1,
+    "explanation": "According to the diagram, taking Slow from Cool state has a transition probability of 1.0 to stay in Cool state."
+  },
+  {
+    "id": "q37",
+    "text": "In the robot car example, taking the Fast action from the Cool state leads to which outcome?",
+    "options": [
+      "Definitely moves to Overheated",
+      "50% Cool, 50% Warm",
+      "Definitely stays in Cool",
+      "50% Warm, 50% Overheated"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The diagram shows that Fast from Cool results in 0.5 probability to Cool and 0.5 probability to Warm."
+  },
+  {
+    "id": "q38",
+    "text": "What is the reward for taking the Slow action from the Warm state in the robot car example?",
+    "options": [
+      "+1",
+      "+2",
+      "-10",
+      "0"
+    ],
+    "correctAnswer": 0,
+    "explanation": "According to the diagram, Slow from Warm state gives a reward of +1."
+  },
+  {
+    "id": "q39",
+    "text": "How does an explicit policy in MDPs differ from expectimax search?",
+    "options": [
+      "Explicit policies use random actions while expectimax is deterministic",
+      "An explicit policy defines a reflex agent; expectimax computed action for single state only",
+      "Expectimax policies are more optimal than explicit policies",
+      "There is no difference between them"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'An explicit policy defines a reflex agent' while 'Expectimax didn't compute entire policies. It computed the action for a single state only.'"
+  },
+  {
+    "id": "q40",
+    "text": "In deterministic single-agent search problems, what did we seek?",
+    "options": [
+      "An optimal policy π*: S → A",
+      "An optimal plan or sequence of actions from start to goal",
+      "A probability distribution over states",
+      "A value function for all states"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'In deterministic single-agent search problems, we wanted an optimal plan, or sequence of actions, from start to a goal.'"
+  },
+  {
+    "id": "q41",
+    "text": "When the living reward R(s) = -0.4 in the grid world, what behavior does the optimal policy exhibit?",
+    "options": [
+      "Takes risky path near the cliff to exit quickly",
+      "Takes safe path away from cliff but still relatively direct",
+      "Avoids the goal to maximize time in the grid",
+      "Moves randomly without preference"
+    ],
+    "correctAnswer": 1,
+    "explanation": "With R(s) = -0.4 (moderate negative reward), the agent prefers a reasonably safe path that avoids the negative terminal state while still heading toward the positive goal."
+  },
+  {
+    "id": "q42",
+    "text": "What type of agent does a policy define?",
+    "options": [
+      "A planning agent that searches forward",
+      "A learning agent that improves over time",
+      "A reflex agent that maps states to actions",
+      "A random agent with no consistent behavior"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture explicitly states 'An explicit policy defines a reflex agent' which directly maps current state to action."
+  },
+  {
+    "id": "q43",
+    "text": "In the grid world demonstration with Noise = 0.2, Discount = 0.9, Living reward = 0, which areas typically have the highest V values?",
+    "options": [
+      "States near the negative terminal state",
+      "States near the positive terminal state (+1)",
+      "States in the corners of the grid",
+      "All states have equal values"
+    ],
+    "correctAnswer": 1,
+    "explanation": "States closer to the +1 terminal reward have higher V values as they can reach the positive reward more quickly with less discounting."
+  },
+  {
+    "id": "q44",
+    "text": "What happens to the Vₖ vectors as k approaches infinity in value iteration?",
+    "options": [
+      "They oscillate between two values",
+      "They diverge to infinity",
+      "They converge to the optimal value function V*",
+      "They become all zeros"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture states 'This iteration converges! The value of each state converges to a unique optimal value' as k increases."
+  },
+  {
+    "id": "q45",
+    "text": "Which statement about the reward function in MDPs is correct?",
+    "options": [
+      "Reward must always be positive",
+      "Reward can only be assigned at terminal states",
+      "Reward can be whatever you want, including negative living rewards",
+      "Reward must be the same for all states"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture states 'reward can be whatever you want' and shows examples including negative living rewards and rewards at various states."
+  },
+  {
+    "id": "q46",
+    "text": "In the stochastic grid world, what does the agent receive each time step?",
+    "options": [
+      "A new action to execute",
+      "Rewards according to the reward function",
+      "A probability update",
+      "A new random starting position"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'The agent receives rewards each time step' based on the reward function."
+  },
+  {
+    "id": "q47",
+    "text": "If U([1,2,3]) < U([3,2,1]) with discount factor γ = 0.5, what principle does this illustrate?",
+    "options": [
+      "Later rewards are preferred over earlier rewards",
+      "Earlier rewards are preferred over later rewards due to discounting",
+      "All reward sequences have equal utility",
+      "Rewards should be maximized regardless of timing"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture uses this example to show that 'It's reasonable to prefer rewards now to rewards later,' demonstrating that earlier rewards have higher present value."
+  },
+  {
+    "id": "q48",
+    "text": "What is the goal in a stochastic grid world?",
+    "options": [
+      "Visit all states exactly once",
+      "Reach the goal in minimum number of steps",
+      "Maximize the discounted sum of rewards",
+      "Minimize the probability of failure"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture explicitly states the 'Goal: maximize (discounted) sum of rewards' in the stochastic grid world."
+  },
+  {
+    "id": "q49",
+    "text": "In value iteration, what does it mean that 'Vₖ vectors are interpretable as time-limited values'?",
+    "options": [
+      "Vₖ values expire after k time units",
+      "Vₖ(s) represents optimal value if the game ends in k more steps",
+      "Value iteration runs for exactly k iterations",
+      "Vₖ measures the time to reach state s"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explains that Vₖ(s) is 'the optimal value of s if the game ends in k more time steps,' giving it a time-limited interpretation."
+  },
+  {
+    "id": "q50",
+    "text": "Why might you prefer a gradually increasing reward function as you approach the goal in a grid world?",
+    "options": [
+      "It guarantees faster convergence",
+      "It shapes the learning to guide the agent toward the goal",
+      "It reduces the state space size",
+      "It eliminates the need for discounting"
+    ],
+    "correctAnswer": 1,
+    "explanation": "While the lecture mentions this as a possibility, gradually increasing rewards provide a reward signal that guides the agent in the right direction, which is a form of reward shaping."
+  },
+  {
+    "id": "q51",
+    "text": "In the convergence proof, what represents the difference between Vₖ and Vₖ₊₁ in terms of the search tree?",
+    "options": [
+      "The top layer has different actions",
+      "The middle layers have different transition probabilities",
+      "The bottom layer has actual rewards in Vₖ₊₁ but zeros in Vₖ",
+      "There is no structural difference"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The proof states 'The difference is that on the bottom layer, Vₖ₊₁ has actual rewards while Vₖ has zeros,' explaining why they converge."
+  },
+  {
+    "id": "q52",
+    "text": "What role does R_MAX play in the convergence proof?",
+    "options": [
+      "It is the maximum possible value function",
+      "It bounds the maximum reward value used to show convergence rate",
+      "It is the reward at the goal state",
+      "It determines the discount factor"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The proof uses R_MAX as the maximum reward magnitude: 'That last layer is at best all R_MAX' to bound the difference between iterations."
+  },
+  {
+    "id": "q53",
+    "text": "In the discounting example with states a-e, for which value of γ are actions West and East equally good when in state d?",
+    "options": [
+      "When the discounted future rewards from going either direction are equal",
+      "γ = 0",
+      "γ = 1",
+      "There is no such γ"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture poses this as Quiz 3, and the answer depends on finding where the expected discounted utilities of going West vs East are equal from state d."
+  },
+  {
+    "id": "q54",
+    "text": "What is the significance of the 0.2 noise parameter in the grid world examples?",
+    "options": [
+      "20% of states are unreachable",
+      "Actions have a 20% chance of going in unintended perpendicular directions",
+      "Rewards are reduced by 20%",
+      "The discount factor is 0.2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The noise parameter of 0.2 means there's a combined 20% probability (10% left, 10% right) of the action going in perpendicular directions to the intended direction."
+  },
+  {
+    "id": "q55",
+    "text": "When extracting a policy from computed V* values, why do we only need 'one step of expectimax'?",
+    "options": [
+      "Because V* already encodes the optimal future values from each next state",
+      "Because expectimax is too computationally expensive",
+      "Because policies only consider immediate rewards",
+      "Because the MDP is deterministic"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Since V*(s') already contains the optimal expected utility from each successor state s', we only need one step of expectimax to choose the best immediate action, with V* handling all future decisions."
+  },
+  {
+    "id": "q56",
+    "text": "In the Bellman equation for Q*(s,a), what components are combined?",
+    "options": [
+      "Only the immediate reward R(s,a,s')",
+      "The sum over successor states of transition probability times (reward plus discounted V* of successor)",
+      "The maximum over all actions of immediate rewards",
+      "The average of all possible policies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Q*(s,a) = Σₛ' T(s,a,s') × [R(s,a,s') + γV*(s')], combining transition probabilities with immediate rewards and discounted future values."
+  },
+  {
+    "id": "q57",
+    "text": "What distinguishes the optimal policy shown when R(s) = -0.03 compared to R(s) = -0.01 in the grid world?",
+    "options": [
+      "With R(s) = -0.03, the agent is more willing to risk the bad terminal state for a shorter path",
+      "With R(s) = -0.03, the agent takes a safer, longer path away from the bad terminal state",
+      "Both policies are identical",
+      "With R(s) = -0.03, the agent avoids the goal entirely"
+    ],
+    "correctAnswer": 1,
+    "explanation": "With a more negative living reward (R(s) = -0.03), the agent is less willing to take risks and prefers safer paths, while R(s) = -0.01 allows for slightly riskier shortcuts."
+  },
+  {
+    "id": "q58",
+    "text": "According to the lecture, what does it mean that the Bellman equations 'do not reference the optimal policy π*'?",
+    "options": [
+      "The optimal policy cannot be derived from Bellman equations",
+      "V* and Q* can be defined independently, and π* is then derived from them",
+      "Bellman equations only work for suboptimal policies",
+      "The policy must be computed before solving Bellman equations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture notes that V* and Q* are defined recursively without explicit reference to π*, and once we have V* or Q*, we can derive the optimal policy from them."
+  },
+  {
+    "id": "q59",
+    "text": "In the robot car MDP, if the agent repeatedly takes the Fast action from the Warm state, what is the long-term outcome?",
+    "options": [
+      "The agent will eventually always be in the Overheated state receiving -10 rewards",
+      "The agent oscillates between Warm and Cool states",
+      "The agent will stay in Warm state indefinitely",
+      "The agent will reach a terminal state"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Taking Fast from Warm leads to Overheated with 0.5 probability and stays Warm with 0.5 probability. Once Overheated, Fast keeps it Overheated (probability 1.0), leading to repeated -10 rewards."
+  },
+  {
+    "id": "q60",
+    "text": "What is the fundamental difference between value iteration and policy iteration as approaches to solving MDPs?",
+    "options": [
+      "Value iteration computes values iteratively; policy iteration alternates between policy evaluation and policy improvement",
+      "Value iteration is exact while policy iteration is approximate",
+      "Policy iteration cannot handle stochastic MDPs",
+      "Value iteration requires knowing the policy in advance"
+    ],
+    "correctAnswer": 0,
+    "explanation": "While the lecture focuses on value iteration, it mentions policy iteration in the outline. Value iteration iteratively updates values until convergence, while policy iteration alternates between evaluating a policy and improving it."
+  }
+]
