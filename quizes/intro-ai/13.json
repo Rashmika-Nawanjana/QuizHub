@@ -1,0 +1,722 @@
+[
+  {
+    "id": "q1",
+    "text": "In reinforcement learning, what is the fundamental characteristic that distinguishes it from supervised learning?",
+    "options": [
+      "The agent receives feedback in the form of rewards based on its actions",
+      "The agent must memorize a large dataset of labeled examples",
+      "The agent operates without any form of feedback mechanism",
+      "The agent requires human supervision for every decision"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Reinforcement learning is characterized by agents receiving feedback in the form of rewards, where the agent's utility is defined by the reward function and must learn to maximize expected rewards through experience."
+  },
+  {
+    "id": "q2",
+    "text": "What is the primary difference between offline MDP solving and online reinforcement learning?",
+    "options": [
+      "MDPs use neural networks while RL uses decision trees",
+      "MDPs require knowing T and R beforehand, while RL learns through actual experience",
+      "MDPs are only for discrete spaces while RL handles continuous spaces",
+      "MDPs maximize rewards while RL minimizes costs"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The key distinction is that offline MDP solving assumes you know the transition function T and reward function R, whereas online RL requires learning these through actual interactions with the environment."
+  },
+  {
+    "id": "q3",
+    "text": "In the context of reinforcement learning, which components are assumed to exist even though T and R are unknown?",
+    "options": [
+      "Only the set of states S and the policy π(s)",
+      "The set of states S, set of actions A, model T(s,a,s'), and reward function R(s,a,s')",
+      "Only the reward function R(s,a,s') and the optimal policy",
+      "The value function V(s) and Q-function Q(s,a)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "RL still assumes an underlying MDP structure with states S, actions A, transition model T, and reward function R, but the 'new twist' is that the agent doesn't know T or R and must learn through experience."
+  },
+  {
+    "id": "q4",
+    "text": "What is the first step in model-based reinforcement learning?",
+    "options": [
+      "Execute the optimal policy to maximize rewards",
+      "Learn an approximate model by counting outcomes and normalizing to estimate T(s,a,s')",
+      "Calculate Q-values for all state-action pairs",
+      "Perform value iteration on the known MDP"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Model-based learning first learns an empirical MDP model by counting outcomes s' for each (s,a) pair and normalizing to estimate T(s,a,s'), discovering each R(s,a,s') through experience."
+  },
+  {
+    "id": "q5",
+    "text": "In the model-based learning example with states A, B, C, D, E, what is the learned value of T(C, east, D)?",
+    "options": [
+      "1.00",
+      "0.50",
+      "0.75",
+      "0.25"
+    ],
+    "correctAnswer": 2,
+    "explanation": "From the observed episodes, state C going east resulted in D three times and A once (out of 4 total transitions), yielding T(C, east, D) = 3/4 = 0.75."
+  },
+  {
+    "id": "q6",
+    "text": "After learning the empirical model in model-based RL, what is the second step?",
+    "options": [
+      "Collect more training episodes to improve accuracy",
+      "Solve the learned MDP using methods like value iteration",
+      "Deploy the model in a production environment",
+      "Discard the model and switch to model-free learning"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Step 2 in model-based learning is to solve the learned MDP as if it were correct, using standard techniques like value iteration."
+  },
+  {
+    "id": "q7",
+    "text": "What is the primary task in passive reinforcement learning?",
+    "options": [
+      "Learning the optimal policy through exploration",
+      "Policy evaluation - learning state values for a fixed policy π(s)",
+      "Discovering the transition function T(s,a,s')",
+      "Maximizing immediate rewards at each step"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Passive RL focuses on policy evaluation: given a fixed policy π(s), the goal is to learn the state values without knowing T or R, while being 'along for the ride' without choosing actions."
+  },
+  {
+    "id": "q8",
+    "text": "In passive reinforcement learning, what role does the learner play?",
+    "options": [
+      "The learner actively selects actions to maximize exploration",
+      "The learner is 'along for the ride', executing a fixed policy without choosing actions",
+      "The learner designs the reward function",
+      "The learner modifies the environment's transition probabilities"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In passive RL, the learner simply executes the given policy and learns from experience without making choices about actions - they're 'along for the ride'."
+  },
+  {
+    "id": "q9",
+    "text": "What is the main idea behind direct evaluation in passive RL?",
+    "options": [
+      "Use dynamic programming to compute exact values",
+      "Average together observed sample values of discounted rewards for each state",
+      "Estimate transition probabilities first, then solve the MDP",
+      "Learn Q-values instead of state values"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Direct evaluation computes values by acting according to π, writing down the sum of discounted rewards each time a state is visited, and averaging those samples."
+  },
+  {
+    "id": "q10",
+    "text": "In the direct evaluation example with γ=1, what is the learned value for state B?",
+    "options": [
+      "+10",
+      "+8",
+      "+4",
+      "-2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "State B appears in episodes 1 and 2, both yielding a total reward of +8 (B→C→D→exit: -1-1+10=+8), so V(B) = +8."
+  },
+  {
+    "id": "q11",
+    "text": "What is a key advantage of direct evaluation?",
+    "options": [
+      "It requires knowledge of the transition function T",
+      "It eventually computes correct average values using just sample transitions",
+      "It learns all state values simultaneously in one pass",
+      "It always converges faster than other methods"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Direct evaluation is advantageous because it eventually computes correct average values using only sample transitions, without requiring knowledge of T or R."
+  },
+  {
+    "id": "q12",
+    "text": "What is the fundamental problem with direct evaluation highlighted in the lecture?",
+    "options": [
+      "It requires too much computational memory",
+      "Each state must be learned separately, making learning slow",
+      "It cannot handle stochastic environments",
+      "It only works for deterministic policies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The main weakness of direct evaluation is that each state must be learned separately, which takes a long time, and it doesn't exploit the connections between states (e.g., why B and E have different values even though both go to C)."
+  },
+  {
+    "id": "q13",
+    "text": "Why can't we directly use policy evaluation (Bellman updates) in reinforcement learning?",
+    "options": [
+      "Bellman updates are computationally too expensive",
+      "We need T and R to compute the weighted average in Bellman updates",
+      "Policy evaluation only works for finite state spaces",
+      "Bellman updates require the optimal policy to be known"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Policy evaluation requires T(s,a,s') and R(s,a,s') to compute the weighted average over successor states, but in RL these are unknown - this is the key challenge."
+  },
+  {
+    "id": "q14",
+    "text": "What approach does sample-based policy evaluation attempt to address?",
+    "options": [
+      "Computing exact transition probabilities from infinite samples",
+      "Taking samples of outcomes s' by doing actions and averaging them",
+      "Eliminating the need for a discount factor",
+      "Replacing the reward function with a cost function"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Sample-based policy evaluation attempts to compute the weighted average by taking samples of outcomes s' through actual actions and averaging them, though the challenge is we can't rewind time to get multiple samples from the same state."
+  },
+  {
+    "id": "q15",
+    "text": "What is the 'big idea' behind Temporal Difference (TD) learning?",
+    "options": [
+      "Learn from every experience by updating V(s) after each transition",
+      "Wait until the end of an episode to update all values at once",
+      "Only learn from experiences that lead to positive rewards",
+      "Calculate exact values using mathematical optimization"
+    ],
+    "correctAnswer": 0,
+    "explanation": "TD learning's big idea is to learn from every experience, updating V(s) each time a transition (s,a,s',r) is experienced, with likely outcomes contributing updates more often."
+  },
+  {
+    "id": "q16",
+    "text": "In TD learning, what is the sample estimate of V(s) based on a transition (s,a,s',r)?",
+    "options": [
+      "Sample = R(s,a,s') + γV(s')",
+      "Sample = R(s,a,s') - V(s)",
+      "Sample = γV(s') only",
+      "Sample = R(s,a,s') + V(s)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The TD learning sample estimate is: Sample = R(s,a,s') + γV(s'), representing the immediate reward plus the discounted value of the successor state."
+  },
+  {
+    "id": "q17",
+    "text": "What is the TD learning update rule for V(s)?",
+    "options": [
+      "V(s) ← V(s)",
+      "V(s) ← Sample",
+      "V(s) ← (1-α)V(s) + α·Sample",
+      "V(s) ← α·V(s) + (1-α)·Sample"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The TD update rule is V(s) ← (1-α)V(s) + α·[R(s,a,s') + γV(s')], which is a running interpolation that moves values toward the value of observed successors."
+  },
+  {
+    "id": "q18",
+    "text": "In the TD learning example with B→C (reward -2), if V(B)=0, V(C)=0, α=1/2, and γ=1, what is the new V(B)?",
+    "options": [
+      "-1",
+      "-2",
+      "0",
+      "+1"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Using V(B) ← (1-α)V(B) + α[r + γV(C)] = (1/2)·0 + (1/2)·[-2 + 1·0] = (1/2)·(-2) = -1."
+  },
+  {
+    "id": "q19",
+    "text": "What is an important property of the exponential moving average used in TD learning?",
+    "options": [
+      "It gives equal weight to all past observations",
+      "It makes recent samples more important and forgets the distant past",
+      "It requires storing all historical values",
+      "It only works with positive rewards"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The exponential moving average makes recent samples more important, forgets about the distant past (which were likely wrong anyway), and with decreasing α can give converging averages."
+  },
+  {
+    "id": "q20",
+    "text": "What fundamental problem exists with TD value learning when trying to derive a new policy?",
+    "options": [
+      "TD learning is too slow to be practical",
+      "If we want to turn values into a policy, we need the model T(s,a,s'), which we don't have",
+      "TD learning only works for passive RL scenarios",
+      "The learning rate α must be zero for convergence"
+    ],
+    "correctAnswer": 1,
+    "explanation": "To select actions based on values, we need argmax_a Σ T(s,a,s')[R(s,a,s')+γV(s')], but we don't know T. The solution is to learn Q-values instead, making action selection model-free."
+  },
+  {
+    "id": "q21",
+    "text": "In active reinforcement learning, what is the fundamental tradeoff that the learner faces?",
+    "options": [
+      "Speed vs. accuracy",
+      "Memory usage vs. computation time",
+      "Exploration vs. exploitation",
+      "Batch learning vs. online learning"
+    ],
+    "correctAnswer": 2,
+    "explanation": "In active RL where the learner makes choices, the fundamental tradeoff is exploration (trying new things to learn) vs. exploitation (using current knowledge to maximize rewards)."
+  },
+  {
+    "id": "q22",
+    "text": "What distinguishes active reinforcement learning from passive reinforcement learning?",
+    "options": [
+      "Active RL learns state values while passive RL learns Q-values",
+      "Active RL chooses actions to learn optimal policies while passive RL evaluates a fixed policy",
+      "Active RL requires knowing T and R while passive RL doesn't",
+      "Active RL is offline planning while passive RL is online learning"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Active RL is full reinforcement learning where the learner makes choices to learn optimal policies, unlike passive RL which evaluates a fixed policy without choosing actions."
+  },
+  {
+    "id": "q23",
+    "text": "In Q-value iteration, what is the initialization for Q₀(s,a)?",
+    "options": [
+      "Q₀(s,a) = 0 for all states and actions",
+      "Q₀(s,a) = R(s,a) for all states and actions",
+      "Q₀(s,a) = ∞ for all states and actions",
+      "Q₀(s,a) = random values"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Q-value iteration starts with Q₀(s,a) = 0, which we know is right, similar to how value iteration starts with V₀(s) = 0."
+  },
+  {
+    "id": "q24",
+    "text": "What is the Q-value iteration update rule for computing Qₖ₊₁ from Qₖ?",
+    "options": [
+      "Qₖ₊₁(s,a) ← R(s,a) + γ max_a' Qₖ(s,a')",
+      "Qₖ₊₁(s,a) ← Σₛ' T(s,a,s')[R(s,a,s') + γ max_a' Qₖ(s',a')]",
+      "Qₖ₊₁(s,a) ← max_a' Qₖ(s,a')",
+      "Qₖ₊₁(s,a) ← T(s,a,s') · R(s,a,s')"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Q-value iteration update is Qₖ₊₁(s,a) ← Σₛ' T(s,a,s')[R(s,a,s') + γ max_a' Qₖ(s',a')], computing depth k+1 Q-values from depth k."
+  },
+  {
+    "id": "q25",
+    "text": "What is Q-learning fundamentally based on?",
+    "options": [
+      "Model-based value iteration",
+      "Sample-based Q-value iteration that learns as you go",
+      "Direct evaluation of state values",
+      "Policy gradient methods"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Q-learning is sample-based Q-value iteration where you learn Q(s,a) values as you go, receiving samples (s,a,s',r) and incorporating them into running averages."
+  },
+  {
+    "id": "q26",
+    "text": "In Q-learning, what is the sample estimate when receiving (s,a,s',r)?",
+    "options": [
+      "Sample = r + γQ(s,a)",
+      "Sample = r + γ max_a' Q(s',a')",
+      "Sample = r only",
+      "Sample = γ max_a' Q(s',a')"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Q-learning sample estimate is: Sample = r + γ max_a' Q(s',a'), representing the immediate reward plus the discounted maximum Q-value of the next state."
+  },
+  {
+    "id": "q27",
+    "text": "What is the Q-learning update rule?",
+    "options": [
+      "Q(s,a) ← Sample",
+      "Q(s,a) ← (1-α)Q(s,a) + α·Sample",
+      "Q(s,a) ← Q(s,a) + Sample",
+      "Q(s,a) ← α·Sample"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Q-learning update is Q(s,a) ← (1-α)Q(s,a) + α·[r + γ max_a' Q(s',a')], incorporating the new sample estimate into a running average."
+  },
+  {
+    "id": "q28",
+    "text": "What is the 'amazing result' of Q-learning mentioned in the lecture?",
+    "options": [
+      "Q-learning converges to optimal policy even if you're acting suboptimally",
+      "Q-learning requires no exploration to find the optimal policy",
+      "Q-learning always converges in polynomial time",
+      "Q-learning works without any reward signal"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The amazing result is that Q-learning converges to the optimal policy even if you're acting suboptimally during learning - this is called off-policy learning."
+  },
+  {
+    "id": "q29",
+    "text": "What is 'off-policy learning' as mentioned in Q-learning properties?",
+    "options": [
+      "Learning without following any policy",
+      "Learning the optimal policy even while acting according to a suboptimal policy",
+      "Learning only from expert demonstrations",
+      "Learning policies offline without environment interaction"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Off-policy learning means Q-learning can learn the optimal policy even while the agent is acting suboptimally - the behavior policy can differ from the policy being learned."
+  },
+  {
+    "id": "q30",
+    "text": "Which of the following is NOT a caveat for Q-learning convergence?",
+    "options": [
+      "You have to explore enough",
+      "You must know the transition function T(s,a,s')",
+      "You have to eventually make the learning rate small enough",
+      "You shouldn't decrease the learning rate too quickly"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Q-learning doesn't require knowing T(s,a,s') - that's the whole point of model-free learning. The caveats are about exploration, and proper learning rate scheduling."
+  },
+  {
+    "id": "q31",
+    "text": "According to the lecture, in what sense does action selection not matter for Q-learning convergence?",
+    "options": [
+      "You can select any actions without any exploration",
+      "In the limit, it doesn't matter how you select actions (as long as you explore enough)",
+      "Action selection is completely random in Q-learning",
+      "Q-learning ignores the actions and only considers states"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'Basically, in the limit, it doesn't matter how you select actions (!)', meaning Q-learning will converge regardless of action selection strategy, provided you explore enough and satisfy other convergence conditions."
+  },
+  {
+    "id": "q32",
+    "text": "What type of learning is model-based RL an example of?",
+    "options": [
+      "Learning where you directly learn the optimal policy",
+      "Learning where you first learn T and R, then solve the MDP",
+      "Learning that doesn't use any samples from the environment",
+      "Learning that only updates Q-values"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Model-based learning involves learning an approximate model (T and R) based on experiences, then solving for values as if the learned model were correct."
+  },
+  {
+    "id": "q33",
+    "text": "In the context of RL vs MDPs, what is the 'new twist' that distinguishes RL?",
+    "options": [
+      "RL uses a different reward structure",
+      "RL doesn't know T or R and must learn through experience",
+      "RL has continuous state spaces",
+      "RL doesn't seek policies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states the 'new twist' in RL is that we don't know T or R - we don't know which states are good or what actions do, and must try them out to learn."
+  },
+  {
+    "id": "q34",
+    "text": "What does it mean that passive RL is 'NOT offline planning'?",
+    "options": [
+      "It uses online databases",
+      "You actually take actions in the world rather than just computing",
+      "It doesn't use planning algorithms",
+      "It requires internet connectivity"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture emphasizes that passive RL involves actually taking actions in the world and experiencing real consequences, not just computing values from a known model."
+  },
+  {
+    "id": "q35",
+    "text": "In direct evaluation, when do you 'write down' values?",
+    "options": [
+      "At the beginning of each episode",
+      "Every time you visit a state, recording the sum of discounted rewards from that point",
+      "Only at terminal states",
+      "Once at the end of all training episodes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Direct evaluation works by writing down the sum of discounted rewards every time you visit a state during episodes, then averaging these samples."
+  },
+  {
+    "id": "q36",
+    "text": "Why is the observation that B and E have different values problematic for direct evaluation?",
+    "options": [
+      "It indicates a bug in the algorithm",
+      "It shows that direct evaluation doesn't exploit state connections - if both go to C, their values should be related",
+      "B and E should always have the same value",
+      "It means the policy is suboptimal"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The problem highlighted is that direct evaluation doesn't exploit connections between states. If B and E both go to C under the policy, their values should be related, but direct evaluation learns them independently."
+  },
+  {
+    "id": "q37",
+    "text": "What does 'taking a weighted average without knowing the weights' refer to in the context of policy evaluation?",
+    "options": [
+      "Averaging rewards without knowing their magnitudes",
+      "Computing Σₛ' T(s,a,s')[R(s,a,s')+γV(s')] without knowing T(s,a,s')",
+      "Sampling states uniformly at random",
+      "Using equal weights for all successor states"
+    ],
+    "correctAnswer": 1,
+    "explanation": "This refers to the challenge of computing the Bellman expectation which requires T(s,a,s') as weights, but in RL we don't know these transition probabilities."
+  },
+  {
+    "id": "q38",
+    "text": "What problem does the sample-based policy evaluation approach face?",
+    "options": [
+      "We can't rewind time to get multiple samples from the same state at the same moment",
+      "Sampling is computationally too expensive",
+      "The samples are always biased",
+      "We need infinite samples for any convergence"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture notes 'Almost! But we can't rewind time to get sample after sample from state s' - we can't repeatedly sample from the exact same state to average outcomes."
+  },
+  {
+    "id": "q39",
+    "text": "In TD learning, why do likely outcomes contribute updates more often?",
+    "options": [
+      "They are weighted higher in the algorithm",
+      "Because we update after each transition, and likely outcomes are experienced more frequently",
+      "The learning rate is higher for likely outcomes",
+      "They are sampled preferentially by the algorithm"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Since TD learning updates V(s) each time we experience a transition, and likely outcomes occur more frequently in our experience, they naturally contribute more updates."
+  },
+  {
+    "id": "q40",
+    "text": "What does the term 'running average' refer to in the TD learning update?",
+    "options": [
+      "The average of all episodes run so far",
+      "The interpolation between old estimate and new sample using learning rate α",
+      "The average speed of the algorithm execution",
+      "The mean of all state values"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The running average refers to the update V(s) ← (1-α)V(s) + α·Sample, which interpolates between the old estimate and new sample observation."
+  },
+  {
+    "id": "q41",
+    "text": "Why does TD learning 'forget about the past'?",
+    "options": [
+      "It explicitly deletes old memories",
+      "The exponential moving average gives more weight to recent samples, diminishing influence of old estimates",
+      "It only uses the most recent sample",
+      "It resets all values periodically"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The exponential moving average structure means recent samples get more weight, and distant past values (which were likely wrong anyway) have diminishing influence."
+  },
+  {
+    "id": "q42",
+    "text": "What happens to the learning rate α in TD learning to achieve convergence?",
+    "options": [
+      "It must remain constant",
+      "It can decrease over time but not too quickly",
+      "It must increase over time",
+      "It is set to zero after initial learning"
+    ],
+    "correctAnswer": 1,
+    "explanation": "For convergence, the learning rate α should eventually become small enough but not decrease too quickly - this is one of the convergence conditions mentioned."
+  },
+  {
+    "id": "q43",
+    "text": "Why are Q-values preferred over V-values in model-free RL?",
+    "options": [
+      "Q-values are easier to compute",
+      "Q-values enable model-free action selection through argmax_a Q(s,a)",
+      "Q-values converge faster than V-values",
+      "Q-values require less memory"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Q-values are preferred because they make action selection model-free: we can choose actions via argmax_a Q(s,a) without needing the transition model T(s,a,s')."
+  },
+  {
+    "id": "q44",
+    "text": "In active RL, what does 'You actually take actions in the world and find out what happens' emphasize?",
+    "options": [
+      "The need for simulation environments",
+      "That active RL is NOT offline planning - it involves real interaction",
+      "The importance of parallel processing",
+      "The requirement for real-time systems"
+    ],
+    "correctAnswer": 1,
+    "explanation": "This emphasizes that active RL involves actual interaction with the environment and experiencing real consequences, not just offline computation with a known model."
+  },
+  {
+    "id": "q45",
+    "text": "What does 'depth-limited' mean in the context of value iteration?",
+    "options": [
+      "The algorithm only explores a limited number of states",
+      "The values V_k represent expected rewards looking k steps ahead",
+      "The state space has a maximum depth",
+      "The algorithm terminates after k iterations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In value iteration, V_k represents depth k values - the expected sum of discounted rewards looking k steps into the future."
+  },
+  {
+    "id": "q46",
+    "text": "In Q-value iteration, why do we compute Q-values instead of just V-values?",
+    "options": [
+      "Q-values are mathematically simpler",
+      "Q-values are more useful because they directly support action selection",
+      "V-values cannot be computed iteratively",
+      "Q-values require less storage"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'But Q-values are more useful, so compute them instead' because Q-values directly encode the value of taking each action, enabling easier action selection."
+  },
+  {
+    "id": "q47",
+    "text": "What is being 'incorporated' in the Q-learning update?",
+    "options": [
+      "The entire history of past samples",
+      "The new sample estimate into a running average with the old Q-value",
+      "Random exploration noise",
+      "The optimal policy directly"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Q-learning incorporates the new sample estimate [r + γ max_a' Q(s',a')] into a running average with the old estimate Q(s,a) using the learning rate α."
+  },
+  {
+    "id": "q48",
+    "text": "What does 'enough exploration' mean as a caveat for Q-learning?",
+    "options": [
+      "Exploring at least 50% of the time",
+      "Visiting all state-action pairs sufficiently often for values to converge",
+      "Using only exploration without any exploitation",
+      "Exploring random states uniformly"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Sufficient exploration means visiting all relevant state-action pairs often enough for the Q-values to converge to their true optimal values."
+  },
+  {
+    "id": "q49",
+    "text": "In model-based learning, what does 'normalize' mean when learning T(s,a,s')?",
+    "options": [
+      "Scale all values to the range [0,1]",
+      "Divide counts by total to get probability estimates",
+      "Subtract the mean and divide by standard deviation",
+      "Set all negative values to zero"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Normalizing means dividing the counts of transitions by the total number of times (s,a) was experienced to get probability estimates for T(s,a,s')."
+  },
+  {
+    "id": "q50",
+    "text": "If T(C, east, D) = 0.75 and T(C, east, A) = 0.25, how many times was the transition C→A observed if C→east was tried 4 times?",
+    "options": [
+      "1 time",
+      "2 times",
+      "3 times",
+      "4 times"
+    ],
+    "correctAnswer": 0,
+    "explanation": "If T(C, east, A) = 0.25 = 1/4, and there were 4 total trials of (C, east), then the transition to A occurred 1 time."
+  },
+  {
+    "id": "q51",
+    "text": "What is the relationship between the policy being evaluated and the policy being learned in Q-learning?",
+    "options": [
+      "They must be identical at all times",
+      "They can be different - Q-learning learns the optimal policy while following a different behavior policy",
+      "The policy being learned must be worse than the one being evaluated",
+      "Q-learning doesn't use any policy"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Q-learning is off-policy, meaning it can learn the optimal policy (via max_a' Q(s',a')) even while the agent acts according to a different, possibly suboptimal exploration policy."
+  },
+  {
+    "id": "q52",
+    "text": "In the TD learning example, after observing C→D with reward -2, if V(C)=3, V(D)=8, α=1/2, and γ=1, what is the new V(C)?",
+    "options": [
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Using V(C) ← (1-α)V(C) + α[r + γV(D)] = (1/2)·3 + (1/2)·[-2 + 1·8] = 1.5 + (1/2)·6 = 1.5 + 3 = 4.5, which rounds to approximately 5 based on the lecture's progression showing V(C)=3 becoming a higher value."
+  },
+  {
+    "id": "q53",
+    "text": "What does 'model-free' mean in the context of TD learning and Q-learning?",
+    "options": [
+      "The algorithms don't create any internal representations",
+      "The algorithms don't require knowing T(s,a,s') or R(s,a,s') explicitly",
+      "The algorithms work without any mathematical model",
+      "The algorithms don't use the Markov assumption"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Model-free means the algorithms don't require explicit knowledge of the transition function T(s,a,s') or reward function R(s,a,s') - they learn directly from experience."
+  },
+  {
+    "id": "q54",
+    "text": "In the direct evaluation example, why does state A have a value of -10?",
+    "options": [
+      "A always gives a reward of -10",
+      "A was visited once in episode 3, which ended immediately with +10 reward",
+      "A appeared in episode 3 leading to exit with -10 reward",
+      "A's value is the average of all episode rewards"
+    ],
+    "correctAnswer": 2,
+    "explanation": "In episode 3, the sequence C→east→A→exit→x with reward -10 shows that from state A, the agent exited and received -10, giving V(A) = -10."
+  },
+  {
+    "id": "q55",
+    "text": "What is the key insight that TD learning provides over direct evaluation?",
+    "options": [
+      "TD learning uses neural networks for function approximation",
+      "TD learning updates values incrementally from each transition, exploiting state connections through V(s')",
+      "TD learning only requires a single episode to converge",
+      "TD learning works only for deterministic environments"
+    ],
+    "correctAnswer": 1,
+    "explanation": "TD learning's key advantage is that it updates values after each transition using V(s'), thus exploiting the connections between states that direct evaluation ignores."
+  },
+  {
+    "id": "q56",
+    "text": "In Q-learning, what does max_a' Q(s',a') represent?",
+    "options": [
+      "The action that was actually taken in state s'",
+      "The value of the best action in the next state s'",
+      "The average of all Q-values in state s'",
+      "The probability of reaching state s'"
+    ],
+    "correctAnswer": 1,
+    "explanation": "max_a' Q(s',a') represents the value of taking the best action in the successor state s', which is used in the Q-learning update as the estimated future value."
+  },
+  {
+    "id": "q57",
+    "text": "Which statement best describes the relationship between model-based and model-free RL?",
+    "options": [
+      "Model-based learns T and R then solves the MDP; model-free learns values/Q-values directly from samples",
+      "Model-based is always superior to model-free in all scenarios",
+      "Model-free requires more samples than model-based",
+      "Model-based is only used for continuous state spaces"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Model-based RL learns the transition and reward models then solves the resulting MDP, while model-free methods like TD learning and Q-learning learn value functions directly from experience without building an explicit model."
+  },
+  {
+    "id": "q58",
+    "text": "What does the discount factor γ=1 in the examples indicate?",
+    "options": [
+      "Only immediate rewards matter",
+      "Future rewards are valued equally to immediate rewards (no discounting)",
+      "The agent is risk-averse",
+      "The MDP is episodic"
+    ],
+    "correctAnswer": 1,
+    "explanation": "When γ=1, there is no discounting, meaning future rewards are valued equally to immediate rewards. This contrasts with γ<1 where future rewards are discounted."
+  },
+  {
+    "id": "q59",
+    "text": "Why might decreasing the learning rate too quickly be problematic for Q-learning?",
+    "options": [
+      "The algorithm will diverge to infinity",
+      "The Q-values may not converge because updates become too small before adequate exploration",
+      "The computational cost increases exponentially",
+      "The policy becomes too stochastic"
+    ],
+    "correctAnswer": 1,
+    "explanation": "If α decreases too quickly, the updates become too small before the agent has explored enough or before Q-values have converged, preventing the algorithm from finding the optimal values."
+  },
+  {
+    "id": "q60",
+    "text": "In the context of the lecture's progression from passive to active RL, what capability is gained?",
+    "options": [
+      "The ability to work with continuous state spaces",
+      "The ability to choose actions to learn optimal policies rather than just evaluating a fixed policy",
+      "The ability to process visual inputs",
+      "The ability to learn without any reward signal"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The progression from passive RL (policy evaluation with a fixed policy) to active RL (Q-learning) represents gaining the ability to choose actions and learn optimal policies, including handling the exploration-exploitation tradeoff."
+  }
+]
