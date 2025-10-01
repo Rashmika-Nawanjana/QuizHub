@@ -1,0 +1,721 @@
+[
+  {
+    "id": "q1",
+    "text": "What are the essential components that define a Bayesian network?",
+    "options": [
+      "Nodes as random variables, directed links, conditional probability tables, and a directed acyclic graph structure",
+      "Undirected graphs, joint probability distributions, and independence assumptions",
+      "Decision trees, leaf nodes, and probability mass functions",
+      "Hidden Markov models, state transitions, and emission probabilities"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A Bayesian network consists of nodes representing random variables, directed links showing influence, conditional probability tables (CPTs) quantifying parent effects, and must be a directed acyclic graph (DAG) with no cycles."
+  },
+  {
+    "id": "q2",
+    "text": "In the dental example with Weather, Cavity, Toothache, and Catch, which conditional independence relationship is encoded by the network topology?",
+    "options": [
+      "Weather is dependent on Cavity given Toothache",
+      "Toothache and Catch are conditionally independent given Cavity",
+      "Cavity is independent of all other variables",
+      "Weather and Cavity are conditionally dependent given Catch"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The network topology explicitly encodes that Toothache and Catch are conditionally independent given Cavity, as both are effects of the common cause (Cavity)."
+  },
+  {
+    "id": "q3",
+    "text": "In the burglar alarm example, which statement correctly describes the causal relationships?",
+    "options": [
+      "John's call can cause the alarm to sound",
+      "Mary's music preference directly influences earthquake occurrence",
+      "Both burglary and earthquake can independently cause the alarm to activate",
+      "The alarm causes burglaries to occur"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The network reflects causal knowledge where both Burglary and Earthquake are independent causes that can trigger the Alarm, which then influences John and Mary to call."
+  },
+  {
+    "id": "q4",
+    "text": "How is the full joint probability distribution expressed in a Bayesian network?",
+    "options": [
+      "As the sum of all conditional probabilities in the network",
+      "As the product of local conditional distributions P(Xi | Parents(Xi))",
+      "As the maximum likelihood estimate of all variables",
+      "As the marginal probability of each variable multiplied together"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The full joint distribution equals the product of local conditional distributions: P(X₁,...,Xₙ) = ∏ P(Xi | Parents(Xi)), which follows from the chain rule and conditional independence assumptions."
+  },
+  {
+    "id": "q5",
+    "text": "Given the burglar alarm network with probabilities P(j|a)=0.9, P(m|a)=0.70, P(a|¬b,¬e)=0.01, P(¬b)=0.999, P(¬e)=0.998, what is P(j,m,a,¬b,¬e)?",
+    "options": [
+      "0.00063",
+      "0.063",
+      "0.63",
+      "0.0063"
+    ],
+    "correctAnswer": 0,
+    "explanation": "P(j,m,a,¬b,¬e) = P(j|a)×P(m|a)×P(a|¬b,¬e)×P(¬b)×P(¬e) = 0.9×0.70×0.01×0.999×0.998 = 0.00063"
+  },
+  {
+    "id": "q6",
+    "text": "What is the general formula for inference by enumeration to find P(X|e)?",
+    "options": [
+      "P(X|e) = P(X,e) / P(e), where sums are over hidden variables",
+      "P(X|e) = P(e|X) × P(X)",
+      "P(X|e) = ∑ P(X) × P(e)",
+      "P(X|e) = P(X) / P(e|X)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Inference by enumeration uses P(X|e) = P(X,e)/P(e), where both numerator and denominator require summing over all hidden variables Y to compute the joint probabilities."
+  },
+  {
+    "id": "q7",
+    "text": "In the burglar alarm network, what is the relationship between John's call and Burglary given that the Alarm went off?",
+    "options": [
+      "P(John | Alarm, Burglary) = P(John | Burglary)",
+      "P(John | Alarm, Burglary) = P(John | Alarm)",
+      "P(John | Alarm, Burglary) ≠ P(John | Alarm)",
+      "P(John | Alarm, Burglary) = P(John)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "John is conditionally independent of Burglary given Alarm because Alarm blocks the influence path. Once we know Alarm's state, knowing Burglary doesn't change John's probability: P(John|Alarm,Burglary) = P(John|Alarm)."
+  },
+  {
+    "id": "q8",
+    "text": "If the alarm went off, does knowing whether John called change the probability of Mary calling?",
+    "options": [
+      "Yes, because they are siblings in the network",
+      "Yes, because they both depend on the alarm",
+      "No, because Mary and John are conditionally independent given Alarm",
+      "No, because Mary never hears John's call"
+    ],
+    "correctAnswer": 2,
+    "explanation": "P(Mary|Alarm,John) = P(Mary|Alarm). Mary and John are conditionally independent given their common parent (Alarm). Once Alarm's state is known, John's action provides no additional information about Mary's action."
+  },
+  {
+    "id": "q9",
+    "text": "Given that the alarm went off, are Burglary and Earthquake conditionally independent?",
+    "options": [
+      "Yes, because they are both root causes with no parents",
+      "No, because observing the common effect (Alarm) creates dependence between them",
+      "Yes, because burglaries and earthquakes occur independently in nature",
+      "No, because earthquakes can prevent burglaries"
+    ],
+    "correctAnswer": 1,
+    "explanation": "P(Burglary|Alarm,Earthquake) ≠ P(Burglary|Alarm). When we observe a common effect (Alarm), the causes become dependent. This is called 'explaining away' - if we know Alarm occurred and Earthquake happened, Burglary becomes less likely."
+  },
+  {
+    "id": "q10",
+    "text": "If there was a burglary, does knowing whether John called change the probability that the alarm went off?",
+    "options": [
+      "Yes, because John's call provides evidence about the alarm state",
+      "No, because John only responds to the alarm",
+      "Yes, because burglary causes both alarm and John's call",
+      "No, because the causal direction is from alarm to John"
+    ],
+    "correctAnswer": 0,
+    "explanation": "P(Alarm|Burglary,John) ≠ P(Alarm|Burglary). Even though causally Alarm influences John, knowing John called provides diagnostic evidence about whether Alarm actually went off, creating dependence in the reverse direction."
+  },
+  {
+    "id": "q11",
+    "text": "What is the conditional independence relationship between children and ancestors in a Bayesian network?",
+    "options": [
+      "Children are always independent of ancestors",
+      "Children are conditionally independent of ancestors given parents",
+      "Children are conditionally dependent on ancestors given parents",
+      "Children and ancestors have no defined relationship"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Children are conditionally independent of ancestors given parents. For example, John and Mary are conditionally independent of Burglary and Earthquake given Alarm. The parent nodes block the influence from more distant ancestors."
+  },
+  {
+    "id": "q12",
+    "text": "What is the relationship between siblings in a Bayesian network?",
+    "options": [
+      "Siblings are always independent regardless of parent states",
+      "Siblings are conditionally independent of each other given parents",
+      "Siblings are conditionally dependent given parents",
+      "Siblings must have direct links between them"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Siblings are conditionally independent of each other given parents. John and Mary are conditionally independent given Alarm - once we know the alarm state, John's action tells us nothing additional about Mary's action."
+  },
+  {
+    "id": "q13",
+    "text": "In a common cause structure (X→Y←Z), what is the relationship between the parent nodes?",
+    "options": [
+      "Parents are conditionally independent given the child",
+      "Parents are always independent",
+      "Parents are not conditionally independent given the child",
+      "Parents must be directly connected"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Parents are NOT conditionally independent given children. When we observe a common effect, it creates dependence between the causes (explaining away phenomenon). Burglary and Earthquake become dependent when we observe Alarm."
+  },
+  {
+    "id": "q14",
+    "text": "In a common cause pattern (Y→X and Y→Z), are X and Z independent?",
+    "options": [
+      "Yes, because they have no direct link",
+      "No, because they share a common cause Y",
+      "Yes, if Y is observed",
+      "No, regardless of whether Y is observed"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In a common cause pattern, X and Z are NOT independent because they both depend on Y. However, they ARE conditionally independent given Y - once we know Y's state, X and Z become independent."
+  },
+  {
+    "id": "q15",
+    "text": "In a common effect pattern (X→Y←Z), are X and Z independent?",
+    "options": [
+      "Yes, because they are independent causes",
+      "No, because they both affect Y",
+      "No, if Y is observed",
+      "Yes, but only if Y is not observed"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In a common effect pattern, X and Z ARE independent when Y is not observed. They become dependent only when we observe Y (or its descendants), creating the explaining away effect."
+  },
+  {
+    "id": "q16",
+    "text": "In the car diagnosis Bayesian network, what do the orange nodes represent?",
+    "options": [
+      "Observable symptoms",
+      "Broken components that need fixing",
+      "Hidden variables for structure",
+      "Initial observations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In the car diagnosis network, orange nodes represent 'broken, so fix it' nodes - the actual components that may be faulty and need repair."
+  },
+  {
+    "id": "q17",
+    "text": "What is the purpose of gray 'hidden variables' in the car diagnosis network?",
+    "options": [
+      "To represent testable evidence",
+      "To ensure sparse structure and reduce parameters",
+      "To indicate broken components",
+      "To show initial observations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Gray hidden variables are intermediate nodes used to ensure sparse network structure and reduce the number of parameters needed, making the network more compact and manageable."
+  },
+  {
+    "id": "q18",
+    "text": "For a Boolean variable Xi with k Boolean parents, how many rows does its conditional probability table have?",
+    "options": [
+      "k rows",
+      "2k rows",
+      "k² rows",
+      "2^k rows"
+    ],
+    "correctAnswer": 3,
+    "explanation": "A CPT for Boolean Xi with k Boolean parents has 2^k rows to cover all possible combinations of parent values. Each parent can be true or false, giving 2^k combinations."
+  },
+  {
+    "id": "q19",
+    "text": "How many numbers are needed per row in a CPT for a Boolean variable?",
+    "options": [
+      "One number p for Xi=true (Xi=false is 1-p)",
+      "Two numbers, one for true and one for false",
+      "k numbers where k is the number of parents",
+      "2^k numbers for all combinations"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Each row requires only one number p for Xi=true because the probability for Xi=false is just 1-p. Since probabilities must sum to 1, only one value needs to be stored."
+  },
+  {
+    "id": "q20",
+    "text": "If each variable in a network has no more than k parents, how does the number of parameters grow with n variables?",
+    "options": [
+      "O(n·2^k) - grows linearly with n",
+      "O(2^n) - grows exponentially with n",
+      "O(n²) - grows quadratically with n",
+      "O(k^n) - grows exponentially with k"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The complete network requires O(n·2^k) numbers, which grows linearly with n (number of variables), compared to O(2^n) for the full joint distribution. This demonstrates the compactness of Bayesian networks."
+  },
+  {
+    "id": "q21",
+    "text": "How many numbers are needed for the burglar alarm network versus the full joint distribution?",
+    "options": [
+      "10 numbers for the network vs. 31 for full joint distribution",
+      "31 numbers for both representations",
+      "5 numbers for the network vs. 32 for full joint distribution",
+      "20 numbers for the network vs. 31 for full joint distribution"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The burglar alarm network needs 1+1+4+2+2=10 numbers (for B, E, A, J, M respectively), while the full joint distribution needs 2^5-1=31 numbers, demonstrating significant compression."
+  },
+  {
+    "id": "q22",
+    "text": "What is the first step in constructing a Bayesian network?",
+    "options": [
+      "Choose an ordering for the variables",
+      "Choose the set of relevant variables that describe the domain",
+      "Define conditional probability tables",
+      "Identify parent-child relationships"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Step 1 is to choose the set of relevant variables X that describe the domain. This determines what aspects of the problem will be modeled before considering their relationships."
+  },
+  {
+    "id": "q23",
+    "text": "Why is choosing an appropriate variable ordering important in Bayesian network construction?",
+    "options": [
+      "Any ordering produces the same network structure",
+      "Only one correct ordering exists for each problem",
+      "When cause precedes effect, the network becomes more compact",
+      "The ordering determines which variables can be included"
+    ],
+    "correctAnswer": 2,
+    "explanation": "While any ordering will work, when causes precede effects (causal ordering), the resulting network structure is typically more compact with fewer parameters and clearer conditional independence relationships."
+  },
+  {
+    "id": "q24",
+    "text": "When adding a variable Xi during network construction, how should Parents(Xi) be chosen?",
+    "options": [
+      "Include all previously added variables",
+      "Choose a minimal set of existing nodes such that conditional independence is satisfied",
+      "Include only the immediate predecessor in the ordering",
+      "Include variables with the highest correlation"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Parents(Xi) should be set to some minimal set of existing nodes such that the conditional independence property is satisfied - just enough parents to capture Xi's dependencies without unnecessary connections."
+  },
+  {
+    "id": "q25",
+    "text": "In the example with ordering M, J, A, B, E, is P(J|M) = P(J)?",
+    "options": [
+      "Yes, because J and M are independent",
+      "No, because M provides information about J",
+      "Yes, because J precedes M causally",
+      "No, because the ordering makes them dependent"
+    ],
+    "correctAnswer": 1,
+    "explanation": "No, P(J|M) ≠ P(J). In this non-causal ordering, Mary calling provides information about John calling (both may indicate alarm), so J depends on M despite the unnatural causal direction."
+  },
+  {
+    "id": "q26",
+    "text": "With ordering M, J, A, B, E, which statement about P(A|J,M) is correct?",
+    "options": [
+      "P(A|J,M) = P(A)",
+      "P(A|J,M) = P(A|J)",
+      "P(A|J,M) cannot be simplified",
+      "P(A|J,M) = P(A|M)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "P(A|J,M) ≠ P(A|J) and P(A|J,M) ≠ P(A). Alarm depends on both Mary and John's calls in this ordering because their calls provide diagnostic evidence about the alarm. No simplification is possible."
+  },
+  {
+    "id": "q27",
+    "text": "With ordering M, J, A, B, E, what is the relationship for P(B|A,J,M)?",
+    "options": [
+      "P(B|A,J,M) = P(B)",
+      "P(B|A,J,M) = P(B|A)",
+      "P(B|A,J,M) = P(B|J,M)",
+      "P(B|A,J,M) = P(B|M)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "P(B|A,J,M) = P(B|A). Once we know the alarm state, J and M provide no additional information about burglary - the alarm blocks their influence. So Burglary only needs Alarm as a parent."
+  },
+  {
+    "id": "q28",
+    "text": "With ordering M, J, A, B, E, what is the relationship for P(E|B,A,J,M)?",
+    "options": [
+      "P(E|B,A,J,M) = P(E)",
+      "P(E|B,A,J,M) = P(E|A)",
+      "P(E|B,A,J,M) = P(E|A,B)",
+      "P(E|B,A,J,M) = P(E|B)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "P(E|B,A,J,M) = P(E|A,B). Earthquake depends on both Alarm and Burglary in this ordering (observing both provides information about earthquake through explaining away), but J and M are blocked by A."
+  },
+  {
+    "id": "q29",
+    "text": "How many numbers does the network with ordering M, J, A, B, E require compared to the causal ordering?",
+    "options": [
+      "10 numbers (same as causal ordering)",
+      "13 numbers (more than causal ordering)",
+      "8 numbers (fewer than causal ordering)",
+      "31 numbers (same as full joint)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The network with non-causal ordering requires 1+2+4+2+4=13 numbers compared to 10 numbers for the causal ordering, demonstrating that poor ordering increases network complexity."
+  },
+  {
+    "id": "q30",
+    "text": "Why is deciding conditional independence harder in non-causal directions?",
+    "options": [
+      "Non-causal networks have more variables",
+      "Causal models and conditional independence seem hardwired for humans",
+      "Non-causal directions require more computation",
+      "Mathematical formulas don't apply to non-causal networks"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Causal models and conditional independence seem hardwired for humans - we naturally think in terms of causes and effects, making it intuitive to identify independence in causal directions but much harder in diagnostic (effect-to-cause) directions."
+  },
+  {
+    "id": "q31",
+    "text": "Which type of model is usually more compact?",
+    "options": [
+      "Diagnostic models (effects to causes)",
+      "Causal models (causes to effects)",
+      "Both are equally compact",
+      "Neither, full joint distribution is more compact"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A causal model (links from causes to effects) is usually more compact than a diagnostic model (links from effects to causes), requiring fewer parameters and simpler conditional independence structures."
+  },
+  {
+    "id": "q32",
+    "text": "What is the recommended strategy for ordering variables when constructing a Bayesian network?",
+    "options": [
+      "Alphabetical order for consistency",
+      "Random order, as any ordering works",
+      "Root causes first, then variables they influence, and so on",
+      "Most important variables first, then less important ones"
+    ],
+    "correctAnswer": 2,
+    "explanation": "It's better to order variables with root causes first, then the variables they influence, and so on. This causal ordering produces more compact networks with clearer independence structures."
+  },
+  {
+    "id": "q33",
+    "text": "In the sprinkler network example, which variables are the root causes?",
+    "options": [
+      "Sprinkler and Rain",
+      "Cloudy only",
+      "WetGrass only",
+      "Cloudy and WetGrass"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Cloudy is the root cause (no parents) in this network. It influences both Sprinkler and Rain, which then both affect WetGrass."
+  },
+  {
+    "id": "q34",
+    "text": "In the sprinkler network, what is the relationship between Sprinkler and Rain?",
+    "options": [
+      "Sprinkler and Rain directly influence each other",
+      "Sprinkler and Rain are independent",
+      "Sprinkler and Rain are conditionally independent given Cloudy",
+      "Sprinkler causes Rain"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Sprinkler and Rain are conditionally independent given Cloudy. They share a common cause (Cloudy) but don't directly influence each other. Once we know if it's cloudy, sprinkler and rain occurrence are independent."
+  },
+  {
+    "id": "q35",
+    "text": "Given that the grass is wet, what is being computed by P(r|w)?",
+    "options": [
+      "The probability that the sprinkler was on",
+      "The probability that it rained",
+      "The probability that it's cloudy",
+      "The probability that both sprinkler was on and it rained"
+    ],
+    "correctAnswer": 1,
+    "explanation": "P(r|w) computes the probability that it rained (r) given the observation that the grass is wet (w). This is a diagnostic inference from effect to cause."
+  },
+  {
+    "id": "q36",
+    "text": "In computing P(r|w), why do we write it as proportional to ∑P(c,s,r,w)?",
+    "options": [
+      "Because P(w) is unknown",
+      "Because we sum over hidden variables C and S while keeping r and w fixed",
+      "Because proportionality is faster to compute",
+      "Because it eliminates the need for conditional probabilities"
+    ],
+    "correctAnswer": 1,
+    "explanation": "P(r|w) ∝ ∑P(c,s,r,w) where the sum is over hidden variables C and S. The proportionality eliminates P(w) which is just a normalizing constant, and we enumerate over all values of unobserved variables."
+  },
+  {
+    "id": "q37",
+    "text": "In the derivation of P(r|w), what allows us to write P(c,s,r,w) as a product?",
+    "options": [
+      "The chain rule of probability",
+      "The structure of the Bayesian network and conditional independence",
+      "The assumption that all variables are independent",
+      "The use of Bayes' theorem"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Bayesian network structure allows us to write P(c,s,r,w) = P(c)P(s|c)P(r|c)P(w|r,s) as a product of local conditional distributions based on the parent relationships in the network."
+  },
+  {
+    "id": "q38",
+    "text": "When simplifying P(r|w), how does the term ∑P(s|c) simplify?",
+    "options": [
+      "It equals P(s)",
+      "It equals 1 because it sums over all values of s",
+      "It equals P(c)",
+      "It cannot be simplified"
+    ],
+    "correctAnswer": 1,
+    "explanation": "∑P(s|c) over all values of s equals 1, as the probabilities of all possible values of a variable given its parents must sum to 1. This allows the term to be eliminated from the expression."
+  },
+  {
+    "id": "q39",
+    "text": "What does P(w|r,c) simplify to in the sprinkler network?",
+    "options": [
+      "P(w|r,s)",
+      "P(w|r)",
+      "P(w|c)",
+      "P(w)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "P(w|r,c) simplifies to P(w|r) because WetGrass depends on both Rain and Sprinkler, and we can marginalize over Sprinkler. The full computation shows that knowing c doesn't add information once we account for r and s."
+  },
+  {
+    "id": "q40",
+    "text": "What is the final simplified form of P(r|w)?",
+    "options": [
+      "P(w|r)P(r|c)P(c)",
+      "P(w|r)P(r)",
+      "P(r)P(w)",
+      "P(r|w,c)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The final simplified form is P(r|w) ∝ P(w|r)P(r), which is essentially Bayes' rule. This shows that to infer rain from wet grass, we need the likelihood P(w|r) and the prior P(r)."
+  },
+  {
+    "id": "q41",
+    "text": "What natural representation do Bayesian networks provide?",
+    "options": [
+      "Correlation structures between variables",
+      "Causally induced conditional independence",
+      "Time series dependencies",
+      "Clustering patterns in data"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Bayesian networks provide a natural representation for causally induced conditional independence - they capture how causal relationships create patterns of independence and dependence among variables."
+  },
+  {
+    "id": "q42",
+    "text": "What two components together provide a compact representation of the joint distribution?",
+    "options": [
+      "Variables and observations",
+      "Topology and conditional probability tables",
+      "Nodes and edges only",
+      "Prior probabilities and likelihood functions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Topology (network structure) combined with CPTs (conditional probability tables) provide a compact representation of the joint distribution, requiring far fewer parameters than storing the full joint distribution."
+  },
+  {
+    "id": "q43",
+    "text": "According to the lecture, why are Bayesian networks generally easy for domain experts to construct?",
+    "options": [
+      "They require minimal mathematical knowledge",
+      "They follow naturally from causal understanding of the domain",
+      "They can be automatically learned from data",
+      "They have simple graphical interfaces"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Bayesian networks are generally easy for domain experts to construct because they naturally reflect causal knowledge and conditional independence relationships that experts understand about their domain."
+  },
+  {
+    "id": "q44",
+    "text": "What is the intuitive meaning of a directed link from node X to node Y?",
+    "options": [
+      "X and Y are correlated",
+      "X has a direct influence on Y",
+      "Y can be predicted from X",
+      "X occurs before Y in time"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The intuitive meaning of a directed link from X to Y is that X has a direct influence on Y. This represents a causal or dependency relationship where X directly affects Y's probability distribution."
+  },
+  {
+    "id": "q45",
+    "text": "What does CPT stand for in the context of Bayesian networks?",
+    "options": [
+      "Causal Probability Theory",
+      "Conditional Probability Table",
+      "Complete Probability Transformation",
+      "Computed Probability Topology"
+    ],
+    "correctAnswer": 1,
+    "explanation": "CPT stands for Conditional Probability Table, which quantifies the effects that the parent nodes have on each node in the network."
+  },
+  {
+    "id": "q46",
+    "text": "Why must a Bayesian network be a directed acyclic graph (DAG)?",
+    "options": [
+      "To ensure computational efficiency",
+      "To prevent circular causal relationships and enable probability calculations",
+      "To make visualization easier",
+      "To allow bidirectional influences"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A Bayesian network must be a DAG (no directed cycles) to prevent circular causal relationships, which would make the probability model ill-defined and prevent proper calculation of joint probabilities."
+  },
+  {
+    "id": "q47",
+    "text": "In the burglar alarm scenario, why might John call the police even when there's no burglary?",
+    "options": [
+      "He is overly cautious about security",
+      "He sometimes confuses telephone ringing with the alarm",
+      "He has a direct connection to the police",
+      "He can sense earthquakes before they occur"
+    ],
+    "correctAnswer": 1,
+    "explanation": "According to the problem description, John always calls when he hears the alarm, but sometimes confuses the telephone ringing with the alarm and calls then too, creating false positives."
+  },
+  {
+    "id": "q48",
+    "text": "Why might Mary not call even when the alarm sounds?",
+    "options": [
+      "She doesn't trust John to call",
+      "She likes loud music and sometimes misses the alarm",
+      "She's usually not at home",
+      "She doesn't know how to call the police"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Mary likes loud music and sometimes misses the alarm altogether, which explains why she might not call even when the alarm has actually sounded."
+  },
+  {
+    "id": "q49",
+    "text": "What type of question does the burglar alarm network help answer?",
+    "options": [
+      "How to prevent burglaries",
+      "Whether there's a burglar given who called",
+      "When to install alarm systems",
+      "How reliable alarm systems are in general"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The network helps answer diagnostic questions like 'neighbor John calls, but neighbor Mary doesn't call. Is there a burglar?' - inferring causes (burglary) from observed effects (calls)."
+  },
+  {
+    "id": "q50",
+    "text": "Which represents the chain rule form of the joint probability before applying conditional independence?",
+    "options": [
+      "P(X₁,...,Xₙ) = ∏P(Xi)",
+      "P(X₁,...,Xₙ) = ∏P(Xi | X₁,...,Xi₋₁)",
+      "P(X₁,...,Xₙ) = ∑P(Xi | Parents(Xi))",
+      "P(X₁,...,Xₙ) = ∏P(Xi | Xi₊₁)"
+    ],
+    "correctAnswer": 1,"explanation": "The chain rule states P(X₁,...,Xₙ) = ∏P(Xi | X₁,...,Xi₋₁), expressing joint probability as a product of conditional probabilities where each variable is conditioned on all previous variables in the ordering."
+  },
+  {
+    "id": "q51",
+    "text": "How does the local conditional form differ from the chain rule form?",
+    "options": [
+      "It uses summation instead of products",
+      "It conditions each variable only on its parents rather than all previous variables",
+      "It removes all conditional dependencies",
+      "It applies only to root nodes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The local conditional form P(X₁,...,Xₙ) = ∏P(Xi | Parents(Xi)) simplifies the chain rule by conditioning each variable only on its parents instead of all previous variables, exploiting conditional independence."
+  },
+  {
+    "id": "q52",
+    "text": "In inference by enumeration, what must be done with hidden variables Y?",
+    "options": [
+      "They must be observed before inference",
+      "They must be summed over all their possible values",
+      "They must be set to their most likely values",
+      "They must be eliminated from the network"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In inference by enumeration, hidden variables Y must be summed (marginalized) over all their possible values to compute P(X,e) and P(e), allowing us to calculate P(X|e)."
+  },
+  {
+    "id": "q53",
+    "text": "What phenomenon is illustrated when observing a common effect makes independent causes become dependent?",
+    "options": [
+      "Causal reinforcement",
+      "Explaining away",
+      "Evidence propagation",
+      "Belief updating"
+    ],
+    "correctAnswer": 1,
+    "explanation": "This is called 'explaining away' - when we observe a common effect (like Alarm), independent causes (Burglary and Earthquake) become dependent because one cause can explain away the need for the other."
+  },
+  {
+    "id": "q54",
+    "text": "In the car diagnosis network, what is the primary initial observation?",
+    "options": [
+      "Engine overheating",
+      "Strange noises from the engine",
+      "Car won't start",
+      "Check engine light is on"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The initial observation for the car diagnosis network is that the car won't start. The network then helps diagnose which component failures could cause this symptom."
+  },
+  {
+    "id": "q55",
+    "text": "What does the green color represent in the car diagnosis network?",
+    "options": [
+      "Components that are working properly",
+      "Testable evidence",
+      "Root causes",
+      "Most likely failure points"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Green nodes in the car diagnosis network represent testable evidence - observations or tests that can be performed to gather information about the system's state."
+  },
+  {
+    "id": "q56",
+    "text": "If we have a Bayesian network with 5 Boolean variables and each has at most 2 parents, approximately how much compression does this provide compared to the full joint distribution?",
+    "options": [
+      "No compression, same number of parameters",
+      "About 3x compression",
+      "Linear vs exponential growth",
+      "Compression depends on the specific network structure"
+    ],
+    "correctAnswer": 2,
+    "explanation": "With max k=2 parents, the network needs O(n·2²) = O(4n) = 20 parameters for 5 variables. The full joint needs 2⁵-1=31 parameters. More importantly, as n grows, the network grows linearly O(n) while the full joint grows exponentially O(2ⁿ)."
+  },
+  {
+    "id": "q57",
+    "text": "When constructing a Bayesian network, what is the criterion for determining if the conditional independence property is satisfied?",
+    "options": [
+      "Parents must include all correlated variables",
+      "Parents must be the minimal set such that Xi is independent of all other predecessors given its parents",
+      "Parents must be chosen to minimize the number of parameters",
+      "Parents must include all variables with direct causal links"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The conditional independence property is satisfied when Parents(Xi) is chosen such that Xi is conditionally independent of all its other predecessors (non-descendants) given its parents. This should be a minimal sufficient set."
+  },
+  {
+    "id": "q58",
+    "text": "In the sprinkler example derivation, what mathematical property allows ∑P(c)P(r|c)P(w|r,c) to be factored?",
+    "options": [
+      "P(c) doesn't depend on the summation variable s, so it can be pulled out",
+      "The chain rule requires this factorization",
+      "Conditional independence eliminates the need for c",
+      "Bayes' theorem applies directly"
+    ],
+    "correctAnswer": 0,
+    "explanation": "P(c), P(r|c), and P(w|r,c) don't depend on s (the summation variable), so they can be factored out of the sum over s, leaving only ∑P(s|c) which equals 1."
+  },
+  {
+    "id": "q59",
+    "text": "What is the key advantage of using P(Xi | Parents(Xi)) instead of P(Xi | X₁,...,Xi₋₁)?",
+    "options": [
+      "It's mathematically more accurate",
+      "It requires storing far fewer conditional probabilities by exploiting independence",
+      "It allows for faster computation of individual probabilities",
+      "It works better with continuous variables"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Using P(Xi | Parents(Xi)) instead of conditioning on all previous variables dramatically reduces the number of parameters needed because we only store probabilities conditioned on the small parent set rather than all predecessors, exploiting conditional independence."
+  },
+  {
+    "id": "q60",
+    "text": "Why is a causal ordering preferred even though any ordering will produce a valid Bayesian network?",
+    "options": [
+      "Causal orderings are required for the mathematics to work",
+      "Causal orderings produce more accurate probability estimates",
+      "Causal orderings lead to more compact networks with fewer parameters and clearer independence structures",
+      "Causal orderings allow for bidirectional inference"
+    ],
+    "correctAnswer": 2,
+    "explanation": "While any ordering produces a valid network, causal orderings (causes before effects) lead to more compact networks with fewer parameters, clearer conditional independence relationships, and are more intuitive for humans to construct and understand."
+  }
+]

@@ -1,0 +1,722 @@
+[
+  {
+    "id": "q1",
+    "text": "In the context of making decisions under uncertainty, what is the fundamental difference between deterministic and probabilistic reasoning?",
+    "options": [
+      "Deterministic reasoning assumes perfect information while probabilistic reasoning accounts for uncertainty and incomplete information",
+      "Deterministic reasoning is faster to compute while probabilistic reasoning requires more computational resources",
+      "Deterministic reasoning uses Boolean logic while probabilistic reasoning uses fuzzy logic",
+      "Deterministic reasoning is only applicable to AI agents while probabilistic reasoning applies to all decision-making"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Deterministic reasoning assumes certainty (e.g., 'If I take my umbrella, I won't get wet'), while probabilistic reasoning acknowledges that multiple uncertain outcomes are possible (e.g., the umbrella might break, strong winds might spray water)."
+  },
+  {
+    "id": "q2",
+    "text": "Which of the following is NOT listed as a source of uncertainty when deciding when to leave for the airport?",
+    "options": [
+      "Partial observability of road conditions",
+      "Noisy sensors providing unreliable traffic reports",
+      "Uncertainty in action outcomes like flat tyres",
+      "Incomplete knowledge of flight departure procedures"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The lecture lists partial observability, noisy sensors, uncertainty in action outcomes, and complexity of modeling traffic as sources of uncertainty. Flight departure procedures are not mentioned as a source of uncertainty in this context."
+  },
+  {
+    "id": "q3",
+    "text": "According to the lecture, why does a purely logical approach to decision-making under uncertainty either risk falsehood or lead to weak conclusions?",
+    "options": [
+      "Because it requires too much computational power to process all possibilities",
+      "Because it either makes absolute claims that may be false (A₂₅ will get me there) or requires listing all possible exceptions making conclusions impractical",
+      "Because logical systems cannot represent temporal information",
+      "Because humans are inherently illogical and cannot follow pure logic"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explains that a purely logical approach either risks falsehood by making definitive claims or leads to conclusions requiring exhaustive exception listing ('if there is no accident AND no rain AND no car problem...'), making them too weak for practical decision-making."
+  },
+  {
+    "id": "q4",
+    "text": "What are the three factors that rational decisions depend on according to the lecture?",
+    "options": [
+      "Speed of computation, available memory, and processing power",
+      "The relative importance of goals, likelihood of achieving them, and degree to which they will be achieved",
+      "Past experience, current knowledge, and future predictions",
+      "Cost, benefit, and risk assessment"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states that rational decisions depend on: the relative importance of various goals, the likelihood they will be achieved, and the degree to which they will be achieved."
+  },
+  {
+    "id": "q5",
+    "text": "Which type of ignorance refers to situations where theoretical knowledge of a domain is complete but some evidential facts are missing?",
+    "options": [
+      "Theoretical ignorance",
+      "Practical ignorance",
+      "Systematic ignorance",
+      "Computational ignorance"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture distinguishes between theoretical ignorance (incomplete domain knowledge) and practical ignorance (complete theoretical knowledge but missing evidential facts)."
+  },
+  {
+    "id": "q6",
+    "text": "In the context of handling uncertain knowledge, what does 'laziness' refer to?",
+    "options": [
+      "Too much work to write complete axioms or too hard to work with enormous resulting sentences",
+      "Insufficient training data for machine learning models",
+      "Lack of computational resources to process all information",
+      "Unwillingness of domain experts to share their knowledge"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture defines 'laziness' as the situation where it's too much work to write complete axioms, or too hard to work with the enormous sentences that result from attempting complete logical specification."
+  },
+  {
+    "id": "q7",
+    "text": "What is the main characteristic of default or non-monotonic logic?",
+    "options": [
+      "It uses probability distributions to represent uncertainty",
+      "Conclusions drawn can be retracted or revised based on new information",
+      "It always produces monotonically increasing confidence values",
+      "It requires all premises to be stated before drawing conclusions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines non-monotonic logic as a logical system where conclusions drawn can be retracted or revised based on new information, as illustrated by the Tweety the penguin example."
+  },
+  {
+    "id": "q8",
+    "text": "If P(A₂₅ gets me there on time) = 0.04 and P(A₁₂₀ gets me there on time) = 0.95, what additional concept is needed to determine which action an agent should choose?",
+    "options": [
+      "Utility function to quantify preferences for different outcomes",
+      "Bayesian network to represent dependencies",
+      "Markov chain to model state transitions",
+      "Cost function to minimize expenditure"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explains that choosing between actions depends on preferences (e.g., missing flight vs. time spent waiting), which are encapsulated by a utility function that attempts to quantify satisfaction/happiness."
+  },
+  {
+    "id": "q9",
+    "text": "What is the formula for expected utility of an action according to the lecture?",
+    "options": [
+      "EU(a) = Σ P(outcome | a) × U(outcome) over all outcomes of a",
+      "EU(a) = P(a) × U(a) + (1 - P(a)) × U(¬a)",
+      "EU(a) = max{U(outcome)} for all possible outcomes",
+      "EU(a) = Σ P(a | outcome) × U(a) over all outcomes"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explicitly defines expected utility as EU(a) = Σ P(outcome | a) × U(outcome), summing over all outcomes of action a."
+  },
+  {
+    "id": "q10",
+    "text": "What does the equation 'Decision theory = probability theory + utility theory' represent?",
+    "options": [
+      "The computational complexity of decision-making algorithms",
+      "The framework for making rational decisions by combining uncertainty representation with preference modeling",
+      "The historical development of artificial intelligence",
+      "The mathematical foundation of Boolean logic"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture presents this equation to show that decision theory combines probability theory (for representing uncertainty) with utility theory (for representing preferences) to enable rational decision-making."
+  },
+  {
+    "id": "q11",
+    "text": "What type of probability interpretation does the lecture primarily discuss?",
+    "options": [
+      "Frequentist probability based on long-run frequencies",
+      "Subjective or Bayesian probability relating propositions to one's state of knowledge",
+      "Classical probability based on equally likely outcomes",
+      "Empirical probability derived from experimental data"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly discusses subjective or Bayesian probability, where probabilities relate propositions to one's own state of knowledge, as exemplified by P(A₂₅ gets me there on time | no reported accidents) = 0.06."
+  },
+  {
+    "id": "q12",
+    "text": "According to the lecture, how do probabilities change with new evidence?",
+    "options": [
+      "They remain constant once initially assigned",
+      "They update based on new evidence, such as P(A₂₅ succeeds | no accidents, 5 a.m.) = 0.15",
+      "They always increase with more information",
+      "They converge to either 0 or 1 with sufficient evidence"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture demonstrates that probabilities of propositions change with new evidence, providing the example where P(A₂₅ gets me there on time) changes from 0.06 with no accidents to 0.15 when also considering it's 5 a.m."
+  },
+  {
+    "id": "q13",
+    "text": "In probability theory, what is the sample space Ω?",
+    "options": [
+      "The set of all random variables in a model",
+      "The set of all possible outcomes or possible worlds",
+      "The probability distribution over all events",
+      "The collection of all conditional probabilities"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines the sample space Ω as the set of all possible outcomes (e.g., 6 possible rolls of a die), where ω ∈ Ω is a sample point/possible world/atomic event."
+  },
+  {
+    "id": "q14",
+    "text": "What is an atomic event?",
+    "options": [
+      "An event that cannot be further subdivided into simpler events",
+      "A complete specification of the state of the world",
+      "The most probable event in a sample space",
+      "An event with probability less than 0.01"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines an atomic event as a complete specification of the state of the world. For example, with Boolean variables A and B, atomic events are A∧B, ¬A∧B, A∧¬B, and ¬A∧¬B."
+  },
+  {
+    "id": "q15",
+    "text": "Which properties must atomic events satisfy?",
+    "options": [
+      "They must be independent and identically distributed",
+      "They must be mutually exclusive and collectively exhaustive",
+      "They must have equal probabilities summing to 1",
+      "They must be observable and measurable"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states that atomic events are mutually exclusive (P(ωᵢ, ωⱼ) = 0 for all i≠j) and collectively exhaustive (Σ P(ω) = 1 over all ω ∈ Ω)."
+  },
+  {
+    "id": "q16",
+    "text": "What are the requirements for a valid probability model according to the lecture?",
+    "options": [
+      "0 ≤ P(ω) ≤ 1 for all ω, and Σ P(ω) = 1",
+      "P(ω) > 0 for all ω, and max P(ω) = 1",
+      "All P(ω) must be rational numbers between 0 and 1",
+      "P(ω) must be computable in polynomial time"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture defines a probability model as requiring 0 ≤ P(ω) ≤ 1 for every ω ∈ Ω and Σ P(ω) = 1, exemplified by a fair die where P(1)=...=P(6)=1/6."
+  },
+  {
+    "id": "q17",
+    "text": "How is the probability of an event A (a subset of Ω) calculated?",
+    "options": [
+      "P(A) = Σ P(ω) for all ω ∈ A",
+      "P(A) = max{P(ω) : ω ∈ A}",
+      "P(A) = |A| / |Ω| where |·| denotes cardinality",
+      "P(A) = 1 - P(¬A) only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that for any event A (subset of Ω), P(A) = Σ P(ω) for all ω ∈ A. For example, P(die roll < 4) = P(1) + P(2) + P(3) = 1/2."
+  },
+  {
+    "id": "q18",
+    "text": "What is a random variable?",
+    "options": [
+      "A variable whose possible values are numerical outcomes of a random phenomenon",
+      "Any variable that changes over time",
+      "A variable that follows a normal distribution",
+      "A variable whose value cannot be predicted with certainty"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture defines a random variable as a variable whose possible values are numerical outcomes of a random phenomenon, such as X = outcome of a roll of a dice with Domain(X) = {1, 2, 3, 4, 5, 6}."
+  },
+  {
+    "id": "q19",
+    "text": "What types of random variables are discussed in the lecture?",
+    "options": [
+      "Boolean, discrete, and continuous",
+      "Deterministic, stochastic, and hybrid",
+      "Independent, dependent, and conditional",
+      "Observable, hidden, and latent"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that a random variable can be Boolean, discrete, or continuous, depending on its domain."
+  },
+  {
+    "id": "q20",
+    "text": "How should a proposition involving a random variable be conceptualized?",
+    "options": [
+      "As the event (set of sample points) where the proposition is true",
+      "As a logical statement that is either true or false",
+      "As a probability distribution over possible values",
+      "As a conditional probability given all evidence"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture instructs to think of a proposition as the event (set of sample points) where the proposition is true. For example, X_is_Odd = {ω ∈ Ω | X is Odd}."
+  },
+  {
+    "id": "q21",
+    "text": "The proposition X_is_Odd (where X is a die roll) can be written as which disjunction of atomic events?",
+    "options": [
+      "(X=1) ∨ (X=3) ∨ (X=5)",
+      "(X=2) ∨ (X=4) ∨ (X=6)",
+      "(X<4) ∨ (X>4)",
+      "(X≠2) ∨ (X≠4) ∨ (X≠6)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explicitly states that the proposition X_is_Odd is equivalent to the disjunction (X=1) ∨ (X=3) ∨ (X=5), representing the odd outcomes of a die roll."
+  },
+  {
+    "id": "q22",
+    "text": "Which of the following is an example of a propositional or Boolean random variable?",
+    "options": [
+      "Weather with values {sunny, rain, cloudy, snow}",
+      "Temperature as a continuous value",
+      "Cavity with values {true, false}",
+      "Die roll with values {1, 2, 3, 4, 5, 6}"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture gives Cavity (do I have a cavity?) as an example of a propositional or Boolean random variable, where Cavity=true is a proposition, also written as 'cavity'."
+  },
+  {
+    "id": "q23",
+    "text": "For discrete random variables, what requirement must their values satisfy?",
+    "options": [
+      "They must be integers between 0 and 100",
+      "They must be exhaustive and mutually exclusive",
+      "They must follow a uniform distribution",
+      "They must be observable without measurement error"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states that for discrete random variables like Weather ∈ {sunny, rain, cloudy, snow}, values must be exhaustive and mutually exclusive."
+  },
+  {
+    "id": "q24",
+    "text": "What are prior or unconditional probabilities?",
+    "options": [
+      "Probabilities calculated after observing evidence",
+      "Probabilities of propositions prior to arrival of any new evidence",
+      "Probabilities that are always equal to 0.5",
+      "Probabilities derived from historical frequency data"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines prior or unconditional probabilities as those corresponding to belief prior to arrival of any (new) evidence, such as P(Cavity=true) = 0.1."
+  },
+  {
+    "id": "q25",
+    "text": "If P(Weather=sunny)=0.7, P(Weather=rain)=0.2, P(Weather=cloudy)=0.08, P(Weather=snow)=0.02, what does the notation P(Weather) = <0.7, 0.2, 0.08, 0.02> represent?",
+    "options": [
+      "A conditional probability distribution",
+      "A normalized probability distribution giving values for all possible assignments",
+      "The expected value of the Weather variable",
+      "The variance of the Weather distribution"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture shows this notation represents a normalized probability distribution (summing to 1) that gives values for all possible assignments of the Weather variable."
+  },
+  {
+    "id": "q26",
+    "text": "What does a joint probability distribution for a set of random variables specify?",
+    "options": [
+      "Only the most likely combinations of variable values",
+      "The probability of every atomic event on those random variables",
+      "The conditional dependencies between variables",
+      "The marginal distribution of each individual variable"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states that a joint probability distribution for a set of random variables gives the probability of every atomic event on those random variables (i.e., every sample point)."
+  },
+  {
+    "id": "q27",
+    "text": "Why can every question about a domain be answered by the joint distribution?",
+    "options": [
+      "Because the joint distribution contains all conditional independence assumptions",
+      "Because every event is a sum of sample points and the joint distribution specifies all sample point probabilities",
+      "Because the joint distribution is always computationally tractable",
+      "Because the joint distribution incorporates all causal relationships"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explains that every question about a domain can be answered by the joint distribution because every event is a sum of sample points, and the joint distribution provides probabilities for all sample points."
+  },
+  {
+    "id": "q28",
+    "text": "How are probability distributions of continuous random variables specified?",
+    "options": [
+      "By probability density functions (pdfs)",
+      "By cumulative distribution tables",
+      "By discrete probability mass functions",
+      "By moment generating functions only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that probability distributions of continuous random variables are specified by probability density functions (pdfs), giving the example of a uniform distribution between 18 and 26."
+  },
+  {
+    "id": "q29",
+    "text": "If we have a joint distribution of n random variables each with domain size d, what is the size of the probability table?",
+    "options": [
+      "d^n",
+      "n × d",
+      "n^d",
+      "n + d"
+    ],
+    "correctAnswer": 0,
+    "explanation": "For n random variables each with domain size d, the joint probability table has d^n entries, which makes it impossible to write out completely for all but the smallest distributions."
+  },
+  {
+    "id": "q30",
+    "text": "What does the notation P(x₁, x₂, ..., xₙ) represent?",
+    "options": [
+      "A single entry (atomic event) in the joint probability distribution table",
+      "The entire joint probability distribution table",
+      "The marginal probability of the first variable",
+      "The product of individual probabilities"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explains that P(x₁, x₂, ..., xₙ) is shorthand for P(X₁=x₁, X₂=x₂, ..., Xₙ=xₙ), which refers to a single entry (atomic event) in the joint probability distribution table."
+  },
+  {
+    "id": "q31",
+    "text": "What does the notation P(X₁, X₂, ..., Xₙ) represent (without lowercase subscripts)?",
+    "options": [
+      "A single atomic event probability",
+      "The entire joint probability distribution table",
+      "The sum of all marginal probabilities",
+      "The maximum probability in the distribution"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture specifies that P(X₁, X₂, ..., Xₙ) with capital letters refers to the entire joint probability distribution table, while lowercase refers to specific values."
+  },
+  {
+    "id": "q32",
+    "text": "What is marginalization?",
+    "options": [
+      "The process of removing irrelevant variables from a model",
+      "Finding marginal distributions by summing over all values of other variables",
+      "Reducing the precision of probability values",
+      "Converting joint probabilities to conditional probabilities"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines marginalization as the process of finding P(X=x) by summing the probabilities of all atomic events where X=x, effectively marginalizing out all variables except X."
+  },
+  {
+    "id": "q33",
+    "text": "From a joint distribution P(X,Y), how do we compute the marginal probability P(X=x)?",
+    "options": [
+      "Sum the probabilities of all atomic events where X=x",
+      "Take the maximum probability over all Y values",
+      "Divide the joint probability by P(Y)",
+      "Multiply P(X,Y) by the number of Y values"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that to find P(X=x) from P(X,Y), we sum the probabilities of all atomic events where X=x, which involves summing over all possible values of Y."
+  },
+  {
+    "id": "q34",
+    "text": "What type of probability is P(cavity | toothache) = 0.8?",
+    "options": [
+      "Prior probability",
+      "Joint probability",
+      "Conditional or posterior probability",
+      "Marginal probability"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture explicitly identifies P(cavity | toothache) = 0.8 as a conditional or posterior probability, representing the probability given that toothache is all we know."
+  },
+  {
+    "id": "q35",
+    "text": "If P(cavity | toothache, rough_spot) = 0.9 and P(cavity | toothache, sunny) = P(cavity | toothache) = 0.8, what can we infer?",
+    "options": [
+      "Weather is relevant to dental cavities",
+      "Weather (sunny) is irrelevant evidence that can be simplified away",
+      "Toothache and cavity are independent",
+      "All evidence equally affects cavity probability"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture uses this example to demonstrate that new evidence (sunny weather) may be irrelevant, allowing simplification. The equality P(cavity | toothache, sunny) = P(cavity | toothache) shows weather doesn't affect the probability."
+  },
+  {
+    "id": "q36",
+    "text": "What is the definition of conditional probability P(a|b)?",
+    "options": [
+      "P(a|b) = P(a ∧ b) / P(b)",
+      "P(a|b) = P(a) × P(b)",
+      "P(a|b) = P(b|a) × P(b)",
+      "P(a|b) = P(a) / P(a ∧ b)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture defines conditional probability as P(a|b) = P(a ∧ b) / P(b), which is the standard definition of conditional probability."
+  },
+  {
+    "id": "q37",
+    "text": "What is the product rule for probabilities?",
+    "options": [
+      "P(a ∧ b) = P(a) × P(b)",
+      "P(a ∧ b) = P(a | b) × P(b) = P(b | a) × P(a)",
+      "P(a ∧ b) = P(a) + P(b) - P(a ∨ b)",
+      "P(a ∧ b) = P(a | b) + P(b | a)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture presents the product rule as P(a ∧ b) = P(a | b)P(b) = P(b | a)P(a), showing two equivalent formulations derived from the definition of conditional probability."
+  },
+  {
+    "id": "q38",
+    "text": "What is the chain rule for probabilities as presented in the lecture?",
+    "options": [
+      "P(X₁, ..., Xₙ) = P(X₁) × P(X₂) × ... × P(Xₙ)",
+      "P(X₁, ..., Xₙ) = P(X₁)P(X₂|X₁)P(X₃|X₁,X₂)...P(Xₙ|X₁,...,Xₙ₋₁)",
+      "P(X₁, ..., Xₙ) = Σᵢ P(Xᵢ)",
+      "P(X₁, ..., Xₙ) = ΠᵢP(Xᵢ|parents(Xᵢ))"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture derives the chain rule through successive application of the product rule, yielding P(X₁, ..., Xₙ) = P(X₁)P(X₂|X₁)P(X₃|X₁,X₂)...P(Xₙ|X₁,...,Xₙ₋₁)."
+  },
+  {
+    "id": "q39",
+    "text": "In inference by enumeration, how do we compute P(φ) for any proposition φ?",
+    "options": [
+      "Sum the atomic events where φ is true: P(φ) = Σ_{ω:ω⊨φ} P(ω)",
+      "Multiply the probabilities of all variables in φ",
+      "Use Bayes' rule to invert conditional probabilities",
+      "Apply the chain rule backwards"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that for any proposition φ, we sum the atomic events where it is true: P(φ) = Σ_{ω:ω⊨φ} P(ω), where ω⊨φ means ω satisfies φ."
+  },
+  {
+    "id": "q40",
+    "text": "Using the joint distribution table provided, what is P(toothache)?",
+    "options": [
+      "0.2",
+      "0.4",
+      "0.108",
+      "0.8"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture calculates P(toothache) by summing all entries where toothache is true: 0.108 + 0.012 + 0.016 + 0.064 = 0.2."
+  },
+  {
+    "id": "q41",
+    "text": "How can conditional probabilities be computed using inference by enumeration?",
+    "options": [
+      "P(Y|e) = P(Y,e) / P(e) where both numerator and denominator are computed by enumeration",
+      "P(Y|e) = P(e|Y) directly from the table",
+      "P(Y|e) requires constructing a new joint distribution",
+      "P(Y|e) = 1 - P(¬Y|e)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture shows that conditional probabilities are computed using P(Y|e) = P(Y,e)/P(e), where both the numerator and denominator can be computed by summing appropriate atomic events from the joint distribution."
+  },
+  {
+    "id": "q42",
+    "text": "In the normalization approach to computing conditional probabilities, what role does α play?",
+    "options": [
+      "α is the normalization constant that ensures probabilities sum to 1",
+      "α represents the prior probability",
+      "α is the likelihood ratio",
+      "α denotes the conditional independence assumption"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture shows that the denominator P(e) can be viewed as a normalization constant α, and after computing the unnormalized distribution, α ensures the final probabilities sum to 1, as in P(Cavity|toothache) = α<0.12,0.08> = <0.6,0.4>."
+  },
+  {
+    "id": "q43",
+    "text": "What is the general formula for computing posterior joint distribution using inference by enumeration?",
+    "options": [
+      "P(Y | E=e) = αP(Y, E=e) = α Σ_h P(Y, E=e, H=h)",
+      "P(Y | E=e) = P(Y)P(E=e|Y) / P(E=e)",
+      "P(Y | E=e) = Π_i P(Yᵢ|E=e)",
+      "P(Y | E=e) = max_h P(Y, E=e, H=h)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture presents the general formula as P(Y | E=e) = αP(Y, E=e) = α Σ_h P(Y, E=e, H=h), where Y are query variables, E are evidence variables, H are hidden variables, and α is the normalization constant."
+  },
+  {
+    "id": "q44",
+    "text": "What is the worst-case time complexity of inference by enumeration for binary variables?",
+    "options": [
+      "O(2^n) where n is the number of variables",
+      "O(n²) where n is the number of variables",
+      "O(n log n) where n is the number of variables",
+      "O(n!) where n is the number of variables"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explicitly states that the worst-case time complexity of inference by enumeration is O(2^n) for binary variables, which is exponential and a significant computational problem."
+  },
+  {
+    "id": "q45",
+    "text": "When are two events A and B independent?",
+    "options": [
+      "P(A|B) = P(A) or P(B|A) = P(B) or P(A,B) = P(A)P(B)",
+      "P(A∧B) = 0",
+      "P(A|B) = P(B|A)",
+      "P(A∨B) = P(A) + P(B)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture defines independence with three equivalent conditions: P(A|B) = P(A) or P(B|A) = P(B) or P(A,B) = P(A)P(B), any of which implies the others."
+  },
+  {
+    "id": "q46",
+    "text": "If Weather is independent of dental variables, how does this simplify the joint distribution?",
+    "options": [
+      "P(Toothache, Catch, Cavity, Weather) = P(Toothache, Catch, Cavity) × P(Weather)",
+      "P(Toothache, Catch, Cavity, Weather) = P(Weather | Toothache, Catch, Cavity)",
+      "P(Toothache, Catch, Cavity, Weather) = 4 × P(Weather)",
+      "P(Toothache, Catch, Cavity, Weather) = P(Toothache) + P(Catch) + P(Cavity) + P(Weather)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture shows that independence allows factorization: P(Toothache, Catch, Cavity, Weather) = P(Toothache, Catch, Cavity) × P(Weather), reducing 32 entries to 12."
+  },
+  {
+    "id": "q47",
+    "text": "According to the lecture, what is the benefit of independence for n independent biased coins?",
+    "options": [
+      "It reduces representation from 2^n to n parameters",
+      "It increases computational accuracy",
+      "It eliminates the need for probability calculations",
+      "It guarantees all outcomes are equally likely"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explicitly states that for n independent biased coins, independence reduces the representation from 2^n entries to n parameters."
+  },
+  {
+    "id": "q48",
+    "text": "Why is absolute independence described as 'powerful but rare' in the lecture?",
+    "options": [
+      "Because most real-world domains have hundreds of variables, none of which are truly independent",
+      "Because independence requires extensive computational resources",
+      "Because independent events are theoretically impossible",
+      "Because independence only applies to Boolean variables"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture notes that absolute independence is powerful but rare, using dentistry as an example of a large field with hundreds of variables, none of which are independent."
+  },
+  {
+    "id": "q49",
+    "text": "What does the statement 'Catch is conditionally independent of Toothache given Cavity' mean?",
+    "options": [
+      "Catch and Toothache are independent regardless of Cavity",
+      "P(Catch | Toothache, Cavity) = P(Catch | Cavity)",
+      "P(Catch | Cavity) = P(Toothache | Cavity)",
+      "Catch depends on both Toothache and Cavity"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines this conditional independence as P(Catch | Toothache, Cavity) = P(Catch | Cavity), meaning that once we know whether there's a cavity, knowing about toothache doesn't change the probability that the probe catches."
+  },
+  {
+    "id": "q50",
+    "text": "Which of the following is NOT an equivalent statement for 'Catch is conditionally independent of Toothache given Cavity'?",
+    "options": [
+      "P(Toothache | Catch, Cavity) = P(Toothache | Cavity)",
+      "P(Toothache, Catch | Cavity) = P(Toothache | Cavity) × P(Catch | Cavity)",
+      "P(Catch | Toothache, Cavity) = P(Catch | Cavity)",
+      "P(Cavity | Catch, Toothache) = P(Cavity | Catch)"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The lecture lists three equivalent statements for conditional independence, but P(Cavity | Catch, Toothache) = P(Cavity | Catch) is not one of them. This statement would represent a different conditional independence relationship."
+  },
+  {
+    "id": "q51",
+    "text": "How many independent numbers are needed to specify P(Toothache, Catch, Cavity) using conditional independence?",
+    "options": [
+      "5 independent numbers (2 + 2 + 1)",
+      "8 independent numbers (2^3)",
+      "6 independent numbers",
+      "3 independent numbers"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture shows that using conditional independence, P(Toothache, Catch, Cavity) = P(Toothache | Cavity) × P(Catch | Cavity) × P(Cavity), requiring 2 + 2 + 1 = 5 independent numbers instead of 8."
+  },
+  {
+    "id": "q52",
+    "text": "How does conditional independence typically affect the size of the joint distribution representation?",
+    "options": [
+      "Reduces it from exponential in n to linear in n",
+      "Increases it to allow for more accurate modeling",
+      "Keeps it constant regardless of the number of variables",
+      "Reduces it from linear to logarithmic"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that in most cases, the use of conditional independence reduces the size of the representation of the joint distribution from exponential in n to linear in n."
+  },
+  {
+    "id": "q53",
+    "text": "According to the lecture, what is conditional independence described as?",
+    "options": [
+      "Our most basic and robust form of knowledge about uncertain environments",
+      "A mathematical trick with limited practical application",
+      "An approximation that introduces significant errors",
+      "A concept only applicable to discrete variables"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explicitly states that 'Conditional independence is our most basic and robust form of knowledge about uncertain environments.'"
+  },
+  {
+    "id": "q54",
+    "text": "What is Bayes' rule as presented in the lecture?",
+    "options": [
+      "P(a|b) = P(b|a) × P(a) / P(b)",
+      "P(a|b) = P(a) × P(b) / P(a ∧ b)",
+      "P(a|b) = P(b|a) × P(b) / P(a)",
+      "P(a|b) = P(a ∧ b) × P(b)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture derives Bayes' rule from the product rule as P(a|b) = P(b|a)P(a) / P(b), which allows converting between P(a|b) and P(b|a)."
+  },
+  {
+    "id": "q55",
+    "text": "What is Bayes' rule particularly useful for?",
+    "options": [
+      "Assessing diagnostic probability from causal probability",
+      "Computing marginal distributions",
+      "Determining independence between variables",
+      "Calculating expected utilities"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that Bayes' rule is 'useful for assessing diagnostic probability from causal probability,' illustrated by the meningitis example."
+  },
+  {
+    "id": "q56",
+    "text": "In the meningitis example, given P(s|m)=0.8, P(m)=0.0001, P(s)=0.1, what is P(m|s)?",
+    "options": [
+      "0.0008",
+      "0.8",
+      "0.0001",
+      "0.008"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture calculates P(m|s) = P(s|m) × P(m) / P(s) = 0.8 × 0.0001 / 0.1 = 0.0008, demonstrating how Bayes' rule converts from causal to diagnostic probability."
+  },
+  {
+    "id": "q57",
+    "text": "How can P(Cavity | toothache ∧ catch) be computed using Bayes' rule and conditional independence?",
+    "options": [
+      "P(Cavity | toothache ∧ catch) = α × P(Cavity) × P(toothache|Cavity) × P(catch|Cavity)",
+      "P(Cavity | toothache ∧ catch) = P(Cavity) × P(toothache) × P(catch)",
+      "P(Cavity | toothache ∧ catch) = P(toothache | Cavity) / P(catch | Cavity)",
+      "P(Cavity | toothache ∧ catch) = P(Cavity ∧ toothache ∧ catch)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture shows that using Bayes' rule and conditional independence assumptions, P(Cavity | toothache ∧ catch) = α × P(Cavity) × P(toothache|Cavity) × P(catch|Cavity), where α is the normalization constant."
+  },
+  {
+    "id": "q58",
+    "text": "What is a naïve Bayes model as defined in the lecture?",
+    "options": [
+      "P(Cause, Effect₁, ..., Effectₙ) = P(Cause) × Πᵢ P(Effectᵢ|Cause)",
+      "P(Cause, Effect₁, ..., Effectₙ) = P(Cause) × Σᵢ P(Effectᵢ|Cause)",
+      "P(Cause, Effect₁, ..., Effectₙ) = Πᵢ P(Effectᵢ) × P(Cause)",
+      "P(Cause, Effect₁, ..., Effectₙ) = P(Cause | Effect₁, ..., Effectₙ)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture defines the naïve Bayes model as P(Cause, Effect₁, ..., Effectₙ) = P(Cause) × Πᵢ P(Effectᵢ|Cause), where effects are conditionally independent given the cause."
+  },
+  {
+    "id": "q59",
+    "text": "What is the advantage of the naïve Bayes model in terms of parameters?",
+    "options": [
+      "Total number of parameters is linear in n",
+      "Total number of parameters is constant",
+      "Total number of parameters is logarithmic in n",
+      "Total number of parameters is quadratic in n"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that in a naïve Bayes model, the total number of parameters is linear in n (the number of effects), which is a significant reduction from exponential growth."
+  },
+  {
+    "id": "q60",
+    "text": "Which of the following best summarizes the main message of the lecture regarding uncertainty?",
+    "options": [
+      "Probability provides a rigorous formalism for uncertain knowledge, with independence and conditional independence as key tools for managing complexity",
+      "Uncertainty should be avoided by gathering complete information",
+      "Logical reasoning is superior to probabilistic reasoning in all domains",
+      "Joint distributions are always tractable with modern computing power"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture summary emphasizes that probability is a rigorous formalism for uncertainty, queries can be answered by summing atomic events, but for nontrivial domains we need independence and conditional independence to reduce joint distribution size."
+  }
+]

@@ -1,0 +1,482 @@
+[
+  {
+    "id": "q1",
+    "text": "What is the primary reason that all peripheral devices are slower than the CPU and RAM?",
+    "options": [
+      "Peripherals involve mechanical components and diverse data handling mechanisms",
+      "I/O modules intentionally throttle device speeds",
+      "System bus bandwidth is exclusively reserved for CPU operations",
+      "Peripherals use outdated semiconductor technology"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Peripherals handle different volumes of data in various formats at different speeds, often involving mechanical components (like hard drives, printers) or diverse communication protocols, making them inherently slower than electronic CPU and RAM operations."
+  },
+  {
+    "id": "q2",
+    "text": "Which component serves as the interface between the CPU/Memory and peripheral devices?",
+    "options": [
+      "System bus multiplexer",
+      "I/O modules/controllers",
+      "Device driver software",
+      "Peripheral management unit"
+    ],
+    "correctAnswer": 1,
+    "explanation": "I/O modules or controllers specifically function as the interface between the CPU/Memory and one or more peripherals, managing communication between these components."
+  },
+  {
+    "id": "q3",
+    "text": "Which of the following is NOT categorized as a human-interactive external device?",
+    "options": [
+      "Keyboard",
+      "Network Interface Card",
+      "Monitor",
+      "Mouse"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Network Interface Cards (NICs) are categorized under communication devices, not human-interactive devices. Keyboards, monitors, and mice are devices that directly interact with humans."
+  },
+  {
+    "id": "q4",
+    "text": "Machine-readable devices are primarily used for which purpose?",
+    "options": [
+      "Direct user input and output",
+      "Monitoring and control operations",
+      "Graphics rendering",
+      "Audio processing"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Machine-readable devices are used for monitoring and control purposes, such as process scheduling, CPU/casing temperature monitoring, and fan speed control."
+  },
+  {
+    "id": "q5",
+    "text": "Which device category includes modems and dongles?",
+    "options": [
+      "Human-interactive devices",
+      "Machine-readable devices",
+      "Communication devices",
+      "Storage devices"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Modems, dongles (Bluetooth, Wi-Fi, 3G, 4G), and NICs are all categorized as communication devices that facilitate data exchange between systems."
+  },
+  {
+    "id": "q6",
+    "text": "How many primary functions does an I/O module perform according to the lecture?",
+    "options": [
+      "Three functions",
+      "Four functions",
+      "Five functions",
+      "Six functions"
+    ],
+    "correctAnswer": 2,
+    "explanation": "I/O modules perform five primary functions: Control & Timing, CPU communication, Device communication, Data buffering, and Error detection."
+  },
+  {
+    "id": "q7",
+    "text": "Why is data buffering necessary in I/O module functions?",
+    "options": [
+      "To encrypt data during transmission",
+      "To compensate for speed mismatches between CPU and peripherals",
+      "To compress data for efficient storage",
+      "To convert analog signals to digital"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Data buffering is essential because it temporarily stores data to manage the speed differences between the fast CPU/memory and slower peripheral devices, ensuring smooth data flow."
+  },
+  {
+    "id": "q8",
+    "text": "In the context of I/O modules, what is the primary purpose of the Control & Timing function?",
+    "options": [
+      "Coordinating the sequence of operations between CPU, memory, and I/O devices",
+      "Measuring peripheral response times",
+      "Synchronizing system clock frequencies",
+      "Scheduling CPU processes"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Control & Timing coordinates the sequence and timing of operations between the CPU, memory, and I/O devices to ensure proper data flow and prevent conflicts."
+  },
+  {
+    "id": "q9",
+    "text": "How many main I/O techniques are discussed in the lecture material?",
+    "options": [
+      "Two techniques",
+      "Three techniques",
+      "Four techniques",
+      "Five techniques"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture covers three main Input Output Techniques: Programmed I/O (Polling), Interrupt driven I/O, and Direct Memory Access (DMA)."
+  },
+  {
+    "id": "q10",
+    "text": "In Programmed I/O, what is the major drawback?",
+    "options": [
+      "High implementation cost",
+      "CPU waits and time is wasted",
+      "Increased power consumption",
+      "Complex hardware requirements"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The major drawback of Programmed I/O is that the CPU must wait for the I/O module to complete its operation, continuously polling the status, which wastes valuable CPU time."
+  },
+  {
+    "id": "q11",
+    "text": "What does the CPU do during Programmed I/O operations?",
+    "options": [
+      "Delegates control to DMA controller",
+      "Continuously senses status through polling",
+      "Waits for interrupt signals",
+      "Executes background processes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In Programmed I/O, the CPU has direct control over I/O and continuously senses the status of devices through polling, along with issuing read/write commands and transferring data."
+  },
+  {
+    "id": "q12",
+    "text": "Under Programmed I/O, which instructions are used for data transfer?",
+    "options": [
+      "MOVE/COPY instructions",
+      "LOAD/STORE instructions",
+      "PUSH/POP instructions",
+      "IN/OUT instructions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Under Programmed I/O, data transfer is similar to memory access and uses LOAD/STORE instructions to read from or write to I/O devices."
+  },
+  {
+    "id": "q13",
+    "text": "In the addressing scheme shown in the lecture, which address bits identify a unique device?",
+    "options": [
+      "Address[5:2]",
+      "Address[15:6]",
+      "Address[1:0]",
+      "Address[7:4]"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Each device is given a unique identifier using Address[15:6], which contains 10 bits allowing for identification of individual devices."
+  },
+  {
+    "id": "q14",
+    "text": "Which address bits identify registers within an I/O controller?",
+    "options": [
+      "Address[15:6]",
+      "Address[5:2]",
+      "Address[7:0]",
+      "Address[3:0]"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Registers within an I/O controller are identified by Address[5:2], allowing access to different control and data registers within a specific device."
+  },
+  {
+    "id": "q15",
+    "text": "What is the key characteristic of Memory Mapped I/O?",
+    "options": [
+      "Requires special I/O instructions",
+      "Devices and memory share the same address space",
+      "Uses separate address buses",
+      "Provides faster access than Isolated I/O"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In Memory Mapped I/O, devices and memory share the same address space, making I/O operations look just like memory read/write operations without requiring special I/O commands."
+  },
+  {
+    "id": "q16",
+    "text": "What is an advantage of Memory Mapped I/O over Isolated I/O?",
+    "options": [
+      "Faster data transfer rates",
+      "Lower hardware complexity",
+      "Large selection of memory access commands available",
+      "Better security features"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Memory Mapped I/O allows the use of a large selection of memory access commands for I/O operations, whereas Isolated I/O has only a limited set of special I/O commands."
+  },
+  {
+    "id": "q17",
+    "text": "In Isolated I/O architecture, what special hardware is required?",
+    "options": [
+      "Dedicated I/O processor",
+      "I/O or memory select lines",
+      "Separate power supply for I/O",
+      "Additional cache memory"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Isolated I/O requires separate address spaces for memory and I/O, necessitating I/O or memory select lines to distinguish between memory and I/O operations."
+  },
+  {
+    "id": "q18",
+    "text": "In the GPIO (General Purpose Input/Output) example, how many memory-mapped registers are used?",
+    "options": [
+      "Two registers",
+      "Three registers",
+      "Four registers",
+      "Five registers"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The GPIO example uses three memory-mapped registers: Read Register (value read from pin), Write Register (value to write to pin), and Enable Register (1=output, 0=input)."
+  },
+  {
+    "id": "q19",
+    "text": "In the GPIO Enable Register, what does a value of '1' indicate?",
+    "options": [
+      "Pin is disabled",
+      "Pin is configured as input",
+      "Pin is configured as output",
+      "Pin is in high-impedance state"
+    ],
+    "correctAnswer": 2,
+    "explanation": "In the GPIO Enable Register, a value of 1 configures the pin as an output, while 0 configures it as an input."
+  },
+  {
+    "id": "q20",
+    "text": "What is the primary advantage of Interrupt Driven I/O over Programmed I/O?",
+    "options": [
+      "Simpler hardware implementation",
+      "No repeated CPU checking; CPU can do its own work",
+      "Faster data transfer rates",
+      "Lower power consumption"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Interrupt Driven I/O eliminates the need for repeated CPU checking and waiting. The CPU can perform other work while the I/O module handles the operation, only interrupting when ready."
+  },
+  {
+    "id": "q21",
+    "text": "In Interrupt Driven I/O, when does the I/O module interrupt the CPU?",
+    "options": [
+      "Immediately after receiving the command",
+      "At regular time intervals",
+      "When the I/O operation is complete and data is ready",
+      "When an error occurs only"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The I/O module interrupts the CPU when it has completed getting data from the peripheral and is ready to transfer it, signaling that the operation is complete."
+  },
+  {
+    "id": "q22",
+    "text": "What is the correct sequence of steps in Interrupt Driven I/O?",
+    "options": [
+      "CPU issues command → I/O transfers data → I/O interrupts CPU → CPU requests data",
+      "CPU issues read command → I/O gets data while CPU works → I/O interrupts CPU → CPU requests data → I/O transfers data",
+      "I/O interrupts CPU → CPU issues command → I/O transfers data",
+      "CPU requests data → I/O interrupts CPU → CPU issues command → I/O transfers data"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The correct sequence is: CPU issues read command, I/O module gets data from peripheral while CPU does other work, I/O module interrupts CPU, CPU requests data, and finally I/O module transfers data."
+  },
+  {
+    "id": "q23",
+    "text": "What do both Programmed I/O and Interrupt Driven I/O have in common?",
+    "options": [
+      "Both use DMA controllers",
+      "Both require active CPU intervention for data transfer",
+      "Both waste CPU time equally",
+      "Both use the same addressing scheme"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Both Programmed I/O and Interrupt Driven I/O require active CPU intervention during the actual data transfer process, which limits transfer rates and ties up the CPU."
+  },
+  {
+    "id": "q24",
+    "text": "What is the primary purpose of Direct Memory Access (DMA)?",
+    "options": [
+      "To increase memory capacity",
+      "To provide a way of bypassing CPU when transferring data between memory and I/O",
+      "To encrypt data during transfer",
+      "To prioritize critical I/O operations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "DMA provides a way of bypassing the CPU when transferring data between memory and I/O devices, freeing the CPU to perform other tasks and increasing overall system efficiency."
+  },
+  {
+    "id": "q25",
+    "text": "What additional hardware component is required for DMA operations?",
+    "options": [
+      "Graphics processing unit",
+      "Additional memory controller",
+      "DMA controller module on the bus",
+      "Secondary CPU"
+    ],
+    "correctAnswer": 2,
+    "explanation": "DMA requires an additional hardware module called a DMA controller on the bus, which takes over from the CPU for I/O operations and manages data transfers independently."
+  },
+  {
+    "id": "q26",
+    "text": "In a DMA configuration, what role does the DMA controller play?",
+    "options": [
+      "It encrypts data during transfer",
+      "It takes over from CPU for I/O operations",
+      "It provides additional memory storage",
+      "It converts data formats"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The DMA controller takes over the I/O operations from the CPU, managing data transfers between memory and I/O devices without requiring continuous CPU intervention."
+  },
+  {
+    "id": "q27",
+    "text": "What limitation do Programmed and Interrupt Driven I/O share that DMA overcomes?",
+    "options": [
+      "High power consumption",
+      "Limited transfer rate and CPU tied up in data transfer",
+      "Complex error handling",
+      "Incompatibility with modern devices"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Both Programmed and Interrupt Driven I/O have limited transfer rates because the CPU is tied up in the actual data transfer process. DMA overcomes this by allowing direct transfers without CPU involvement."
+  },
+  {
+    "id": "q28",
+    "text": "In the DMA configuration diagram, which components are directly connected to the system bus?",
+    "options": [
+      "Only CPU and Memory",
+      "CPU, Memory, DMA, and I/O devices",
+      "Only DMA and I/O devices",
+      "CPU, I/O devices, and Memory only"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In a DMA configuration, the CPU, Memory, DMA controller, and I/O devices are all connected to the system bus, allowing the DMA controller to coordinate transfers between memory and I/O devices."
+  },
+  {
+    "id": "q29",
+    "text": "According to the lecture material, which I/O technique is most efficient for transferring blocks of data?",
+    "options": [
+      "Programmed I/O",
+      "Interrupt Driven I/O",
+      "Direct Memory Access (DMA)",
+      "All three are equally efficient"
+    ],
+    "correctAnswer": 2,
+    "explanation": "DMA is the most efficient for transferring blocks of data because it bypasses the CPU entirely, allowing high-speed transfers without CPU intervention or waiting."
+  },
+  {
+    "id": "q30",
+    "text": "In a computer system with DMA controllers, what connects the disk to the system?",
+    "options": [
+      "Direct connection to CPU",
+      "Disk/DMA controller",
+      "Memory interface",
+      "System bus only"
+    ],
+    "correctAnswer": 1,
+    "explanation": "According to the example bus configuration, disks are connected through a Disk/DMA controller, which manages data transfers between the disk and memory."
+  },
+  {
+    "id": "q31",
+    "text": "Which device in the example configuration uses a separate DMA controller from the disk?",
+    "options": [
+      "Keyboard",
+      "Network interface",
+      "Printer",
+      "Monitor"
+    ],
+    "correctAnswer": 2,
+    "explanation": "In the example bus configuration, the printer has its own separate DMA controller, distinct from the Disk/DMA controller that manages disk operations."
+  },
+  {
+    "id": "q32",
+    "text": "What is the relationship between the keyboard and the system bus in the example configuration?",
+    "options": [
+      "Connected through a DMA controller",
+      "Connected through the main interface",
+      "Directly connected to CPU",
+      "Connected through memory"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In the example configuration, the keyboard is connected to the system bus through the main interface, not requiring a DMA controller due to its low data transfer requirements."
+  },
+  {
+    "id": "q33",
+    "text": "For input of a block of data, which technique requires the most CPU involvement?",
+    "options": [
+      "Direct Memory Access",
+      "Interrupt Driven I/O",
+      "Programmed I/O",
+      "All require equal CPU involvement"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Programmed I/O requires the most CPU involvement as the CPU must continuously poll status and directly manage every byte of the data transfer, completely occupying the CPU during the operation."
+  },
+  {
+    "id": "q34",
+    "text": "Which I/O technique allows the CPU to execute other instructions while data transfer occurs?",
+    "options": [
+      "Only Programmed I/O",
+      "Only Interrupt Driven I/O",
+      "Both Interrupt Driven I/O and DMA",
+      "None of the techniques"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Both Interrupt Driven I/O and DMA allow the CPU to execute other instructions during data transfer. In Interrupt Driven I/O, the CPU works while waiting for interrupts; in DMA, the CPU is completely freed from transfer management."
+  },
+  {
+    "id": "q35",
+    "text": "What does the term 'polling' refer to in the context of Programmed I/O?",
+    "options": [
+      "Requesting data from multiple devices simultaneously",
+      "Continuously sensing the status of I/O devices",
+      "Prioritizing I/O requests",
+      "Distributing data across multiple channels"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Polling refers to the CPU continuously sensing or checking the status of I/O devices to determine if they are ready for data transfer, which is a key characteristic of Programmed I/O."
+  },
+  {
+    "id": "q36",
+    "text": "Why would a system designer choose Memory Mapped I/O despite it consuming part of the memory address space?",
+    "options": [
+      "It provides better security",
+      "It allows use of all memory access instructions without special I/O commands",
+      "It is faster than Isolated I/O",
+      "It requires less hardware"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Memory Mapped I/O is chosen because it allows the use of the full range of memory access instructions for I/O operations, providing greater flexibility despite consuming part of the memory address space."
+  },
+  {
+    "id": "q37",
+    "text": "In the context of I/O operations, what does 'Control & Timing' specifically coordinate?",
+    "options": [
+      "Only the timing of CPU clock cycles",
+      "The sequence of operations among CPU, memory, and I/O devices",
+      "Synchronization of multiple CPUs",
+      "Power management for peripherals"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Control & Timing coordinates the sequence and timing of operations among the CPU, memory, and I/O devices to ensure proper data flow and prevent conflicts on the system bus."
+  },
+  {
+    "id": "q38",
+    "text": "What is the main advantage of having separate DMA controllers for different devices?",
+    "options": [
+      "Reduced power consumption",
+      "Simultaneous independent data transfers for multiple devices",
+      "Simpler software drivers",
+      "Lower hardware costs"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Having separate DMA controllers allows multiple devices (like disk and printer) to perform data transfers simultaneously and independently, increasing overall system throughput and efficiency."
+  },
+  {
+    "id": "q39",
+    "text": "Which statement best describes the evolution of I/O techniques from Programmed I/O to DMA?",
+    "options": [
+      "Increasing hardware complexity to decrease CPU involvement and increase transfer efficiency",
+      "Decreasing hardware complexity to simplify system design",
+      "Maintaining constant CPU involvement while improving speed",
+      "Reducing transfer rates to improve reliability"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The evolution from Programmed I/O to Interrupt Driven I/O to DMA represents increasing hardware complexity (adding interrupt controllers, then DMA controllers) to progressively decrease CPU involvement and increase data transfer efficiency."
+  },
+  {
+    "id": "q40",
+    "text": "What determines whether an I/O address refers to a specific device versus a register within that device?",
+    "options": [
+      "The instruction type used",
+      "Different bit ranges of the address: [15:6] for device, [5:2] for register",
+      "The timing of the access",
+      "The data size being transferred"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The address is divided into different bit ranges: Address[15:6] identifies the unique device, while Address[5:2] identifies the specific register within that I/O controller."
+  }
+]

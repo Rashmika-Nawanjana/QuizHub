@@ -1,0 +1,722 @@
+[
+  {
+    "id": "q1",
+    "text": "What is the primary focus of ontological engineering in knowledge representation?",
+    "options": [
+      "Representing every single object in the world in detail",
+      "Describing general concepts and leaving placeholders for specific things",
+      "Creating separate ontologies for each domain",
+      "Eliminating the need for category hierarchies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Ontological engineering focuses on describing general concepts (an upper ontology) and leaving placeholders to describe specific things later, rather than attempting to represent everything in the world."
+  },
+  {
+    "id": "q2",
+    "text": "In knowledge representation, what is the philosophical definition of ontology?",
+    "options": [
+      "The study of computer algorithms and data structures",
+      "The study of the nature of being, existence, and their basic categories",
+      "The practice of organizing information in databases",
+      "The theory of artificial intelligence decision-making"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Ontology is defined as the philosophical study of the nature of being, becoming, existence, or reality, as well as the basic categories of being and their relations."
+  },
+  {
+    "id": "q3",
+    "text": "Why do agents organize objects into categories?",
+    "options": [
+      "To reduce memory usage in the knowledge base",
+      "Because most reasoning takes place at the level of categories",
+      "To simplify the user interface",
+      "To eliminate the need for first-order logic"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Agents organize objects into categories because most of the reasoning takes place at the level of categories, allowing for efficient inference and prediction."
+  },
+  {
+    "id": "q4",
+    "text": "Which of the following is NOT a way to represent categories in First-Order Logic (FOL)?",
+    "options": [
+      "Using predicates like Basketball(b)",
+      "Using objects like Member(b, Basketballs)",
+      "Using neural network embeddings",
+      "Using subclass relations for inheritance"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Categories in FOL can be represented using predicates, objects, and inheritance through subclass relations. Neural network embeddings are not part of FOL representation."
+  },
+  {
+    "id": "q5",
+    "text": "What does the taxonomy concept refer to in knowledge representation?",
+    "options": [
+      "The study of tax systems in different countries",
+      "The practice and science of classification",
+      "The measurement of object properties",
+      "The temporal ordering of events"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Taxonomy is defined as the practice and science of classification, used to organize categories into hierarchical structures."
+  },
+  {
+    "id": "q6",
+    "text": "How is the statement 'An object is a member of a category' represented in FOL?",
+    "options": [
+      "BB₉ → Basketballs",
+      "BB₉ ∈ Basketballs",
+      "Basketballs(BB₉) ≡ True",
+      "Member(Basketballs, BB₉)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Object membership in a category is represented using the ∈ symbol, as in BB₉ ∈ Basketballs, indicating that object BB₉ is a member of the Basketballs category."
+  },
+  {
+    "id": "q7",
+    "text": "Which FOL expression correctly represents 'Basketballs is a subclass of Balls'?",
+    "options": [
+      "Basketballs ∈ Balls",
+      "Basketballs → Balls",
+      "Basketballs ⊂ Balls",
+      "Balls ⊂ Basketballs"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The subclass relation is represented using the ⊂ symbol, so 'Basketballs ⊂ Balls' correctly indicates that Basketballs is a subclass of Balls."
+  },
+  {
+    "id": "q8",
+    "text": "How would you express in FOL that all basketballs are spherical?",
+    "options": [
+      "Basketballs ⇒ Spherical",
+      "∀x (x ∈ Basketballs) ⇒ Spherical(x)",
+      "Spherical(Basketballs) = True",
+      "Basketballs ∧ Spherical"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The property that all members of a category have some property is expressed as (x ∈ Basketballs) ⇒ Spherical(x), meaning for all x that are basketballs, x is spherical."
+  },
+  {
+    "id": "q9",
+    "text": "What does the expression 'Dogs ∈ DomesticatedSpecies' represent?",
+    "options": [
+      "A dog is a member of domesticated species",
+      "Dogs have the property of being domesticated",
+      "The category Dogs as a whole has the property of being a domesticated species",
+      "All dogs are domesticated"
+    ],
+    "correctAnswer": 2,
+    "explanation": "This expression represents a category as a whole having some property - the entire Dogs category is a member of the DomesticatedSpecies category."
+  },
+  {
+    "id": "q10",
+    "text": "What does the Disjoint relation between categories mean?",
+    "options": [
+      "Categories that are subclasses of each other",
+      "Categories that have no members in common",
+      "Categories that share all members",
+      "Categories that partially overlap"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Disjoint categories are those that have no members in common, as exemplified by Disjoint({Animals, Vegetables})."
+  },
+  {
+    "id": "q11",
+    "text": "What is an exhaustive decomposition in category relations?",
+    "options": [
+      "A complete list of all properties of a category",
+      "A situation where an object must belong to one of the specified categories",
+      "A breakdown of category into atomic elements",
+      "A temporal sequence of category membership"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Exhaustive decomposition means that an object must belong to one of the categories in the decomposition, as in ExhaustiveDecomposition({Americans, Canadians, Mexicans}, NorthAmericans)."
+  },
+  {
+    "id": "q12",
+    "text": "What is a Partition in category theory?",
+    "options": [
+      "A subclass relationship",
+      "A disjoint exhaustive decomposition",
+      "A temporal division of categories",
+      "A hierarchical tree structure"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A Partition is a disjoint exhaustive decomposition, combining both properties - categories have no overlap and together cover all members of the parent category, as in Partition({Males, Females}, Animals)."
+  },
+  {
+    "id": "q13",
+    "text": "Which property does the PartOf relation possess?",
+    "options": [
+      "Symmetric and irreflexive",
+      "Transitive and reflexive",
+      "Commutative and associative",
+      "Antisymmetric and total"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The PartOf relation is transitive (if x is part of y and y is part of z, then x is part of z) and reflexive (x is part of itself)."
+  },
+  {
+    "id": "q14",
+    "text": "Which of the following correctly demonstrates the transitivity of the PartOf relation?",
+    "options": [
+      "PartOf(Bucharest, Romania) ∧ PartOf(Romania, Europe) ⇒ PartOf(Bucharest, Europe)",
+      "PartOf(Romania, Bucharest) ⇔ PartOf(Bucharest, Romania)",
+      "PartOf(Bucharest, Romania) ∨ PartOf(Romania, Bucharest)",
+      "PartOf(Bucharest, Bucharest) ⇒ False"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Transitivity means PartOf(x, y) ∧ PartOf(y, z) ⇒ PartOf(x, z), so if Bucharest is part of Romania and Romania is part of Europe, then Bucharest is part of Europe."
+  },
+  {
+    "id": "q15",
+    "text": "What does the complex FOL expression for Biped(a) describe?",
+    "options": [
+      "An object with exactly two legs",
+      "An object with two legs attached to a body and no other legs",
+      "Any animal that can walk on two feet",
+      "A category of two-legged animals"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The expression describes a biped as having exactly two distinct legs (l₁ and l₂) that are attached to a body, with the constraint that no third leg exists, ensuring the structural composition of a two-legged entity."
+  },
+  {
+    "id": "q16",
+    "text": "What is a PartPartition in physical composition?",
+    "options": [
+      "A partition of categories into subcategories",
+      "An object composed of parts in its PartPartition",
+      "A temporal division of object states",
+      "A hierarchical decomposition of properties"
+    ],
+    "correctAnswer": 1,
+    "explanation": "PartPartition refers to how an object is composed of parts - the set of components that make up the complete object."
+  },
+  {
+    "id": "q17",
+    "text": "What are 'measures' in the context of object properties?",
+    "options": [
+      "Physical tools used to determine properties",
+      "Values assigned to properties like height, mass, and cost",
+      "Categories of measurable objects",
+      "Relations between objects and their properties"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Measures are values we assign to object properties such as height, length, mass, and cost, represented as abstract measure objects."
+  },
+  {
+    "id": "q18",
+    "text": "Which statement correctly represents the same measure object with different names?",
+    "options": [
+      "Length(L₁) = Inches(1.5) = Centimeters(3.81)",
+      "Length(L₁) + Inches(1.5) = Centimeters(3.81)",
+      "Length(L₁) ⊂ Inches(1.5) ⊂ Centimeters(3.81)",
+      "Length(L₁) ∈ Inches(1.5) ∈ Centimeters(3.81)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The same measure object can have different names representing different units, shown by the equality Length(L₁) = Inches(1.5) = Centimeters(3.81)."
+  },
+  {
+    "id": "q19",
+    "text": "How are measures without agreed scales or values represented?",
+    "options": [
+      "Using arbitrary numerical assignments",
+      "By ordering objects according to these measures",
+      "Through categorical classifications only",
+      "They cannot be represented in knowledge bases"
+    ],
+    "correctAnswer": 1,
+    "explanation": "For measures without agreed scales (like beauty, spiciness, difficulty), objects can be ordered by these measures rather than assigned specific numerical values."
+  },
+  {
+    "id": "q20",
+    "text": "What is the key difference between 'things' and 'stuff' in knowledge representation?",
+    "options": [
+      "Things are living, stuff is non-living",
+      "Things are count nouns (cat), stuff are mass nouns (butter)",
+      "Things are abstract, stuff is concrete",
+      "Things are natural, stuff is manufactured"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The distinction is between count nouns (things like 'cat') and mass nouns (stuff like 'butter'), representing discrete objects versus continuous substances."
+  },
+  {
+    "id": "q21",
+    "text": "How is butter represented as a substance in FOL?",
+    "options": [
+      "Butter ⊂ Substances",
+      "b ∈ Butter ∧ PartOf(p, b) ⇒ p ∈ Butter",
+      "∀x Butter(x) ⇒ Substance(x)",
+      "Butter = Σ(parts)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Butter as a substance is represented such that any part of butter is also butter: b ∈ Butter ∧ PartOf(p, b) ⇒ p ∈ Butter, showing the property of substances."
+  },
+  {
+    "id": "q22",
+    "text": "What are intrinsic properties of objects?",
+    "options": [
+      "Properties that change over time",
+      "Properties that belong to the very substance of the object",
+      "Properties that depend on the observer",
+      "Properties shared with other objects"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Intrinsic properties belong to the very substance of the object and include characteristics like color, melting point, and density that are retained under subdivision."
+  },
+  {
+    "id": "q23",
+    "text": "Which of the following is an extrinsic property?",
+    "options": [
+      "Density",
+      "Melting point",
+      "Color",
+      "Height"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Height is an extrinsic property of objects that is not retained under subdivision, unlike intrinsic properties such as density, melting point, and color."
+  },
+  {
+    "id": "q24",
+    "text": "What distinguishes a substance from an object in formal definitions?",
+    "options": [
+      "Substances are always liquid, objects are solid",
+      "Substance definitions contain only intrinsic properties, object definitions contain extrinsic properties",
+      "Substances are natural, objects are artificial",
+      "Substances cannot be measured, objects can"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A substance (mass noun) has a definition containing only intrinsic properties, while an object (count noun) definition contains any extrinsic properties."
+  },
+  {
+    "id": "q25",
+    "text": "What are the most general categories for substance and discrete objects?",
+    "options": [
+      "Matter and Thing",
+      "Stuff and Thing",
+      "Mass and Object",
+      "Substance and Entity"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Stuff is the most general substance category, and Thing is the most general discrete object category in the upper ontology."
+  },
+  {
+    "id": "q26",
+    "text": "In time and event calculus, what is an action?",
+    "options": [
+      "A physical movement only",
+      "Any logical term",
+      "A change in the knowledge base",
+      "A fluent that varies with time"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An action is defined as any logical term, such as Forward or Turn(Right), and should recognize which agent is performing the action."
+  },
+  {
+    "id": "q27",
+    "text": "What are fluents in event calculus?",
+    "options": [
+      "Actions that happen instantaneously",
+      "Functions and predicates that vary across time",
+      "Properties that never change",
+      "Events with zero duration"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Fluents are functions and predicates that vary across time, in contrast to atemporal (eternal) predicates and functions that remain constant."
+  },
+  {
+    "id": "q28",
+    "text": "What is the purpose of the event calculus?",
+    "options": [
+      "To calculate the duration of events",
+      "To handle multiple agents, action durations, and overlapping actions",
+      "To replace first-order logic entirely",
+      "To simplify temporal reasoning by ignoring time intervals"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Event calculus is used when there are multiple agents, actions have durations, and actions can overlap with each other, providing a framework for complex temporal reasoning."
+  },
+  {
+    "id": "q29",
+    "text": "What does the T predicate represent in event calculus?",
+    "options": [
+      "The time an event takes to complete",
+      "Whether a fluent is actually true at some point in time",
+      "The transition between two states",
+      "The termination of an event"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The T predicate is used to assert that a fluent is actually true at some point in time, as in T(At(Shiva, Colombo), t)."
+  },
+  {
+    "id": "q30",
+    "text": "How is T(f, (t1, t2)) defined for intervals?",
+    "options": [
+      "Fluent f is true at either t1 or t2",
+      "Fluent f is true for all time points from t1 to just before t2",
+      "Fluent f becomes true at t1 and false at t2",
+      "Fluent f changes state between t1 and t2"
+    ],
+    "correctAnswer": 1,
+    "explanation": "T can be extended to work over intervals: T(f, (t1, t2)) ⇔ [∀t (t1 ≤ t < t2) ⇒ T(f, t)], meaning f is true for all time points in the interval."
+  },
+  {
+    "id": "q31",
+    "text": "What does the Happens(e, i) predicate indicate?",
+    "options": [
+      "Event e might occur during interval i",
+      "Event e happens over the time interval i",
+      "Event e initiates interval i",
+      "Event e is scheduled for interval i"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Happens(e, i) is a predicate that asserts event e happens over the time interval i in event calculus."
+  },
+  {
+    "id": "q32",
+    "text": "What does the Initiates(e, f, t) predicate mean?",
+    "options": [
+      "Event e starts at time t",
+      "Fluent f initiates event e at time t",
+      "Event e causes fluent f to start to hold at time t",
+      "Event e and fluent f occur simultaneously at time t"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Initiates(e, f, t) means that event e causes fluent f to start to hold (become true) at time t."
+  },
+  {
+    "id": "q33",
+    "text": "What is the meaning of Terminates(e, f, t)?",
+    "options": [
+      "Event e ends at time t",
+      "Event e causes fluent f to cease to hold at time t",
+      "Fluent f terminates event e at time t",
+      "Both event e and fluent f end at time t"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Terminates(e, f, t) indicates that event e causes fluent f to cease to hold (become false) at time t."
+  },
+  {
+    "id": "q34",
+    "text": "What does Clipped(f, i) represent in event calculus?",
+    "options": [
+      "Fluent f is shortened during interval i",
+      "Fluent f ceases to be true at some point during interval i",
+      "Fluent f is true for only part of interval i",
+      "Fluent f is removed from the knowledge base during i"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Clipped(f, i) means that fluent f ceases to be true at some point during the time interval i."
+  },
+  {
+    "id": "q35",
+    "text": "What does Restored(f, i) indicate?",
+    "options": [
+      "Fluent f returns to its original value during interval i",
+      "Fluent f becomes true sometime during interval i",
+      "Fluent f is repaired during interval i",
+      "Fluent f is reinitialized at the start of interval i"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Restored(f, i) indicates that fluent f becomes true sometime during the time interval i."
+  },
+  {
+    "id": "q36",
+    "text": "According to the first event calculus axiom, when does a fluent f hold at time t?",
+    "options": [
+      "When any event happens before time t",
+      "When an event initiates f at t1, happens between t1 and t2, f is not clipped, and t1 < t",
+      "Only when f is explicitly stated at time t",
+      "When f is restored during any interval"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The axiom states: Happens(e, (t1, t2)) ∧ Initiates(e, f, t1) ∧ ¬Clipped(f, (t1, t)) ∧ t1 < t ⇒ T(f, t), meaning f holds at t if initiated and not clipped."
+  },
+  {
+    "id": "q37",
+    "text": "What does the Clipped axiom formally define?",
+    "options": [
+      "When a fluent is temporarily suspended",
+      "When there exists an event that terminates the fluent during the interval",
+      "When a fluent's value is reduced",
+      "When multiple fluents conflict with each other"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Clipped(f, (t1, t2)) ⇔ ∃e, t, t3 Happens(e, (t, t3)) ∧ t1 ≤ t < t2 ∧ Terminates(e, f, t), meaning f is clipped if an event terminates it during the interval."
+  },
+  {
+    "id": "q38",
+    "text": "What are processes also known as in event calculus?",
+    "options": [
+      "Discrete events",
+      "Liquid events",
+      "Atomic actions",
+      "Punctual events"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Processes are also known as 'liquid events', distinguishing them from discrete events in event calculus."
+  },
+  {
+    "id": "q39",
+    "text": "How do processes differ from discrete events?",
+    "options": [
+      "Processes are instantaneous, events have duration",
+      "Processes are analogous to substances, events to objects",
+      "Processes cannot be represented in FOL",
+      "Processes always involve multiple agents"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Processes are different from discrete events in a way analogous to the difference between substances and objects - they have continuous, divisible nature."
+  },
+  {
+    "id": "q40",
+    "text": "What key property defines a process in event calculus?",
+    "options": [
+      "A process must involve physical movement",
+      "Any subinterval of a process is also a member of the same process category",
+      "A process cannot be interrupted",
+      "A process must have a defined beginning and end"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The defining property is: (e ∈ Processes) ∧ Happens(e, (t1, t4)) ∧ (t1 < t2 < t3 < t4) ⇒ Happens(e, (t2, t3)), meaning any subinterval is also the same process."
+  },
+  {
+    "id": "q41",
+    "text": "What are the two types of intervals in temporal reasoning?",
+    "options": [
+      "Short and long intervals",
+      "Moments and extended intervals",
+      "Discrete and continuous intervals",
+      "Open and closed intervals"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The two types are moments (with zero duration) and extended intervals, as stated in Partition({Moments, ExtendedIntervals}, Intervals)."
+  },
+  {
+    "id": "q42",
+    "text": "How is a moment defined in temporal reasoning?",
+    "options": [
+      "An interval shorter than one second",
+      "An interval with zero duration",
+      "The smallest measurable time unit",
+      "An instantaneous event"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A moment is defined as i ∈ Moments ⇔ Duration(i) = Seconds(0), meaning it has zero duration."
+  },
+  {
+    "id": "q43",
+    "text": "What does the Time function deliver in interval reasoning?",
+    "options": [
+      "The duration of an interval",
+      "The point on the time scale for a moment",
+      "The midpoint of an interval",
+      "The relationship between two intervals"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Time function delivers the point on the time scale for a moment, mapping moments to points on a temporal scale."
+  },
+  {
+    "id": "q44",
+    "text": "What does the Begin function return?",
+    "options": [
+      "The duration from the start of time",
+      "The earliest moment in an interval",
+      "The initialization of a fluent",
+      "The first event in a sequence"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Begin function delivers the earliest moment in an interval, marking the start point of the interval."
+  },
+  {
+    "id": "q45",
+    "text": "How is the Duration function defined?",
+    "options": [
+      "As the sum of all moments in an interval",
+      "As the difference between the end time and the start time",
+      "As the number of events in an interval",
+      "As the absolute value of the time"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Duration function delivers the difference between the end time and the start time of an interval."
+  },
+  {
+    "id": "q46",
+    "text": "According to Allen's interval algebra, what does Meet(i, j) mean?",
+    "options": [
+      "Interval i overlaps with interval j",
+      "The end of interval i equals the beginning of interval j",
+      "Intervals i and j occur simultaneously",
+      "Interval i is contained within interval j"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Meet(i, j) is defined as End(i) = Begin(j), meaning interval i immediately precedes j with no gap."
+  },
+  {
+    "id": "q47",
+    "text": "How is Before(i, j) defined in Allen's interval relations?",
+    "options": [
+      "Begin(i) < Begin(j)",
+      "End(i) < Begin(j)",
+      "Duration(i) < Duration(j)",
+      "Time(i) < Time(j)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Before(i, j) is defined as End(i) < Begin(j), meaning interval i ends before interval j begins, with a gap between them."
+  },
+  {
+    "id": "q48",
+    "text": "What is the relationship between Before and After in Allen's relations?",
+    "options": [
+      "They are unrelated",
+      "After(j, i) ⇔ Before(i, j)",
+      "After is the negation of Before",
+      "They cannot both be true"
+    ],
+    "correctAnswer": 1,
+    "explanation": "After is defined in terms of Before: After(j, i) ⇔ Before(i, j), making them inverse relations."
+  },
+  {
+    "id": "q49",
+    "text": "According to Allen's interval algebra, what does During(i, j) represent?",
+    "options": [
+      "Interval i partially overlaps interval j",
+      "Interval i is completely contained within interval j with both boundaries strictly inside j",
+      "Intervals i and j are equal",
+      "Interval i meets interval j"
+    ],
+    "correctAnswer": 1,
+    "explanation": "During(i, j) is defined as Begin(j) < Begin(i) < End(i) < End(j), meaning i is completely contained within j with strict inequalities."
+  },
+  {
+    "id": "q50",
+    "text": "How is Overlap(i, j) defined in temporal reasoning?",
+    "options": [
+      "Begin(i) < Begin(j) < End(i) < End(j)",
+      "Begin(i) = Begin(j)",
+      "End(i) = Begin(j)",
+      "Begin(i) < Begin(j) ∧ End(i) > End(j)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Overlap(i, j) is defined as Begin(i) < Begin(j) < End(i) < End(j), meaning i starts before j, but they overlap in the middle, with j extending beyond i."
+  },
+  {
+    "id": "q51",
+    "text": "What does Begins(i, j) indicate about two intervals?",
+    "options": [
+      "Interval i starts interval j",
+      "Both intervals have the same beginning point",
+      "Interval i occurs before interval j",
+      "Interval i initiates when j ends"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Begins(i, j) is defined as Begin(i) = Begin(j), meaning both intervals start at the same moment (but may have different end points)."
+  },
+  {
+    "id": "q52",
+    "text": "What is the definition of Finishes(i, j)?",
+    "options": [
+      "Interval i completes before interval j",
+      "End(i) = End(j)",
+      "Interval i terminates interval j",
+      "Duration(i) = Duration(j)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Finishes(i, j) is defined as End(i) = End(j), meaning both intervals end at the same moment (but may have different starting points)."
+  },
+  {
+    "id": "q53",
+    "text": "How is Equals(i, j) defined for intervals?",
+    "options": [
+      "Duration(i) = Duration(j)",
+      "Begin(i) = Begin(j) ∧ End(i) = End(j)",
+      "Time(i) = Time(j)",
+      "i and j contain the same events"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Equals(i, j) is defined as Begin(i) = Begin(j) ∧ End(i) = End(j), meaning the intervals have identical start and end points."
+  },
+  {
+    "id": "q54",
+    "text": "What limitation do agents have before introducing mental events and objects?",
+    "options": [
+      "They cannot perform physical actions",
+      "They can have beliefs but have no knowledge about beliefs or deductions",
+      "They cannot reason about temporal events",
+      "They cannot represent categories"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Agents can have beliefs and infer new beliefs, but they have no knowledge about beliefs or about deductions themselves until mental events are introduced."
+  },
+  {
+    "id": "q55",
+    "text": "What does modeling mental events and mental objects require?",
+    "options": [
+      "A neural network architecture",
+      "A model of mental objects in a KB and mental processes that manipulate them",
+      "A complete theory of consciousness",
+      "Access to the agent's internal state"
+    ],
+    "correctAnswer": 1,
+    "explanation": "We need a model of both the mental objects that are in a knowledge base and the mental processes that manipulate those mental objects."
+  },
+  {
+    "id": "q56",
+    "text": "What are propositional attitudes in mental object representation?",
+    "options": [
+      "The position of propositions in the knowledge base",
+      "Relationships between agents and mental objects like Believes, Knows, Wants, Intends",
+      "The attitude of the agent toward solving problems",
+      "Logical operators for propositional logic"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Propositional attitudes describe the relationship between agents and mental objects, including attitudes like Believes, Knows, Wants, Intends, and Informs."
+  },
+  {
+    "id": "q57",
+    "text": "In the expression Believes(Lois, Flies(Superman)), what does this represent?",
+    "options": [
+      "Lois can fly like Superman",
+      "Lois believes that Superman can fly",
+      "Superman believes Lois can fly",
+      "It is a fact that Superman flies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "This expression represents that the agent Lois has the belief that Superman has the property of being able to fly, showing a propositional attitude."
+  },
+  {
+    "id": "q58",
+    "text": "What does referential opacity in propositional attitudes mean?",
+    "options": [
+      "References become unclear over time",
+      "Substituting equal terms does not always preserve truth",
+      "Mental states cannot be observed directly",
+      "References must be explicitly defined"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Referential opacity means that propositional attitudes like believes and knows do not allow direct substitution of equal terms. Even if Superman = Clark, Knows(Lois, CanFly(Superman)) does not necessarily imply Knows(Lois, CanFly(Clark))."
+  },
+  {
+    "id": "q59",
+    "text": "What is referential transparency?",
+    "options": [
+      "The ability to see through references",
+      "The property where equal terms can be substituted while preserving truth",
+      "Making references explicit in the knowledge base",
+      "The clarity of mental object representations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Referential transparency is the property where equal terms can be substituted in expressions while preserving truth, as shown in the example: 2 + 2 = 4 and 4 < 5, therefore 2 + 2 < 5."
+  },
+  {
+    "id": "q60",
+    "text": "Why is the distinction between referential opacity and transparency important in knowledge representation?",
+    "options": [
+      "It determines the computational complexity of reasoning",
+      "It affects how we can reason about agents' beliefs and knowledge when dealing with identity",
+      "It defines the structure of the upper ontology",
+      "It determines whether first-order logic can be used"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The distinction is crucial because it affects reasoning about agents' mental states - we cannot always substitute equal terms in belief contexts even when those terms refer to the same entity, which impacts how we model and reason about knowledge and beliefs."
+  }
+]

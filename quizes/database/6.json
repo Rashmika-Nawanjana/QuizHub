@@ -1,722 +1,723 @@
 [
-    {
-        "id": "q1",
-        "text": "What are the three main components of hard disk data access time?",
-        "options": [
-            "Seek time, rotational latency, and read time",
-            "Seek time, transfer time, and cache time",
-            "Rotational latency, read time, and write time",
-            "Seek time, access time, and cycle time"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Hard disk data access time consists of seek time (positioning head over track), rotational latency (waiting for sector to rotate under head), and read time (actual data reading)."
-    },
-    {
-        "id": "q2",
-        "text": "What is the primary storage technology used in Solid State Drives (SSDs)?",
-        "options": [
-            "Magnetic platters",
-            "NAND flash memory",
-            "Optical storage",
-            "3D XPoint technology"
-        ],
-        "correctAnswer": 1,
-        "explanation": "SSDs are based on NAND flash memory technology, which provides non-volatile storage without moving parts."
-    },
-    {
-        "id": "q3",
-        "text": "In hard disk geometry, what is a cylinder?",
-        "options": [
-            "A single track on one platter",
-            "The set of all tracks at the same position across all platters",
-            "A group of sectors within a track",
-            "The physical spindle that rotates the platters"
-        ],
-        "correctAnswer": 1,
-        "explanation": "A cylinder consists of all tracks that are at the same head position across multiple platters in a hard disk drive."
-    },
-    {
-        "id": "q4",
-        "text": "What is the primary advantage of SSDs over traditional HDDs?",
-        "options": [
-            "Lower cost per gigabyte",
-            "Higher storage capacity",
-            "Faster access times with no moving parts",
-            "Better compatibility with older systems"
-        ],
-        "correctAnswer": 2,
-        "explanation": "SSDs provide significantly faster access times because they have no moving parts, eliminating seek time and rotational latency."
-    },
-    {
-        "id": "q5",
-        "text": "What technology does Intel Optane use?",
-        "options": [
-            "NAND flash memory",
-            "Magnetic storage",
-            "3D XPoint technology",
-            "Optical storage"
-        ],
-        "correctAnswer": 2,
-        "explanation": "Intel Optane uses 3D XPoint technology, which is a non-volatile memory technology that offers high performance and endurance."
-    },
-    {
-        "id": "q6",
-        "text": "In optical storage, what do pits and lands represent?",
-        "options": [
-            "Different magnetic polarities",
-            "Binary 0s and 1s encoded on the disc surface",
-            "Physical sectors and tracks",
-            "Error correction codes"
-        ],
-        "correctAnswer": 1,
-        "explanation": "Pits and lands are physical features on optical discs that encode binary data through their reflectivity differences."
-    },
-    {
-        "id": "q7",
-        "text": "What is the primary purpose of virtual memory?",
-        "options": [
-            "To increase physical memory speed",
-            "To provide memory protection between processes",
-            "To act as a cache for secondary storage and share memory among programs",
-            "To reduce the cost of main memory"
-        ],
-        "correctAnswer": 2,
-        "explanation": "Virtual memory allows main memory to act as a cache for secondary storage and enables memory sharing among multiple programs while providing isolation."
-    },
-    {
-        "id": "q8",
-        "text": "What is a page fault in virtual memory systems?",
-        "options": [
-            "An error in page table configuration",
-            "When a requested page is not currently in main memory",
-            "A corruption in the page data",
-            "When the TLB cache is full"
-        ],
-        "correctAnswer": 1,
-        "explanation": "A page fault occurs when a program requests a page that is not currently resident in main memory, requiring the OS to load it from secondary storage."
-    },
-    {
-        "id": "q9",
-        "text": "What is the function of a Translation Lookaside Buffer (TLB)?",
-        "options": [
-            "To store frequently accessed disk sectors",
-            "To cache virtual-to-physical address translations",
-            "To manage page replacement algorithms",
-            "To encrypt memory contents for security"
-        ],
-        "correctAnswer": 1,
-        "explanation": "The TLB is a special cache that stores recent virtual-to-physical address translations to speed up memory access by reducing page table lookups."
-    },
-    {
-        "id": "q10",
-        "text": "What problem arises with a simple page table for large virtual address spaces?",
-        "options": [
-            "It becomes too slow to access",
-            "It requires too much physical memory to store",
-            "It cannot handle memory protection",
-            "It conflicts with cache operations"
-        ],
-        "correctAnswer": 1,
-        "explanation": "For large virtual address spaces (e.g., 48-bit addresses), a simple page table would require an enormous amount of physical memory to store all possible page table entries."
-    },
-    {
-        "id": "q11",
-        "text": "What are the typical RPM speeds for high-performance HDDs?",
-        "options": [
-            "1,200 - 2,400 RPM",
-            "3,600 - 5,400 RPM",
-            "7,200 - 15,000 RPM",
-            "20,000 - 30,000 RPM"
-        ],
-        "correctAnswer": 2,
-        "explanation": "High-performance HDDs typically operate at 7,200 to 15,000 RPM, with enterprise drives often at 10,000 or 15,000 RPM for faster access times."
-    },
-    {
-        "id": "q12",
-        "text": "What is the role of the controller in an SSD?",
-        "options": [
-            "To physically read and write NAND flash cells",
-            "To manage data distribution, error correction, and wear leveling",
-            "To provide power management for the drive",
-            "To interface with the computer's CPU directly"
-        ],
-        "correctAnswer": 1,
-        "explanation": "The SSD controller manages critical functions including data distribution across flash cells, error correction, wear leveling, and interface communication."
-    },
-    {
-        "id": "q13",
-        "text": "What is wear leveling in SSDs?",
-        "options": [
-            "Distributing writes evenly across all memory cells to prolong lifespan",
-            "Reducing power consumption during idle periods",
-            "Balancing read and write operations for optimal performance",
-            "Leveling the physical surface of the memory chips"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Wear leveling distributes write operations across all available memory cells to prevent specific cells from wearing out prematurely, extending SSD lifespan."
-    },
-    {
-        "id": "q14",
-        "text": "What is the key innovation of 3D XPoint technology compared to NAND flash?",
-        "options": [
-            "It uses magnetic storage instead of electronic",
-            "It doesn't require a transistor at each memory cell",
-            "It operates at cryogenic temperatures for better performance",
-            "It uses optical technology for data storage"
-        ],
-        "explanation": "3D XPoint technology uses a selector that enables memory cells to be written or read without requiring a transistor at each cell, allowing for higher density.",
-        "correctAnswer": 1
-    },
-    {
-        "id": "q15",
-        "text": "What is the purpose of the 'valid' bit in a page table entry?",
-        "options": [
-            "To indicate if the page has been modified",
-            "To show if the page is currently in main memory",
-            "To mark pages that require special permissions",
-            "To identify pages that are shared between processes"
-        ],
-        "correctAnswer": 1,
-        "explanation": "The valid bit in a page table entry indicates whether the corresponding page is currently resident in main memory (1) or needs to be loaded from secondary storage (0)."
-    },
-    {
-        "id": "q16",
-        "text": "Why does virtual memory require protection mechanisms?",
-        "options": [
-            "To prevent unauthorized access to the page table",
-            "To isolate processes from accessing each other's memory",
-            "To protect the OS from hardware failures",
-            "To ensure data integrity during power outages"
-        ],
-        "correctAnswer": 1,
-        "explanation": "Protection mechanisms prevent processes from intentionally or unintentionally reading or writing to each other's memory spaces, ensuring isolation and security."
-    },
-    {
-        "id": "q17",
-        "text": "What is the relationship between virtual addresses and physical addresses?",
-        "options": [
-            "They are always identical",
-            "Virtual addresses are mapped to physical addresses through page tables",
-            "Physical addresses are subsets of virtual addresses",
-            "They use completely different address spaces with no relation"
-        ],
-        "correctAnswer": 1,
-        "explanation": "Virtual addresses are translated to physical addresses using page tables, which maintain the mapping between a process's virtual address space and physical memory locations."
-    },
-    {
-        "id": "q18",
-        "text": "What is the typical size of a memory page in modern systems?",
-        "options": [
-            "512 bytes",
-            "1KB",
-            "4KB",
-            "64KB"
-        ],
-        "correctAnswer": 2,
-        "explanation": "Most modern systems use 4KB page sizes, though some architectures support multiple page sizes including larger options like 2MB or 1GB for specific use cases."
-    },
-    {
-        "id": "q19",
-        "text": "What problem does multi-level page tables solve?",
-        "options": [
-            "Slow TLB lookup times",
-            "Excessive memory consumption of single-level page tables",
-            "Inefficient page replacement algorithms",
-            "Limited virtual address space"
-        ],
-        "correctAnswer": 1,
-        "explanation": "Multi-level page tables reduce memory consumption by only allocating page table entries for regions of the virtual address space that are actually in use, rather than all possible entries."
-    },
-    {
-        "id": "q20",
-        "text": "What is the 'dirty' bit used for in page table entries?",
-        "options": [
-            "To indicate a page contains malicious code",
-            "To mark pages that have been modified since being loaded",
-            "To identify pages that are frequently accessed",
-            "To signal that a page needs to be encrypted"
-        ],
-        "correctAnswer": 1,
-        "explanation": "The dirty bit indicates whether a page has been modified since it was loaded into memory. This determines if the page needs to be written back to disk when replaced."
-    },
-    {
-        "id": "q21",
-        "text": "What is the main difference between CD-R and CD-RW?",
-        "options": [
-            "CD-R has higher capacity",
-            "CD-RW can be rewritten multiple times",
-            "CD-R uses different laser technology",
-            "CD-RW has faster read speeds"
-        ],
-        "correctAnswer": 1,
-        "explanation": "CD-R (Recordable) discs can be written once, while CD-RW (Rewritable) discs can be erased and rewritten multiple times, though with limited rewrite cycles."
-    },
-    {
-        "id": "q22",
-        "text": "What is the primary benefit of Blu-ray technology over DVD?",
-        "options": [
-            "Higher storage capacity through blue-violet laser",
-            "Faster rotational speeds",
-            "Better compatibility with older drives",
-            "Lower production costs"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Blu-ray uses a blue-violet laser with shorter wavelength than DVD's red laser, allowing for smaller pit sizes and significantly higher storage capacity."
-    },
-    {
-        "id": "q23",
-        "text": "What is the purpose of the 'reference' bit in page table entries?",
-        "options": [
-            "To track how recently a page has been accessed",
-            "To indicate if the page contains reference data",
-            "To mark pages that reference other pages",
-            "To count the number of processes accessing the page"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The reference bit (or accessed bit) is set when a page is accessed, helping page replacement algorithms identify which pages have been used recently."
-    },
-    {
-        "id": "q24",
-        "text": "What is swap space in virtual memory systems?",
-        "options": [
-            "A reserved area of main memory for page tables",
-            "Disk space used to store pages not in physical memory",
-            "Cache memory for frequently accessed pages",
-            "Memory reserved for the operating system kernel"
-        ],
-        "correctAnswer": 1,
-        "explanation": "Swap space is dedicated area on secondary storage (typically disk) where pages are stored when they are not resident in physical memory."
-    },
-    {
-        "id": "q25",
-        "text": "What is the main advantage of SAS drives over SATA drives?",
-        "options": [
-            "Higher storage capacity",
-            "Better performance and reliability for enterprise use",
-            "Lower power consumption",
-            "Better compatibility with consumer devices"
-        ],
-        "correctAnswer": 1,
-        "explanation": "SAS (Serial Attached SCSI) drives offer better performance, reliability, and features suited for enterprise environments compared to SATA drives."
-    },
-    {
-        "id": "q26",
-        "text": "What is the typical access time for SSDs compared to HDDs?",
-        "options": [
-            "SSDs: 0.1ms vs HDDs: 5-8ms",
-            "SSDs: 1ms vs HDDs: 10-15ms",
-            "SSDs: 5ms vs HDDs: 20-25ms",
-            "SSDs: 10ms vs HDDs: 30-40ms"
-        ],
-        "correctAnswer": 0,
-        "explanation": "SSDs typically have access times around 0.1ms, while HDDs have access times in the 5-8ms range due to mechanical movement requirements."
-    },
-    {
-        "id": "q27",
-        "text": "What is the purpose of the page table register?",
-        "options": [
-            "To store the base address of the current process's page table",
-            "To hold the TLB cache contents",
-            "To track the number of page faults",
-            "To manage the swap space location"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The page table register stores the base address of the page table for the currently executing process, enabling the MMU to locate the correct page table."
-    },
-    {
-        "id": "q28",
-        "text": "What is the main limitation of optical storage compared to magnetic storage?",
-        "options": [
-            "Lower storage capacity",
-            "Slower access times",
-            "Higher cost per gigabyte",
-            "Shorter lifespan"
-        ],
-        "correctAnswer": 1,
-        "explanation": "Optical storage generally has slower access times due to the mechanical nature of optical drives and the need to physically rotate discs and move laser assemblies."
-    },
-    {
-        "id": "q29",
-        "text": "What is the primary function of the head actuator in an HDD?",
-        "options": [
-            "To rotate the platters at constant speed",
-            "To move the read/write heads across platter surfaces",
-            "To control power management functions",
-            "To manage data caching operations"
-        ],
-        "correctAnswer": 1,
-        "explanation": "The head actuator precisely moves the read/write heads across the surfaces of the platters to position them over specific tracks for data access."
-    },
-    {
-        "id": "q30",
-        "text": "What is the significance of the 'non-volatile' property in storage technologies?",
-        "options": [
-            "Data is retained without continuous power",
-            "Data cannot be modified once written",
-            "Storage is resistant physical damage",
-            "Data access speed remains constant"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Non-volatile storage retains data without requiring continuous electrical power, making it suitable for permanent data storage."
-    },
-    {
-        "id": "q31",
-        "text": "What is the main advantage of 3D NAND technology in SSDs?",
-        "options": [
-            "Higher storage density by stacking memory cells vertically",
-            "Faster data transfer rates through parallel access",
-            "Lower power consumption through advanced materials",
-            "Better error correction capabilities"
-        ],
-        "correctAnswer": 0,
-        "explanation": "3D NAND technology stacks memory cells in multiple layers vertically, significantly increasing storage density compared to planar (2D) NAND designs."
-    },
-    {
-        "id": "q32",
-        "text": "What is the purpose of the 'spare' areas in SSD layout?",
-        "options": [
-            "To provide extra storage for future expansion",
-            "To replace failed memory blocks through wear leveling",
-            "To store error correction codes and metadata",
-            "To accommodate thermal expansion of components"
-        ],
-        "correctAnswer": 2,
-        "explanation": "Spare areas in SSDs are used to store error correction codes, metadata, and other overhead information necessary for reliable operation."
-    },
-    {
-        "id": "q33",
-        "text": "What is the main challenge in implementing virtual memory?",
-        "options": [
-            "Designing efficient address translation mechanisms",
-            "Preventing electrical interference in memory circuits",
-            "Synchronizing multiple memory controllers",
-            "Managing heat dissipation in memory modules"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The primary challenge is designing efficient address translation mechanisms that minimize performance overhead while providing memory protection and isolation."
-    },
-    {
-        "id": "q34",
-        "text": "What is the typical failure rate difference between SSDs and HDDs?",
-        "options": [
-            "SSDs have 2-5% failure rate vs HDDs 4-10%",
-            "SSDs have 4-10 times lower failure rate than HDDs",
-            "SSDs and HDDs have similar failure rates",
-            "SSDs have higher failure rates due to write cycle limitations"
-        ],
-        "correctAnswer": 1,
-        "explanation": "SSDs typically have 4-10 times lower failure rates compared to HDDs, due to their lack of moving parts that are susceptible to mechanical failure."
-    },
-    {
-        "id": "q35",
-        "text": "What is the purpose of the battery/capacitor in some SSDs?",
-        "options": [
-            "To provide backup power for completing writes during power loss",
-            "To maintain data in volatile cache memory",
-            "To power the controller during sleep modes",
-            "To regulate voltage for consistent performance"
-        ],
-        "explanation": "Some SSDs include capacitors or batteries to provide enough power to complete pending write operations in case of sudden power loss, preventing data corruption.",
-        "correctAnswer": 0
-    },
-    {
-        "id": "q36",
-        "text": "What is the relationship between virtual page number and physical page number?",
-        "options": [
-            "They are always identical",
-            "They have a fixed offset relationship",
-            "They are mapped through the page table",
-            "The physical page number is derived by hashing the virtual page number"
-        ],
-        "correctAnswer": 2,
-        "explanation": "The virtual page number is translated to a physical page number through the page table, which contains the mapping for each virtual page to its physical location (if resident in memory)."
-    },
-    {
-        "id": "q37",
-        "text": "What is the main advantage of multi-level cell (MLC) NAND flash?",
-        "options": [
-            "Higher storage density by storing multiple bits per cell",
-            "Faster read/write speeds through parallel operation",
-            "Lower power consumption per bit stored",
-            "Longer lifespan through reduced write amplification"
-        ],
-        "correctAnswer": 0,
-        "explanation": "MLC NAND stores multiple bits per cell (typically 2 bits), increasing storage density but often with trade-offs in write endurance and performance compared to single-level cell (SLC) NAND."
-    },
-    {
-        "id": "q38",
-        "text": "What is the primary cause of rotational latency in HDDs?",
-        "options": [
-            "The time to move heads between tracks",
-            "The time for platters to rotate desired sector under head",
-            "The delay in electronics processing read commands",
-            "The time to transfer data from platters to buffer"
-        ],
-        "correctAnswer": 1,
-        "explanation": "Rotational latency is the time required for the desired sector to rotate under the read/write head once the head is positioned over the correct track."
-    },
-    {
-        "id": "q39",
-        "text": "What is the purpose of the 'disk address' in page table entries?",
-        "options": [
-            "To locate the page in secondary storage when not in memory",
-            "To identify which disk controller to use for access",
-            "To specify the rotational position of the data on disk",
-            "To encrypt the disk storage location for security"
-        ],
-        "correctAnswer": 0,
-        "explanation": "When a page is not in main memory, the disk address in the page table entry indicates where the page is stored on secondary storage (disk)."
-    },
-    {
-        "id": "q40",
-        "text": "What is the main benefit of the stackable design in 3D XPoint technology?",
-        "options": [
-            "Further increases memory density by adding vertical layers",
-            "Improves thermal dissipation for better performance",
-            "Allows for modular replacement of failed components",
-            "Enables mixed technology integration in single packages"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The stackable design of 3D XPoint technology allows multiple layers of memory to be stacked vertically, significantly increasing density beyond planar technologies."
-    },
-    {
-        "id": "q41",
-        "text": "What is the typical energy consumption difference between SSDs and HDDs?",
-        "options": [
-            "SSDs consume 2-3 times more power than HDDs",
-            "SSDs and HDDs have similar power consumption",
-            "SSDs consume 2-3 times less power than HDDs",
-            "Power consumption depends solely on capacity, not technology"
-        ],
-        "correctAnswer": 2,
-        "explanation": "SSDs typically consume 2-3 times less power than HDDs because they lack moving parts that require significant energy to operate."
-    },
-    {
-        "id": "q42",
-        "text": "What is the purpose of the page offset in virtual address translation?",
-        "options": [
-            "To identify which page table level to access",
-            "To specify the byte position within a page",
-            "To indicate the protection level for the page",
-            "To determine the swap space location for the page"
-        ],
-        "correctAnswer": 1,
-        "explanation": "The page offset specifies the exact byte position within a page and remains unchanged during virtual-to-physical address translation."
-    },
-    {
-        "id": "q43",
-        "text": "What is the main advantage of NVMe interface for SSDs over SATA?",
-        "options": [
-            "Higher bandwidth and lower latency through PCIe connection",
-            "Better compatibility with older systems",
-            "Lower cost implementation",
-            "Simpler driver requirements"
-        ],
-        "correctAnswer": 0,
-        "explanation": "NVMe provides significantly higher bandwidth and lower latency by utilizing the PCIe bus directly, rather than the SATA interface which was designed for HDDs."
-    },
-    {
-        "id": "q44",
-        "text": "What is the primary function of the 'ref' (reference) bit in TLB entries?",
-        "options": [
-            "To track recently used translations for replacement decisions",
-            "To indicate translated addresses that reference other addresses",
-            "To mark translations that require refresh due to aging",
-            "To count how many processes use the same translation"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The reference bit in TLB entries helps determine which translations have been used recently, informing replacement decisions when the TLB is full."
-    },
-    {
-        "id": "q45",
-        "text": "What is the main difference between magnetic and optical storage technologies?",
-        "options": [
-            "Magnetic uses magnetism while optical uses light for data storage",
-            "Optical has higher capacity while magnetic has better performance",
-            "Magnetic is volatile while optical is non-volatile",
-            "Optical is cheaper while magnetic is more reliable"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Magnetic storage uses magnetic fields to orient particles on a surface, while optical storage uses light (lasers) to read and write data on reflective surfaces."
-    },
-    {
-        "id": "q46",
-        "text": "What is the purpose of the 'dirty' bit in TLB entries?",
-        "options": [
-            "To indicate that a translation may be incorrect",
-            "To mark translations for pages that have been modified",
-            "To identify translations that need to be flushed",
-            "To signal that a translation is shared between processes"
-        ],
-        "correctAnswer": 1,
-        "explanation": "The dirty bit in TLB entries indicates that the corresponding page has been modified, which affects how the page is handled when it needs to be replaced."
-    },
-    {
-        "id": "q47",
-        "text": "What is the main challenge in NAND flash memory that requires wear leveling?",
-        "options": [
-            "Limited number of write cycles per memory cell",
-            "Slow read access times compared to write times",
-            "High power consumption during write operations",
-            "Data retention degradation over time without refresh"
-        ],
-        "correctAnswer": 0,
-        "explanation": "NAND flash memory cells can only endure a limited number of write cycles before they wear out, necessitating wear leveling to distribute writes evenly."
-    },
-    {
-        "id": "q48",
-        "text": "What is the primary benefit of virtual memory for programmers?",
-        "options": [
-            "They don't need to worry about physical memory limitations",
-            "It automatically optimizes their code for performance",
-            "It provides built-in encryption for memory contents",
-            "It eliminates the need for memory allocation functions"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Virtual memory allows programmers to work with a large, uniform address space without concern for the actual physical memory limitations of the system."
-    },
-    {
-        "id": "q49",
-        "text": "What is the typical capacity range for individual NAND flash chips in SSDs?",
-        "options": [
-            "128MB to 1GB",
-            "2GB to 128GB",
-            "256GB to 2TB",
-            "4TB to 16TB"
-        ],
-        "correctAnswer": 1,
-        "explanation": "Individual NAND flash chips in SSDs typically range from 2GB to 128GB, with multiple chips combined to achieve total SSD capacities."
-    },
-    {
-        "id": "q50",
-        "text": "What is the main purpose of the 'tag' field in TLB entries?",
-        "options": [
-            "To store the virtual page number for comparison",
-            "To indicate the physical page number after translation",
-            "To specify the protection level for the translated page",
-            "To track the age of the translation for replacement"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The tag field in TLB entries stores part of the virtual page number, which is compared against incoming virtual addresses to find matching translations."
-    },
-    {
-        "id": "q51",
-        "text": "What is the primary advantage of glass platters over aluminum in HDDs?",
-        "options": [
-            "Better rigidity and thermal stability for higher density",
-            "Lower cost and easier manufacturing",
-            "Higher rotational speeds with less vibration",
-            "Better magnetic properties for data storage"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Glass platters offer better rigidity and thermal stability compared to aluminum, allowing for thinner platters and higher storage densities."
-    },
-    {
-        "id": "q52",
-        "text": "What is the relationship between virtual memory and cache memory?",
-        "options": [
-            "They are the same technology with different names",
-            "Cache memory speeds up access to virtual memory translations",
-            "Virtual memory manages main memory as a cache for disk",
-            "Cache memory is a subset of virtual memory"
-        ],
-        "correctAnswer": 2,
-        "explanation": "Virtual memory treats main memory as a cache for secondary storage (disk), with similar concepts of blocks (pages), placement, and replacement."
-    },
-    {
-        "id": "q53",
-        "text": "What is the main advantage of MR (MagnetoResistive) reading heads in HDDs?",
-        "options": [
-            "Higher sensitivity for reading smaller magnetic fields",
-            "Lower power consumption than inductive heads",
-            "Ability to write data at higher densities",
-            "Better durability and longer lifespan"
-        ],
-        "correctAnswer": 0,
-        "explanation": "MR reading heads are more sensitive and can detect smaller magnetic fields, enabling higher data densities compared to traditional inductive heads."
-    },
-    {
-        "id": "q54",
-        "text": "What is the purpose of the 'valid' bit in TLB entries?",
-        "options": [
-            "To indicate if the translation is currently usable",
-            "To mark translations that have been verified as correct",
-            "To identify entries that need to be updated",
-            "To signal that the translated page is in memory"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The valid bit in TLB entries indicates whether the translation contained in that entry is currently valid and can be used for address translation."
-    },
-    {
-        "id": "q55",
-        "text": "What is the main reason for the performance difference in random I/O between SSDs and HDDs?",
-        "options": [
-            "SSDs have no seek time or rotational latency",
-            "SSDs use faster interface connections",
-            "HDDs have larger cache memories",
-            "SSDs have simpler data access algorithms"
-        ],
-        "correctAnswer": 0,
-        "explanation": "SSDs excel at random I/O because they have no mechanical seek time or rotational latency, allowing immediate access to any storage location."
-    },
-    {
-        "id": "q56",
-        "text": "What is the primary function of the page table in virtual memory systems?",
-        "options": [
-            "To translate virtual addresses to physical addresses",
-            "To manage the replacement of pages in memory",
-            "To provide encryption for memory contents",
-            "To optimize memory access patterns"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The page table stores the mapping between virtual pages and their corresponding physical page frames (if resident) or disk locations."
-    },
-    {
-        "id": "q57",
-        "text": "What is the main advantage of SAS interface over SATA for enterprise storage?",
-        "options": [
-            "Higher reliability and better error recovery",
-            "Lower cost per connected device",
-            "Simpler configuration and management",
-            "Better compatibility with consumer hardware"
-        ],
-        "correctAnswer": 0,
-        "explanation": "SAS offers higher reliability, better error recovery mechanisms, and features like dual-porting that are essential for enterprise storage environments."
-    },
-    {
-        "id": "q58",
-        "text": "What is the purpose of the 'physical page address' field in TLB entries?",
-        "options": [
-            "To store the translated physical page number",
-            "To indicate the disk location for swapped-out pages",
-            "To track the age of the physical page in memory",
-            "To specify protection attributes for the physical page"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The physical page address field in TLB entries stores the translated physical page number that corresponds to the virtual page number."
-    },
-    {
-        "id": "q59",
-        "text": "What is the main benefit of the perpendicular recording technology in HDDs?",
-        "options": [
-            "Higher areal density by aligning magnetic particles vertically",
-            "Lower power consumption through improved magnets",
-            "Faster seek times with better actuator control",
-            "Better thermal stability for high-temperature operation"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Perpendicular recording aligns magnetic particles vertically rather than horizontally, allowing higher areal densities and greater storage capacities."
-    },
-    {
-        "id": "q60",
-        "text": "What is the primary reason for the endurance advantage of 3D XPoint over NAND flash?",
-        "options": [
-            "It is not significantly impacted by write cycle limitations",
-            "It uses larger memory cells that wear out more slowly",
-            "It has built-in error correction that prevents wear",
-            "It operates at lower voltages that reduce cell degradation"
-        ],
-        "correctAnswer": 0,
-        "explanation": "3D XPoint technology is not significantly impacted by the number of write cycles it can endure, making it more durable than NAND flash which has limited write endurance."
-    }
+  {
+    "id": "q1",
+    "text": "When combining the instructor and department schemas into inst_dept, what problem arises?",
+    "options": [
+      "Loss of data integrity",
+      "Possible repetition of information",
+      "Violation of referential constraints",
+      "Increased storage efficiency"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Combining schemas can result in possible repetition of information, as shown in the inst_dept example where department information may be repeated for each instructor."
+  },
+  {
+    "id": "q58",
+    "text": "Which of the following is an example of bad database design that normalization doesn't catch?",
+    "options": [
+      "Creating separate tables for each year (earnings_2004, earnings_2005, etc.)",
+      "Having non-atomic attributes",
+      "Partial functional dependencies",
+      "Transitive dependencies"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Creating separate tables for different years is poor design that makes querying across years difficult, even though each table might be in BCNF."
+  },
+  {
+    "id": "q59",
+    "text": "Temporal data modeling adds complexity because:",
+    "options": [
+      "It requires more storage space",
+      "Traditional functional dependencies may not hold over time",
+      "It violates First Normal Form",
+      "It cannot be normalized"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Temporal data causes traditional functional dependencies like ID → address not to hold because addresses change over time."
+  },
+  {
+    "id": "q60",
+    "text": "A temporal functional dependency X →T Y differs from regular functional dependencies because:",
+    "options": [
+      "It holds across all time periods",
+      "It holds on all snapshots for all legal instances",
+      "It only applies to current data",
+      "It ignores time considerations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A temporal functional dependency X →T Y holds on schema R if the functional dependency X → Y holds on all snapshots for all legal instances r(R)."
+  },
+
+  {
+    "id": "q2",
+    "text": "In the example combining sec_class and section relations, why is there no repetition?",
+    "options": [
+      "The relations have no common attributes",
+      "Both relations are already normalized",
+      "The combined relation maintains a one-to-one relationship",
+      "Foreign key constraints prevent repetition"
+    ],
+    "correctAnswer": 2,
+    "explanation": "There is no repetition because the relationship between sec_class and section maintains a one-to-one correspondence."
+  },
+  {
+    "id": "q3",
+    "text": "A functional dependency dept_name → building, budget indicates that:",
+    "options": [
+      "dept_name is always a candidate key",
+      "If there were a schema with these attributes, dept_name would be a candidate key",
+      "Building and budget are always dependent on dept_name",
+      "The schema must be decomposed immediately"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The functional dependency is written as a rule indicating that if there were a schema with these attributes, dept_name would be a candidate key."
+  },
+  {
+    "id": "q4",
+    "text": "What makes the employee decomposition into employee1(ID, name) and employee2(name, street, city, salary) lossy?",
+    "options": [
+      "The relations have different primary keys",
+      "Name is not a unique identifier",
+      "Cannot reconstruct the original employee relation",
+      "There are too many attributes in employee2"
+    ],
+    "correctAnswer": 2,
+    "explanation": "This is a lossy decomposition because we cannot reconstruct the original employee relation - multiple employees might have the same name."
+  },
+  {
+    "id": "q5",
+    "text": "In a lossless-join decomposition of R = (A, B, C) into R1 = (A, B) and R2 = (B, C), what is the key requirement?",
+    "options": [
+      "A must be a primary key",
+      "B must be a common attribute",
+      "The join R1 ⋈ R2 = R",
+      "C must be functionally dependent on A"
+    ],
+    "correctAnswer": 2,
+    "explanation": "For a lossless-join decomposition, the natural join of R1 and R2 must equal the original relation R."
+  },
+  {
+    "id": "q6",
+    "text": "A domain is atomic if:",
+    "options": [
+      "It contains only numeric values",
+      "Its elements are considered to be indivisible units",
+      "It has no null values",
+      "It is a primary key domain"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An atomic domain means its elements are considered to be indivisible units, which is a requirement for First Normal Form."
+  },
+  {
+    "id": "q7",
+    "text": "Which of the following is an example of a non-atomic domain?",
+    "options": [
+      "Integer values",
+      "Single character strings",
+      "Set of names as a single attribute",
+      "Date values"
+    ],
+    "correctAnswer": 2,
+    "explanation": "A set of names stored as a single attribute is non-atomic because it can be broken down into individual names."
+  },
+  {
+    "id": "q8",
+    "text": "Why is using identification numbers like CS101 that can be broken into parts problematic for atomicity?",
+    "options": [
+      "They are too long",
+      "They violate First Normal Form if parts are extracted",
+      "They cannot be indexed efficiently",
+      "They are not unique"
+    ],
+    "correctAnswer": 1,
+    "explanation": "If parts of CS101 are extracted (like 'CS' for department), it violates atomicity and leads to encoding information in application programs rather than the database."
+  },
+  {
+    "id": "q9",
+    "text": "A relational schema R is in First Normal Form if:",
+    "options": [
+      "All attributes are atomic",
+      "It has no partial dependencies",
+      "It has a primary key",
+      "All non-key attributes are fully dependent on the primary key"
+    ],
+    "correctAnswer": 0,
+    "explanation": "First Normal Form requires that the domains of all attributes of R are atomic."
+  },
+  {
+    "id": "q10",
+    "text": "What does a functional dependency α → β mean?",
+    "options": [
+      "α and β are both candidate keys",
+      "β determines α uniquely",
+      "α determines β uniquely",
+      "α and β are independent"
+    ],
+    "correctAnswer": 2,
+    "explanation": "A functional dependency α → β means that α determines β uniquely - whenever two tuples agree on α, they must also agree on β."
+  },
+  {
+    "id": "q11",
+    "text": "In the relation r(A,B) with tuples (1,4), (1,5), (3,7), which functional dependency holds?",
+    "options": [
+      "A → B",
+      "B → A",
+      "Both A → B and B → A",
+      "Neither A → B nor B → A"
+    ],
+    "correctAnswer": 1,
+    "explanation": "B → A holds because each B value uniquely determines an A value, but A → B does not hold because A=1 maps to both B=4 and B=5."
+  },
+  {
+    "id": "q12",
+    "text": "K is a superkey for relation schema R if and only if:",
+    "options": [
+      "K is minimal",
+      "K → R",
+      "K is unique",
+      "K contains all attributes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "K is a superkey if and only if K → R, meaning K functionally determines all attributes in R."
+  },
+  {
+    "id": "q13",
+    "text": "A candidate key differs from a superkey in that:",
+    "options": [
+      "It's always smaller",
+      "It's minimal - no subset of it is also a superkey",
+      "It cannot have null values",
+      "It must be a single attribute"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A candidate key is a minimal superkey - no proper subset of it is also a superkey."
+  },
+  {
+    "id": "q14",
+    "text": "A functional dependency α → β is trivial if:",
+    "options": [
+      "α is a candidate key",
+      "β ⊆ α",
+      "α and β are disjoint",
+      "β is a single attribute"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A functional dependency is trivial if β ⊆ α, meaning it's satisfied by all instances of a relation."
+  },
+  {
+    "id": "q15",
+    "text": "The closure of a set F of functional dependencies (F⁺) is:",
+    "options": [
+      "The minimal set equivalent to F",
+      "The set of all functional dependencies logically implied by F",
+      "The set of candidate keys derivable from F",
+      "The union of F with its complement"
+    ],
+    "correctAnswer": 1,
+    "explanation": "F⁺ is the set of all functional dependencies that are logically implied by F."
+  },
+  {
+    "id": "q16",
+    "text": "Which of the following is Armstrong's reflexivity axiom?",
+    "options": [
+      "if α → β, then γα → γβ",
+      "if α → β and β → γ, then α → γ",
+      "if β ⊆ α, then α → β",
+      "if α → β and α → γ, then α → βγ"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The reflexivity axiom states that if β ⊆ α, then α → β."
+  },
+  {
+    "id": "q17",
+    "text": "Armstrong's augmentation rule states that:",
+    "options": [
+      "if α → β, then γα → γβ",
+      "if β ⊆ α, then α → β",
+      "if α → β and β → γ, then α → γ",
+      "if α → βγ, then α → β"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The augmentation rule states that if α → β, then γα → γβ (adding the same attributes to both sides)."
+  },
+  {
+    "id": "q18",
+    "text": "The transitivity rule in Armstrong's axioms is:",
+    "options": [
+      "if α → β, then γα → γβ",
+      "if α → β and β → γ, then α → γ",
+      "if β ⊆ α, then α → β",
+      "if α → β and α → γ, then α → βγ"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The transitivity rule states that if α → β and β → γ, then α → γ."
+  },
+  {
+    "id": "q19",
+    "text": "Given F = {A → B, A → C, CG → H, CG → I, B → H}, which of the following is in F⁺?",
+    "options": [
+      "A → H",
+      "AG → I",
+      "CG → HI",
+      "All of the above"
+    ],
+    "correctAnswer": 3,
+    "explanation": "All are in F⁺: A → H (by transitivity), AG → I (by augmentation and transitivity), and CG → HI (by union rule)."
+  },
+  {
+    "id": "q20",
+    "text": "The attribute closure α⁺ under F is:",
+    "options": [
+      "The set of attributes that α functionally determines",
+      "The minimal set of attributes equivalent to α",
+      "The set of all candidate keys containing α",
+      "The complement of α in the relation schema"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The attribute closure α⁺ is the set of attributes that are functionally determined by α under F."
+  },
+  {
+    "id": "q21",
+    "text": "To test if α is a superkey, we:",
+    "options": [
+      "Check if α is minimal",
+      "Compute α⁺ and check if it contains all attributes of R",
+      "Check if α → R is in F",
+      "Verify that α has no subsets"
+    ],
+    "correctAnswer": 1,
+    "explanation": "To test if α is a superkey, we compute α⁺ and check if it contains all attributes of R."
+  },
+  {
+    "id": "q22",
+    "text": "To check if a functional dependency α → β holds, we:",
+    "options": [
+      "Compute α⁺ and check if β ⊆ α⁺",
+      "Compute β⁺ and check if α ⊆ β⁺",
+      "Check if α and β are disjoint",
+      "Verify that α is a candidate key"
+    ],
+    "correctAnswer": 0,
+    "explanation": "To check if α → β holds, we compute α⁺ and check if β ⊆ α⁺."
+  },
+  {
+    "id": "q23",
+    "text": "In the example with R = (A,B,C,G,H,I) and given functional dependencies, what is (AG)⁺?",
+    "options": [
+      "AG",
+      "ABCG",
+      "ABCGH",
+      "ABCGHI"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Following the attribute closure algorithm: (AG)⁺ = ABCGHI, which means AG is a superkey since it determines all attributes."
+  },
+  {
+    "id": "q24",
+    "text": "A canonical cover Fc for F is characterized by:",
+    "options": [
+      "F and Fc are logically equivalent, Fc has no extraneous attributes, each LHS in Fc is unique",
+      "Fc ⊆ F and Fc has minimal size",
+      "Fc contains only candidate keys",
+      "Fc is the closure of F"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A canonical cover is logically equivalent to F, contains no extraneous attributes, and each left-hand side appears only once."
+  },
+  {
+    "id": "q25",
+    "text": "An attribute A is extraneous in α → β if A ∈ α and:",
+    "options": [
+      "A is also in β",
+      "F logically implies (F - {α → β}) ∪ {(α - A) → β}",
+      "A is a candidate key",
+      "A appears in multiple dependencies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A is extraneous in α if removing it from α doesn't change the closure of functional dependencies."
+  },
+  {
+    "id": "q26",
+    "text": "A relation schema R is in BCNF if for all functional dependencies α → β in F⁺:",
+    "options": [
+      "α is always a candidate key",
+      "β ⊆ α (trivial) or α is a superkey for R",
+      "α and β are disjoint",
+      "β is a single attribute"
+    ],
+    "correctAnswer": 1,
+    "explanation": "BCNF requires that for every functional dependency, either it's trivial (β ⊆ α) or α is a superkey."
+  },
+  {
+    "id": "q27",
+    "text": "Why is instr_dept(ID, name, salary, dept_name, building, budget) not in BCNF?",
+    "options": [
+      "It has too many attributes",
+      "dept_name → building, budget holds but dept_name is not a superkey",
+      "ID is not a proper candidate key",
+      "There are partial dependencies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The relation violates BCNF because dept_name → building, budget holds but dept_name is not a superkey."
+  },
+  {
+    "id": "q28",
+    "text": "When decomposing a schema R with violation α → β into BCNF, we create:",
+    "options": [
+      "(αβ) and (R - β)",
+      "(α ∪ β) and (R - (β - α))",
+      "(α) and (β)",
+      "(R - α) and (αβ)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "We decompose into (α ∪ β) and (R - (β - α)) to ensure lossless decomposition while eliminating the BCNF violation."
+  },
+  {
+    "id": "q29",
+    "text": "BCNF decomposition is always:",
+    "options": [
+      "Dependency preserving",
+      "Lossless-join",
+      "Both lossless-join and dependency preserving",
+      "Neither lossless-join nor dependency preserving"
+    ],
+    "correctAnswer": 1,
+    "explanation": "BCNF decomposition is always lossless-join, but it may not always be dependency preserving."
+  },
+  {
+    "id": "q30",
+    "text": "Third Normal Form (3NF) is a weaker condition than BCNF because it allows:",
+    "options": [
+      "Non-atomic attributes",
+      "Partial dependencies",
+      "Some non-key attributes in β when α → β violates BCNF, if each attribute in β - α is in a candidate key",
+      "Transitive dependencies"
+    ],
+    "correctAnswer": 2,
+    "explanation": "3NF allows violations of BCNF if each attribute in β - α is contained in some candidate key of R."
+  },
+  {
+    "id": "q31",
+    "text": "A relation schema R is in 3NF if for all α → β in F⁺:",
+    "options": [
+      "α is always a superkey",
+      "β ⊆ α (trivial), or α is a superkey, or each attribute in β - α is in a candidate key",
+      "There are no transitive dependencies",
+      "All attributes are atomic"
+    ],
+    "correctAnswer": 1,
+    "explanation": "3NF allows the additional condition that each attribute in β - α is contained in a candidate key for R."
+  },
+  {
+    "id": "q32",
+    "text": "Why might we prefer 3NF over BCNF in some cases?",
+    "options": [
+      "3NF eliminates more redundancy",
+      "3NF is always lossless and dependency preserving",
+      "3NF is easier to compute",
+      "3NF allows null values"
+    ],
+    "correctAnswer": 1,
+    "explanation": "We might prefer 3NF because it's always possible to achieve both lossless-join and dependency preservation, unlike BCNF."
+  },
+  {
+    "id": "q33",
+    "text": "In the inst_info(ID, child_name, phone) example, why is the BCNF schema still problematic?",
+    "options": [
+      "It's not actually in BCNF",
+      "It has insertion anomalies despite being in BCNF",
+      "It violates referential integrity",
+      "It has too many attributes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Even though it's in BCNF, the schema has insertion anomalies - adding a phone number requires adding multiple tuples."
+  },
+  {
+    "id": "q34",
+    "text": "The inst_info example suggests the need for:",
+    "options": [
+      "Better BCNF decomposition",
+      "Returning to 3NF",
+      "Higher normal forms like 4NF",
+      "Denormalization"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The example illustrates why we might need higher normal forms like Fourth Normal Form (4NF) to handle multivalued dependencies."
+  },
+  {
+    "id": "q35",
+    "text": "To compute the closure of a set F of functional dependencies, we repeatedly apply:",
+    "options": [
+      "Only Armstrong's axioms",
+      "Armstrong's axioms until no new dependencies can be derived",
+      "The union and decomposition rules",
+      "Attribute closure algorithms"
+    ],
+    "correctAnswer": 1,
+    "explanation": "We compute F⁺ by repeatedly applying Armstrong's axioms (reflexivity, augmentation, transitivity) until no new dependencies can be derived."
+  },
+  {
+    "id": "q36",
+    "text": "The union rule states that if α → β and α → γ hold, then:",
+    "options": [
+      "α → βγ holds",
+      "β → γ holds",
+      "αβ → γ holds",
+      "α → β ∩ γ holds"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The union rule states that if α → β and α → γ, then α → βγ (combining the right-hand sides)."
+  },
+  {
+    "id": "q37",
+    "text": "The decomposition rule states that if α → βγ holds, then:",
+    "options": [
+      "α → β and α → γ both hold",
+      "β → γ holds",
+      "α → β or α → γ holds",
+      "βγ → α holds"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The decomposition rule states that if α → βγ, then both α → β and α → γ hold."
+  },
+  {
+    "id": "q38",
+    "text": "In computing a canonical cover, why do we use the union rule first?",
+    "options": [
+      "It reduces the number of dependencies",
+      "It eliminates extraneous attributes",
+      "It combines dependencies with the same left-hand side",
+      "It identifies candidate keys"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The union rule combines dependencies with the same left-hand side, which is required for the canonical cover property that each LHS is unique."
+  },
+  {
+    "id": "q39",
+    "text": "To test if attribute A ∈ α is extraneous in α → β, we:",
+    "options": [
+      "Check if A appears in β",
+      "Compute (α - {A})⁺ and see if it contains β",
+      "Check if A is a candidate key",
+      "Verify that A → β holds"
+    ],
+    "correctAnswer": 1,
+    "explanation": "We test if A is extraneous by computing (α - {A})⁺ and checking if it contains β - if so, A is extraneous."
+  },
+  {
+    "id": "q40",
+    "text": "A decomposition of R into R₁ and R₂ is lossless-join if:",
+    "options": [
+      "R₁ ∩ R₂ ≠ ∅",
+      "R₁ ∩ R₂ → R₁ or R₁ ∩ R₂ → R₂",
+      "R₁ ∪ R₂ = R",
+      "Both conditions 2 and 3"
+    ],
+    "correctAnswer": 3,
+    "explanation": "A decomposition is lossless-join if the intersection of schemas functionally determines at least one of the schemas, and the union covers the original schema."
+  },
+  {
+    "id": "q41",
+    "text": "In the example R = (A,B,C) with F = {A → B, B → C}, the decomposition R₁ = (A,B), R₂ = (B,C) is:",
+    "options": [
+      "Lossless but not dependency preserving",
+      "Dependency preserving but not lossless",
+      "Both lossless and dependency preserving",
+      "Neither lossless nor dependency preserving"
+    ],
+    "correctAnswer": 2,
+    "explanation": "This decomposition is both lossless (since B → BC) and dependency preserving (all original dependencies can be checked)."
+  },
+  {
+    "id": "q42",
+    "text": "A decomposition is dependency preserving if:",
+    "options": [
+      "All original dependencies can be checked without computing joins",
+      "(F₁ ∪ F₂ ∪ ... ∪ Fₙ)⁺ = F⁺",
+      "Each dependency in F appears in exactly one Fᵢ",
+      "The decomposition is lossless"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A decomposition is dependency preserving if (F₁ ∪ F₂ ∪ ... ∪ Fₙ)⁺ = F⁺, meaning all original constraints can be enforced."
+  },
+  {
+    "id": "q43",
+    "text": "To test if a dependency α → β is preserved in a decomposition, we use:",
+    "options": [
+      "Armstrong's axioms directly",
+      "Attribute closure with a specific algorithm that considers only attributes in each relation",
+      "Canonical cover computation",
+      "BCNF testing"
+    ],
+    "correctAnswer": 1,
+    "explanation": "We use a specific algorithm that iteratively applies attribute closure restricted to each relation in the decomposition."
+  },
+  {
+    "id": "q44",
+    "text": "The simplified test for BCNF violations states that:",
+    "options": [
+      "We must check all dependencies in F⁺",
+      "We only need to check dependencies in F for the original relation",
+      "We only need to check candidate keys",
+      "We must compute the canonical cover first"
+    ],
+    "correctAnswer": 1,
+    "explanation": "For the original relation, it suffices to check only the dependencies in F rather than all of F⁺."
+  },
+  {
+    "id": "q45",
+    "text": "Why is the simplified BCNF test incorrect for relations in a decomposition?",
+    "options": [
+      "Decomposed relations have different candidate keys",
+      "New functional dependencies in F⁺ may apply to the decomposed relation",
+      "The original dependencies no longer hold",
+      "Armstrong's axioms don't apply to decomposed relations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In decomposed relations, dependencies in F⁺ that weren't in the original F may cause BCNF violations."
+  },
+  {
+    "id": "q46",
+    "text": "In the BCNF decomposition algorithm, when we find a violation α → β, we replace Rᵢ with:",
+    "options": [
+      "(α ∪ β) and (Rᵢ - β)",
+      "(α ∪ β) and (Rᵢ - (β - α))",
+      "(α) and (β)",
+      "(Rᵢ - α) and (α ∪ β)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "We replace Rᵢ with (α ∪ β) and (Rᵢ - (β - α)) to maintain losslessness while eliminating the violation."
+  },
+  {
+    "id": "q47",
+    "text": "The BCNF decomposition algorithm guarantees:",
+    "options": [
+      "Each resulting relation is in BCNF and the decomposition is lossless",
+      "The decomposition is dependency preserving",
+      "The algorithm terminates in polynomial time",
+      "All of the above"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The BCNF algorithm guarantees that each relation is in BCNF and the decomposition is lossless, but not necessarily dependency preserving."
+  },
+  {
+    "id": "q48",
+    "text": "In the class relation example with course_id → title, dept_name, credits, the first decomposition creates:",
+    "options": [
+      "course(course_id, title, dept_name, credits) and the remaining attributes",
+      "Two relations with equal numbers of attributes",
+      "A relation containing only the candidate key",
+      "course(course_id, title) and dept(dept_name, credits)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The first step creates course(course_id, title, dept_name, credits) and class-1 with the remaining attributes."
+  },
+  {
+    "id": "q49",
+    "text": "Why is it not always possible to achieve both BCNF and dependency preservation?",
+    "options": [
+      "BCNF is too restrictive",
+      "Some dependencies inherently require joins to check",
+      "The decomposition algorithm is incomplete",
+      "Functional dependencies may conflict"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Some functional dependencies inherently require information from multiple relations to check, making dependency preservation impossible while maintaining BCNF."
+  },
+  {
+    "id": "q50",
+    "text": "The 3NF decomposition algorithm starts with:",
+    "options": [
+      "The original relation R",
+      "A canonical cover Fc for F",
+      "All candidate keys of R",
+      "The BCNF decomposition"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The 3NF algorithm starts by computing a canonical cover Fc for the set of functional dependencies F."
+  },
+  {
+    "id": "q51",
+    "text": "In the 3NF decomposition algorithm, for each dependency α → β in Fc, we:",
+    "options": [
+      "Create a relation containing α ∪ β",
+      "Test if it violates 3NF",
+      "Check if any existing relation contains α ∪ β",
+      "Decompose it further"
+    ],
+    "correctAnswer": 0,
+    "explanation": "For each dependency α → β in Fc, we create a relation schema containing α ∪ β."
+  },
+  {
+    "id": "q52",
+    "text": "Why does the 3NF algorithm add a relation containing a candidate key?",
+    "options": [
+      "To ensure lossless decomposition",
+      "To preserve all dependencies",
+      "To maintain 3NF property",
+      "To minimize the number of relations"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Adding a candidate key ensures that the decomposition is lossless-join."
+  },
+  {
+    "id": "q53",
+    "text": "The 3NF decomposition algorithm guarantees:",
+    "options": [
+      "Each relation is in 3NF only",
+      "Lossless decomposition only",
+      "Dependency preservation only",
+      "Each relation is in 3NF, and the decomposition is both lossless and dependency preserving"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The 3NF algorithm guarantees all three properties: each relation is in 3NF, the decomposition is lossless, and it preserves dependencies."
+  },
+  {
+    "id": "q54",
+    "text": "Testing for 3NF is:",
+    "options": [
+      "Polynomial time",
+      "NP-hard",
+      "Exponential time",
+      "Linear time"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Testing for 3NF has been shown to be NP-hard, unlike decomposition into 3NF which can be done in polynomial time."
+  },
+  {
+    "id": "q55",
+    "text": "In the cust_banker_branch example, after computing the canonical cover, branch_name is found to be:",
+    "options": [
+      "A candidate key",
+      "Extraneous in the first dependency",
+      "Required for lossless decomposition",
+      "Part of multiple dependencies"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In the canonical cover computation, branch_name is found to be extraneous in the right-hand side of the first dependency."
+  },
+  {
+    "id": "q56",
+    "text": "Denormalization for performance involves:",
+    "options": [
+      "Always choosing BCNF over 3NF",
+      "Using non-normalized schemas to avoid joins",
+      "Eliminating all functional dependencies",
+      "Creating more relations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Denormalization uses non-normalized schemas to avoid expensive joins, trading storage space and update complexity for query performance."
+  },
+  {
+    "id": "q57",
+    "text": "Using materialized views for denormalization provides:",
+    "options": [
+      "The same benefits as denormalization without extra programming work",
+      "Better performance than regular denormalization",
+      "Automatic dependency preservation",
+      "Guaranteed consistency"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Materialized views provide the performance benefits of denormalization while avoiding the extra programming work and potential errors."
+  }
 ]

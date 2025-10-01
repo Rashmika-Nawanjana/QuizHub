@@ -1,0 +1,482 @@
+[
+  {
+    "id": "q1",
+    "text": "In a pipelined processor, what does the term 'pipe stage' or 'pipe segment' refer to?",
+    "options": [
+      "A distinct functional unit that performs a specific portion of instruction processing",
+      "The physical hardware that connects two pipeline registers",
+      "The time delay between consecutive instructions",
+      "The buffer memory used to store intermediate instruction data"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A pipe stage or pipe segment is a distinct functional unit in the pipeline that performs a specific portion of instruction processing, such as instruction fetch, decode, execute, memory access, or write back."
+  },
+  {
+    "id": "q2",
+    "text": "What is the definition of throughput in the context of pipelined processors?",
+    "options": [
+      "The number of instructions coming out of the pipe per unit time",
+      "The total execution time for a complete program",
+      "The number of clock cycles required for one instruction",
+      "The bandwidth of the data bus connecting pipeline stages"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Throughput is defined as the number of instructions coming out of the pipe per unit time, measuring how many instructions are completed in a given time period."
+  },
+  {
+    "id": "q3",
+    "text": "The processor cycle time in a pipelined processor is primarily determined by which factor?",
+    "options": [
+      "The average execution time of all stages",
+      "The time required for the instruction fetch stage",
+      "The time required for the write back stage",
+      "The time required for the slowest pipeline stage"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The processor cycle time depends on the slowest stage in the pipeline, as all stages must complete within one clock cycle and the slowest stage determines the minimum cycle time."
+  },
+  {
+    "id": "q4",
+    "text": "In a balanced pipeline, what condition must be satisfied?",
+    "options": [
+      "All pipeline stages have the same duration",
+      "The number of stages is a power of two",
+      "Each stage uses different hardware resources",
+      "The instruction fetch and write back stages are equal in duration"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A balanced pipeline is one where all the pipeline stages have the same duration, ensuring optimal performance and preventing bottlenecks."
+  },
+  {
+    "id": "q5",
+    "text": "For a balanced pipeline, the theoretical speedup is calculated as:",
+    "options": [
+      "Clock frequency multiplied by the number of stages",
+      "Equal to the number of pipeline stages",
+      "The square of the number of stages",
+      "Inversely proportional to the number of stages"
+    ],
+    "correctAnswer": 1,
+    "explanation": "For a balanced pipeline, the speedup equals the number of stages, as calculated by: Time for instruction in non-pipelined method / time for instruction in pipelined method."
+  },
+  {
+    "id": "q6",
+    "text": "Which characteristic of RISC architecture simplifies pipeline implementation?",
+    "options": [
+      "Variable instruction sizes for optimal encoding",
+      "All instructions are typically one size and register specifiers are in the same place",
+      "Complex addressing modes for memory operations",
+      "Multiple memory access operations per instruction"
+    ],
+    "correctAnswer": 1,
+    "explanation": "RISC architectures have all instructions typically one size with register specifiers always in the same place, which simplifies decoding and pipeline implementation."
+  },
+  {
+    "id": "q7",
+    "text": "In RISC architecture, which operations are permitted to access memory?",
+    "options": [
+      "Only load operations transferring data from memory to registers",
+      "All arithmetic and logical operations",
+      "Only store and load operations between memory and registers",
+      "Any operation that modifies the program counter"
+    ],
+    "correctAnswer": 2,
+    "explanation": "In RISC architecture, only load and store operations can access memory, transferring data between memory and registers. All other operations work on data in registers."
+  },
+  {
+    "id": "q8",
+    "text": "In the classic 5-stage RISC pipeline (IF→ID→EX→MEM→WB), what is the primary function of the IF stage?",
+    "options": [
+      "Fetch instruction from memory using PC and update PC to next instruction address",
+      "Decode the instruction opcode and identify operands",
+      "Execute arithmetic or logical operations on data",
+      "Write computation results back to the register file"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The Instruction Fetch (IF) stage refers to the PC in memory, fetches the instruction from memory, and updates the PC to the next instruction address."
+  },
+  {
+    "id": "q9",
+    "text": "What is the key advantage of fixed field decoding in the ID stage of a pipelined processor?",
+    "options": [
+      "It reduces power consumption during instruction decode",
+      "It allows parallel decoding of opcode and registers",
+      "It eliminates the need for a separate decode stage",
+      "It increases the number of available instruction formats"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Fixed field decoding allows parallel decoding of the opcode and registers, speeding up the decode process because register specifiers are always in the same location."
+  },
+  {
+    "id": "q10",
+    "text": "During the EX (Execution/Effective Address) stage, the ALU can operate on operands from which types of instructions?",
+    "options": [
+      "Only register-to-register operations",
+      "Memory reference, register-register, register-immediate, and conditional branch instructions",
+      "Only memory reference instructions",
+      "Exclusively floating-point arithmetic operations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The EX stage handles ALU operations for various instruction types including memory reference, register-register, register-immediate, and conditional branch instructions."
+  },
+  {
+    "id": "q11",
+    "text": "What is the primary purpose of the MEM (Memory Access) stage in the pipeline?",
+    "options": [
+      "To calculate the effective address for memory operations",
+      "To use the effective address for reading from or writing to memory",
+      "To decode memory-related instructions",
+      "To update the program counter for branch instructions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The MEM stage uses the effective address (calculated in the EX stage) to perform actual memory read or write operations."
+  },
+  {
+    "id": "q12",
+    "text": "Which potential pipeline issue arises when two different operations require the same datapath resources on the same clock cycle?",
+    "options": [
+      "A data hazard requiring forwarding",
+      "A control hazard requiring branch prediction",
+      "A timing violation in the clock distribution",
+      "A structural hazard due to resource conflict"
+    ],
+    "correctAnswer": 3,
+    "explanation": "When two different operations need the same datapath resources simultaneously, this creates a structural hazard due to resource conflict."
+  },
+  {
+    "id": "q13",
+    "text": "Why are separate instruction and data memories with separate caches used in pipelined processors?",
+    "options": [
+      "To increase total memory capacity available to the processor",
+      "To prevent structural hazards from simultaneous instruction fetch and data access",
+      "To reduce power consumption during memory operations",
+      "To enable virtual memory management"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Separate instruction and data memories prevent structural hazards that would occur if instruction fetch and data access tried to use the same memory simultaneously."
+  },
+  {
+    "id": "q14",
+    "text": "How is the register file usage conflict resolved when reading from and writing to the same register?",
+    "options": [
+      "By introducing a full clock cycle delay between operations",
+      "By using half of the clock cycle for each operation",
+      "By duplicating the register file for read and write operations",
+      "By implementing a priority system favoring write operations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Register file conflicts are resolved by using half of the clock cycle for reading and the other half for writing to the same register."
+  },
+  {
+    "id": "q15",
+    "text": "What is the primary purpose of pipeline registers (IF/ID, ID/EX, EX/MEM, MEM/WB)?",
+    "options": [
+      "To store the final results of instruction execution",
+      "To prevent instructions in different stages from interfering with each other",
+      "To cache frequently accessed data for faster retrieval",
+      "To implement branch prediction mechanisms"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Pipeline registers between successive stages prevent instructions in different stages from interfering with each other by holding intermediate results and control signals."
+  },
+  {
+    "id": "q16",
+    "text": "Which factor does NOT contribute to performance overhead in pipelined processors?",
+    "options": [
+      "Imbalance of pipeline stages",
+      "Pipeline register delay",
+      "Clock skew between registers",
+      "Increased register file capacity"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Increased register file capacity is not a performance overhead factor. The overhead comes from imbalance of stages, pipeline register delays, and clock skew."
+  },
+  {
+    "id": "q17",
+    "text": "How does imbalance of pipeline stages affect overall speedup?",
+    "options": [
+      "It increases speedup by allowing faster stages to complete earlier",
+      "Speedup depends on and is limited by the slowest pipeline stage",
+      "It has no effect on speedup in modern processors",
+      "It only affects throughput, not speedup"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Speedup depends on the slowest pipeline stage because the clock cycle must be long enough to accommodate the slowest stage, limiting overall performance."
+  },
+  {
+    "id": "q18",
+    "text": "What is clock skew in the context of pipelined processors?",
+    "options": [
+      "The difference in frequency between the CPU clock and memory clock",
+      "The time between arrival of the clock edge at two different registers",
+      "The variation in instruction execution time across pipeline stages",
+      "The delay introduced by conditional branch instructions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Clock skew is the time between the arrival of the clock edge at two different registers, which can affect timing and performance."
+  },
+  {
+    "id": "q19",
+    "text": "Pipeline registers require which timing considerations?",
+    "options": [
+      "Only propagation delay of the clock signal",
+      "Setup time and propagation time of the clock cycle",
+      "Only the hold time after clock edge arrival",
+      "Synchronization with external memory timing"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Pipeline registers need both setup time (before clock edge) and propagation time (after clock edge) of the clock cycle, which adds to the overall cycle time."
+  },
+  {
+    "id": "q20",
+    "text": "A pipeline hazard is best defined as:",
+    "options": [
+      "A situation preventing the next instruction from executing in its designated clock cycle",
+      "A permanent hardware failure in one of the pipeline stages",
+      "The natural latency inherent in all pipelined systems",
+      "A condition that improves pipeline efficiency"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A hazard is a situation that prevents the next instruction from executing in its designated clock cycle, requiring the pipeline to stall or take corrective action."
+  },
+  {
+    "id": "q21",
+    "text": "Which type of hazard occurs due to resource conflict in the pipeline?",
+    "options": [
+      "Data hazard",
+      "Control hazard",
+      "Cache hazard",
+      "Structural hazard"
+    ],
+    "correctAnswer": 3,
+    "explanation": "A structural hazard occurs when there is a resource conflict, meaning two instructions need the same hardware resource at the same time."
+  },
+  {
+    "id": "q22",
+    "text": "A data hazard occurs when:",
+    "options": [
+      "The memory system cannot provide data fast enough",
+      "The next instruction depends on the result of the current instruction during overlap",
+      "A branch instruction changes the program counter",
+      "Two instructions require the same functional unit"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A data hazard occurs when the next instruction depends on the result of the current instruction while they overlap in the pipeline."
+  },
+  {
+    "id": "q23",
+    "text": "Control hazards in pipelined processors are primarily caused by:",
+    "options": [
+      "Insufficient register file bandwidth",
+      "Memory access latency",
+      "Branch and PC-modifying instructions",
+      "Arithmetic overflow conditions"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Control hazards are caused by branch and PC-modifying instructions that change the flow of execution, making it uncertain which instruction to fetch next."
+  },
+  {
+    "id": "q24",
+    "text": "What happens to instructions following a stalled instruction during a pipeline stall?",
+    "options": [
+      "They continue executing normally",
+      "They are flushed from the pipeline",
+      "All instructions after the stalled instruction also stop",
+      "They bypass the stalled instruction using forwarding"
+    ],
+    "correctAnswer": 2,
+    "explanation": "All instructions after a stalled instruction also stop during a pipeline stall, while instructions issued earlier than the stalled one continue to clear the stall."
+  },
+  {
+    "id": "q25",
+    "text": "During a pipeline stall, what happens to instruction fetching?",
+    "options": [
+      "No new instructions are fetched during the stall",
+      "Instructions continue to be fetched but are buffered",
+      "Only branch target instructions are fetched",
+      "Fetching continues at half the normal rate"
+    ],
+    "correctAnswer": 0,
+    "explanation": "No new instructions are fetched during a stall, preventing the pipeline from advancing until the hazard is resolved."
+  },
+  {
+    "id": "q26",
+    "text": "A Read After Write (RAW) data hazard occurs when:",
+    "options": [
+      "Instruction j reads a register before instruction i writes to it",
+      "Instruction i reads a register after instruction j writes to it",
+      "Both instructions write to the same register simultaneously",
+      "Instruction i writes before instruction j reads"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A RAW hazard occurs when instruction j tries to read a register before instruction i (which comes before j) has written its result to that register."
+  },
+  {
+    "id": "q27",
+    "text": "A Write After Read (WAR) data hazard is characterized by:",
+    "options": [
+      "Instruction j reads before instruction i writes",
+      "Instruction i reads after instruction j writes",
+      "Both instructions read from the same location",
+      "Instruction j writes before instruction i reads"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A WAR hazard occurs when instruction i reads a register after instruction j (which comes after i) has written to it, causing incorrect data to be read."
+  },
+  {
+    "id": "q28",
+    "text": "In a Write After Write (WAW) data hazard:",
+    "options": [
+      "Instruction i writes after instruction j writes to the same register",
+      "Both instructions read from the same register before writing",
+      "Instruction i writes to memory after instruction j",
+      "The write operations occur in parallel"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A WAW hazard occurs when instruction i writes to a register after instruction j writes to the same register, potentially causing results to be written in the wrong order."
+  },
+  {
+    "id": "q29",
+    "text": "Forwarding (also known as bypassing or short-circuiting) minimizes data hazard stalls by:",
+    "options": [
+      "Copying the pipeline register where a result is generated to where it is used",
+      "Duplicating hardware resources to eliminate conflicts",
+      "Predicting data values before they are computed",
+      "Reordering instructions to avoid dependencies"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Forwarding minimizes stalls by copying data from the pipeline register where a result is generated directly to where it is needed, avoiding the wait for write back."
+  },
+  {
+    "id": "q30",
+    "text": "Which type of hazard typically causes the greatest performance loss in pipelined processors?",
+    "options": [
+      "Structural hazards",
+      "Data hazards",
+      "Branch (control) hazards",
+      "Register file hazards"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Branch or control hazards cause the greatest performance loss because they affect the instruction fetch sequence and can require flushing multiple pipeline stages."
+  },
+  {
+    "id": "q31",
+    "text": "A branch is classified as 'taken' when:",
+    "options": [
+      "The branch instruction is decoded in the ID stage",
+      "The branch changes the program counter to a new address",
+      "The branch condition is evaluated as false",
+      "The branch target is in the instruction cache"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A branch is considered 'taken' when it changes the program counter to a new address (the branch target), altering the normal sequential instruction flow."
+  },
+  {
+    "id": "q32",
+    "text": "At which pipeline stage does the PC typically change for a branch instruction?",
+    "options": [
+      "During the instruction fetch (IF) stage",
+      "Only after the instruction decode (ID) stage",
+      "During the execute (EX) stage",
+      "After the write back (WB) stage"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The PC changes only after the ID (Instruction Decode) stage, when the branch instruction has been decoded and its target can be determined."
+  },
+  {
+    "id": "q33",
+    "text": "The 'freeze or flush the pipeline' technique for handling control hazards involves:",
+    "options": [
+      "Continuing to execute all instructions until branch resolution",
+      "Stopping instruction fetch and potentially discarding instructions after the branch",
+      "Duplicating the pipeline to execute both branch paths",
+      "Using additional hardware to accelerate branch processing"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Freezing or flushing the pipeline involves stopping new instruction fetches and potentially discarding (flushing) instructions that were fetched after the branch until it is resolved."
+  },
+  {
+    "id": "q34",
+    "text": "In the 'predicted-untaken' branch handling strategy:",
+    "options": [
+      "The pipeline continues fetching sequential instructions assuming the branch will not be taken",
+      "All branch instructions are assumed to jump to their targets",
+      "The processor waits until the branch is resolved before fetching",
+      "Both paths are executed simultaneously"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In predicted-untaken strategy, the pipeline continues fetching instructions sequentially, assuming the branch will not be taken. If the branch is actually taken, the pipeline must be flushed."
+  },
+  {
+    "id": "q35",
+    "text": "The 'predicted-taken' approach to branch hazards assumes that:",
+    "options": [
+      "No branches will alter program flow",
+      "Branch instructions will jump to their target addresses",
+      "All conditional branches depend on previous results",
+      "Branch prediction is not necessary for performance"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The predicted-taken approach assumes that branch instructions will jump to their target addresses, so the pipeline begins fetching from the branch target immediately."
+  },
+  {
+    "id": "q36",
+    "text": "A delayed branch technique for minimizing control hazard stalls works by:",
+    "options": [
+      "Placing useful instructions in the branch delay slots that execute regardless of branch outcome",
+      "Increasing the clock cycle time to allow branch resolution",
+      "Adding additional pipeline stages for branch processing",
+      "Caching all possible branch targets"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Delayed branch places useful instructions (that would execute anyway) in branch delay slots after the branch instruction, so they execute while the branch is being resolved, avoiding wasted cycles."
+  },
+  {
+    "id": "q37",
+    "text": "Which statement best describes the relationship between pipelining and instruction level parallelism (ILP)?",
+    "options": [
+      "Pipelining overlaps instruction processing to exploit instruction level parallelism",
+      "ILP eliminates the need for pipelining in modern processors",
+      "Pipelining and ILP are mutually exclusive techniques",
+      "ILP only applies to multi-core processors"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Pipelining overlaps the execution of multiple instructions to exploit instruction level parallelism (ILP), where different stages of different instructions execute simultaneously."
+  },
+  {
+    "id": "q38",
+    "text": "In the context of RISC architecture pipelining, the statement 'all operations on data apply to entire data register' implies:",
+    "options": [
+      "Operations cannot work on individual bytes or words",
+      "Arithmetic and logical operations work on complete register contents rather than memory locations",
+      "All registers must be the same size",
+      "Data must be aligned to register boundaries"
+    ],
+    "correctAnswer": 1,
+    "explanation": "This means that arithmetic and logical operations work on complete register contents rather than directly on memory, which is a key RISC characteristic simplifying the pipeline."
+  },
+  {
+    "id": "q39",
+    "text": "Why does a balanced pipeline achieve optimal theoretical speedup equal to the number of stages?",
+    "options": [
+      "Because each stage completes in the same time, allowing maximum throughput without bottlenecks",
+      "Because instruction dependencies are eliminated",
+      "Because it uses the minimum number of pipeline registers",
+      "Because all hazards are automatically resolved"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A balanced pipeline achieves optimal speedup because each stage takes the same time, allowing steady throughput without any stage becoming a bottleneck that limits overall performance."
+  },
+  {
+    "id": "q40",
+    "text": "The primary datapath implication of implementing pipelining is:",
+    "options": [
+      "Need for pipeline registers between stages and potential resource duplication to avoid structural hazards",
+      "Requirement for faster memory access than non-pipelined designs",
+      "Elimination of all register-to-register data transfers",
+      "Increased complexity of the instruction set architecture"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Pipelining requires pipeline registers between stages to hold intermediate results and may require resource duplication (like separate instruction and data memories) to avoid structural hazards."
+  }
+]
