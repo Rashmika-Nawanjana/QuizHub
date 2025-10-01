@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quiz Mode</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <%- include('./partials/header') %>
+    
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <div class="module-section active">
+                <div class="welcome-section">
+                    <h1 class="welcome-title">Random Quiz Mode</h1>
+                    <p class="welcome-subtitle">Select a module, quiz, and number of questions for a randomized challenge</p>
+                    
+                    <div id="selectorSection" class="mt-4">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10 col-lg-8">
+                                <form id="randomQuizSelector" method="POST" action="/random-quiz/start" class="random-quiz-form">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-4">
+                                            <label for="moduleSelect" class="form-label">
+                                                <i class="fas fa-book me-2" style="color: var(--primary);"></i>Select Module
+                                            </label>
+                                            <select id="moduleSelect" name="module" class="form-select" required>
+                                                <option value="">-- Choose Module --</option>
+                                                <option value="intro-ai">🧠 Intro AI</option>
+                                                <option value="database">🗄️ Database</option>
+                                                <option value="differential">📐 Differential</option>
+                                                <option value="statistics">📊 Statistics</option>
+                                                <option value="os">💻 OS</option>
+                                                <option value="architecture">🔧 Architecture</option>
+                                                <option value="networking">🌐 Networking</option>
+                                                <option value="thermodynamics">🔥 Thermodynamics</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-4">
+                                            <label for="quizSelect" class="form-label">
+                                                <i class="fas fa-clipboard-list me-2" style="color: var(--primary);"></i>Select Quiz
+                                            </label>
+                                            <select id="quizSelect" name="quizId" class="form-select" required>
+                                                <option value="">-- Choose Quiz --</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-4">
+                                            <label for="numQuestions" class="form-label">
+                                                <i class="fas fa-hashtag me-2" style="color: var(--primary);"></i>Questions
+                                            </label>
+                                            <input type="number" id="numQuestions" name="numQuestions" class="form-control" min="1" required placeholder="Enter number">
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn random-quiz-start-btn">
+                                            <i class="fas fa-random"></i>Start Random Quiz
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="quizSection" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/random-quiz.js"></script>
+    <style>
+        /* Random Quiz Form Styling */
+        .random-quiz-form {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 10px 35px var(--card-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .random-quiz-form::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid transparent;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 240, 240, 0.6) 100%);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+
+        .random-quiz-form:hover::before {
+            opacity: 1;
+        }
+
+        .random-quiz-form .form-label {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .random-quiz-form .form-select,
+        .random-quiz-form .form-control {
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .random-quiz-form .form-select:focus,
+        .random-quiz-form .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(86, 36, 208, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .random-quiz-start-btn {
+            background: var(--theme-button-bg);
+            border: 2px solid var(--theme-button-border);
+            border-radius: 16px;
+            padding: 1rem 2.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 8px 32px var(--theme-button-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--text-primary);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+        }
+
+        /* Advanced shimmer effect for button */
+        .random-quiz-start-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent 0%, var(--icon-shimmer) 50%, transparent 100%);
+            opacity: 0;
+            transition: all 0.6s ease;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Premium hover state */
+        .random-quiz-start-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 
+                0 16px 48px var(--theme-button-shadow-hover),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 0 0 2px rgba(86, 36, 208, 0.3);
+            border-color: rgba(86, 36, 208, 0.4);
+            color: var(--text-primary);
+        }
+
+        .random-quiz-start-btn:hover::before {
+            opacity: 1;
+        }
+
+        /* Icon styling within button */
+        .random-quiz-start-btn i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+            color: #5624d0;
+        }
+
+        .random-quiz-start-btn:hover i {
+            color: #7c3aed;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Active state */
+        .random-quiz-start-btn:active {
+            transform: translateY(-2px) scale(1.02);
+            transition: all 0.1s ease;
+        }
+
+        /* Focus state */
+        .random-quiz-start-btn:focus {
+            outline: none;
+            box-shadow: 
+                0 8px 32px var(--theme-button-shadow),
+                0 0 0 3px rgba(86, 36, 208, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        /* Dark mode adjustments */
+        [data-theme="dark"] .random-quiz-start-btn {
+            box-shadow: 
+                0 8px 32px var(--theme-button-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="dark"] .random-quiz-start-btn:hover {
+            box-shadow: 
+                0 16px 48px var(--theme-button-shadow-hover),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 0 2px rgba(124, 58, 237, 0.4);
+        }
+
+        [data-theme="dark"] .random-quiz-start-btn i {
+            color: #a78bfa;
+        }
+
+        [data-theme="dark"] .random-quiz-start-btn:hover i {
+            color: #c4b5fd;
+        }
+
+        /* CSS Variables for theme consistency */
+        :root {
+            --theme-button-bg: rgba(255, 255, 255, 0.9);
+            --theme-button-border: rgba(255, 255, 255, 0.95);
+            --theme-button-shadow: rgba(0, 0, 0, 0.08);
+            --theme-button-shadow-hover: rgba(86, 36, 208, 0.25);
+            --icon-shimmer: rgba(255, 255, 255, 0.6);
+            --text-primary: #1c1d1f;
+        }
+
+        [data-theme="dark"] {
+            --theme-button-bg: rgba(30, 30, 50, 0.9);
+            --theme-button-border: rgba(60, 60, 80, 0.7);
+            --theme-button-shadow: rgba(0, 0, 0, 0.4);
+            --theme-button-shadow-hover: rgba(124, 58, 237, 0.4);
+            --icon-shimmer: rgba(255, 255, 255, 0.3);
+            --text-primary: #e6edf3;
+        }
+
+        /* Animation for form load */
+        .random-quiz-form {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+</html>

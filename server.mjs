@@ -221,6 +221,98 @@ app.get('/leaderboard', requireAuth, async (req, res) => {
     }
 });
 
+// Selector page
+app.get('/random-quiz', requireAuth, async (req, res) => {
+    res.render('random-quiz');
+});
+
+// API: Get quizzes for a module, and total questions for a quiz
+app.get('/api/modules-quizzes', requireAuth, async (req, res) => {
+    const module = req.query.module;
+    const quizId = req.query.quizId;
+    if (!module) return res.json({ quizzes: [] });
+    const moduleDir = path.join(__dirname, 'quizes', module);
+    if (!fs.existsSync(moduleDir)) return res.json({ quizzes: [] });
+    const quizFiles = fs.readdirSync(moduleDir).filter(f => f.endsWith('.json'));
+    const quizzes = quizFiles.map(f => ({ id: f.replace('.json',''), name: `Quiz ${f.replace('.json','')}` }));
+    if (quizId) {
+        const quizPath = path.join(moduleDir, `${quizId}.json`);
+        if (fs.existsSync(quizPath)) {
+            const quizData = JSON.parse(fs.readFileSync(quizPath, 'utf8'));
+            return res.json({ totalQuestions: quizData.length });
+        }
+        return res.json({ totalQuestions: 0 });
+    }
+    return res.json({ quizzes });
+});
+
+// Start random quiz: select N random questions from selected quiz
+app.post('/random-quiz/start',requireAuth, async  (req, res) => {
+  const { module, quizId, numQuestions } = req.body;
+  if (!module || !quizId || !numQuestions) return res.status(400).send('Missing parameters');
+  const quizPath = path.join(__dirname, 'quizes', module, `${quizId}.json`);
+  if (!fs.existsSync(quizPath)) return res.status(404).send('Quiz not found');
+  const quizData = JSON.parse(fs.readFileSync(quizPath, 'utf8'));
+  const total = quizData.length;
+  const n = Math.min(parseInt(numQuestions), total);
+  // Shuffle and slice
+  const shuffled = quizData.slice().sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, n);
+  console.log('Random quiz started:', { module, quizId, totalQuestions: total, selectedQuestions: selected.length });
+  // Pass selected questions as both quiz and originalQuiz (selectedQuestions for result calculation)
+  res.render('random-quiz-start', { quiz: selected, originalQuiz: selected, module, quizId });
+});// Submit random quiz
+app.post('/random-quiz/submit', requireAuth, async (req, res) => {
+  const { module, quizId, answersArray, timeSpent, originalQuizData } = req.body;
+  
+  console.log('=== RANDOM QUIZ SUBMISSION DEBUG ===');
+  console.log('Raw request body keys:', Object.keys(req.body));
+  console.log('originalQuizData type:', typeof originalQuizData);
+  console.log('originalQuizData length:', originalQuizData ? originalQuizData.length : 'undefined');
+  
+  let answers = [];
+  if (answersArray) {
+    try { 
+      answers = JSON.parse(answersArray); 
+      console.log('Parsed answers successfully:', answers.length, 'answers');
+    } catch (e) { 
+      console.error('Error parsing answers:', e);
+      answers = []; 
+    }
+  }
+  
+  // Use originalQuizData for correct answers (this contains the selected random questions)
+  let quizData = [];
+  if (originalQuizData) {
+    try { 
+      // Decode base64 encoded data
+      const decodedData = Buffer.from(originalQuizData, 'base64').toString('utf8');
+      quizData = JSON.parse(decodedData); 
+      console.log('Parsed quiz data successfully:', quizData.length, 'questions');
+    } catch (e) { 
+      console.error('Error parsing quiz data:', e);
+      console.log('Raw originalQuizData length:', originalQuizData ? originalQuizData.length : 'undefined');
+      quizData = []; 
+    }
+  }
+  
+  console.log('Final data for calculation:', { 
+    module, 
+    quizId, 
+    answersLength: answers.length, 
+    quizDataLength: quizData.length 
+  });
+  
+  if (quizData.length === 0) {
+    console.error('No quiz data available for result calculation');
+    return res.status(400).send('Quiz data not found for result calculation');
+  }
+  
+  // Calculate results using the selected questions
+  const results = calculateQuizResults(quizData, answers, timeSpent || '0:00');
+  res.render('random-quiz-result', { results, module, quizId });
+});
+
 // Review route: renders results page from review_json
 app.get('/review/:attemptId', requireAuth, async (req, res) => {
     const { attemptId } = req.params;
