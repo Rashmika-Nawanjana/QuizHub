@@ -1,0 +1,482 @@
+[
+  {
+    "id": "q1",
+    "text": "What was the primary objective of the architectural features enabled by Moore's Law, such as deep pipelines and out-of-order execution?",
+    "options": [
+      "Extract performance from software that is oblivious to architecture",
+      "Reduce power consumption in mobile devices",
+      "Simplify compiler design and optimization",
+      "Enable domain-specific optimizations for neural networks"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The objective of features like deep memory hierarchy, wide SIMD units, deep pipelines, branch prediction, out-of-order execution, and speculative prefetching was to extract performance from software that is oblivious to architecture."
+  },
+  {
+    "id": "q2",
+    "text": "According to the lecture, when would you need domain-specific architectures?",
+    "options": [
+      "When you need 10x improvement in operations per instruction",
+      "When you need 100x improvement in number of operations per instruction",
+      "When you need to reduce power consumption by 50%",
+      "When you need to support legacy software applications"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states that if you need a 100x improvement in number of operations per instruction, you require domain-specific architectures."
+  },
+  {
+    "id": "q3",
+    "text": "What is the main challenge for domain-specific architects when designing custom chips?",
+    "options": [
+      "Limited availability of fabrication facilities",
+      "Lack of skilled engineers in the field",
+      "High complexity of the design tools",
+      "Finding a target whose demand is large enough to justify allocating dedicated silicon"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The challenge for domain-specific architects is to find a target whose demand is large enough to justify allocating dedicated silicon on an SOC or even a custom chip, as NRE costs for ASICs cannot be distributed over large volumes."
+  },
+  {
+    "id": "q4",
+    "text": "Why are FPGAs considered less desirable than ASICs for domain-specific applications?",
+    "options": [
+      "FPGAs have longer design cycles than ASICs",
+      "FPGAs require more specialized programming knowledge",
+      "FPGAs cannot implement complex algorithms",
+      "FPGAs are less efficient than ASICs"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The lecture explicitly states that FPGAs are less efficient than ASICs, making them a less desirable option despite potentially lower NRE costs."
+  },
+  {
+    "id": "q5",
+    "text": "Which of the following is NOT listed as an example of Domain-Specific Architectures (DSAs)?",
+    "options": [
+      "Tensor Processing Units",
+      "Neural Processing Units",
+      "Graphics Processing Units",
+      "General Purpose Processors"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The examples of DSAs listed include GPUs, Neural Processing Units, Tensor Processing Units, and Crypto co-processors. General Purpose Processors are not domain-specific by definition."
+  },
+  {
+    "id": "q6",
+    "text": "According to the guidelines for DSAs, what should architects do with the resources saved from reducing data movement?",
+    "options": [
+      "Invest resources into more arithmetic units or bigger memories",
+      "Reduce the overall chip size and cost",
+      "Increase the clock frequency of the processor",
+      "Add more general-purpose processing cores"
+    ],
+    "correctAnswer": 0,
+    "explanation": "One of the guidelines states to use dedicated memories to minimize data movement and invest resources into more arithmetic units or bigger memories."
+  },
+  {
+    "id": "q7",
+    "text": "Which guideline for DSAs emphasizes matching the architecture to the problem domain?",
+    "options": [
+      "Reduce data size and type to the simplest needed for the domain",
+      "Use dedicated memories to minimize data movement",
+      "Use the easiest form of parallelism that matches the domain",
+      "Use a domain-specific programming language"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The guideline 'Use the easiest form of parallelism that matches the domain' specifically addresses matching the architectural approach to the problem domain's natural parallelism."
+  },
+  {
+    "id": "q8",
+    "text": "In a Multi-Layer Perceptron, if Dim[i] represents the number of neurons and Dim[i-1] represents the dimension of the input vector, how many operations are performed?",
+    "options": [
+      "Dim[i-1] x Dim[i]",
+      "2 x Dim[i-1] x Dim[i]",
+      "Dim[i-1] + Dim[i]",
+      "Dim[i-1]² x Dim[i]"
+    ],
+    "correctAnswer": 1,
+    "explanation": "According to the lecture, the number of operations in a Multi-Layer Perceptron is 2 x Dim[i-1] x Dim[i], giving an operations-per-weight ratio of 2."
+  },
+  {
+    "id": "q9",
+    "text": "What is the operations-per-weight ratio for a Multi-Layer Perceptron?",
+    "options": [
+      "1",
+      "2",
+      "4",
+      "Depends on the layer size"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states that for Multi-Layer Perceptrons, the operations/weight ratio is 2."
+  },
+  {
+    "id": "q10",
+    "text": "In Convolutional Neural Networks used for computer vision, what does the first layer typically recognize?",
+    "options": [
+      "Horizontal and vertical lines",
+      "Corners and edges",
+      "Complex shapes",
+      "Complete objects"
+    ],
+    "correctAnswer": 0,
+    "explanation": "According to the lecture, in CNNs for computer vision, the first layer recognizes horizontal and vertical lines, with each subsequent layer raising the level of abstraction."
+  },
+  {
+    "id": "q11",
+    "text": "For a Convolutional Neural Network, what is the operations-per-weight ratio?",
+    "options": [
+      "2",
+      "DimFM[i]",
+      "2 x DimFM[i]²",
+      "NumFM[i] x DimFM[i]"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture states that for CNNs, the operations/weight ratio is 2 x DimFM[i]², where DimFM[i] is the dimension of the output Feature Map."
+  },
+  {
+    "id": "q12",
+    "text": "In a CNN, how many neurons are in a layer?",
+    "options": [
+      "NumFM[i] x DimFM[i]",
+      "NumFM[i] x DimFM[i]²",
+      "DimFM[i]² x DimSten[i]",
+      "NumFM[i-1] x DimSten[i]²"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The number of neurons in a CNN layer is NumFM[i] x DimFM[i]², where NumFM[i] is the number of output feature maps and DimFM[i] is the dimension of the square output feature map."
+  },
+  {
+    "id": "q13",
+    "text": "For a Recurrent Neural Network (RNN), how many weights are there per cell?",
+    "options": [
+      "12 x Dim²",
+      "24 x Dim²",
+      "9 x Dim²",
+      "16 x Dim²"
+    ],
+    "correctAnswer": 0,
+    "explanation": "According to the lecture, the number of weights per RNN cell is calculated as 3 x (3 x Dim x Dim) + (2 x Dim x Dim) + (1 x Dim x Dim) = 12 x Dim²."
+  },
+  {
+    "id": "q14",
+    "text": "What is the approximate operations-per-weight ratio for a Recurrent Neural Network?",
+    "options": [
+      "Approximately 1",
+      "Approximately 2",
+      "Approximately 4",
+      "Approximately 8"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states that for RNNs, the operations/weight ratio is approximately 2, similar to Multi-Layer Perceptrons."
+  },
+  {
+    "id": "q15",
+    "text": "What technique is used to increase operational intensity by reusing weights once fetched from memory?",
+    "options": [
+      "Caching",
+      "Prefetching",
+      "Batches",
+      "Pipelining"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture explains that batches reuse weights once fetched from memory across multiple inputs, which increases operational intensity."
+  },
+  {
+    "id": "q16",
+    "text": "What data precision is commonly used in quantization for DNNs to improve efficiency?",
+    "options": [
+      "32-bit floating point",
+      "64-bit floating point",
+      "8- or 16-bit fixed point",
+      "4-bit integers"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture mentions that quantization uses 8- or 16-bit fixed point to improve efficiency in DNNs."
+  },
+  {
+    "id": "q17",
+    "text": "Which of the following is NOT listed as a needed kernel for DNNs?",
+    "options": [
+      "Fast Fourier Transform",
+      "Matrix-matrix multiply",
+      "Stencil operations",
+      "ReLU activation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The kernels needed for DNNs include matrix-vector multiply, matrix-matrix multiply, stencil, ReLU, sigmoid, and hyperbolic tangent. Fast Fourier Transform is not mentioned."
+  },
+  {
+    "id": "q18",
+    "text": "What is the size of the matrix multiply unit in Google's Tensor Processing Unit (TPU)?",
+    "options": [
+      "128 x 128 8-bit",
+      "256 x 256 8-bit",
+      "512 x 512 8-bit",
+      "256 x 256 16-bit"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states that Google's TPU has a 256 x 256 8-bit matrix multiply unit."
+  },
+  {
+    "id": "q19",
+    "text": "How is the TPU connected to the host system?",
+    "options": [
+      "Direct memory access to CPU cache",
+      "As a coprocessor on the PCIe bus",
+      "Through high-speed Ethernet",
+      "Via shared system memory"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The TPU is described as a coprocessor on the PCIe bus in the lecture."
+  },
+  {
+    "id": "q20",
+    "text": "In the TPU's MatrixMatrixMultiply/Convolve instruction, what size is the constant input?",
+    "options": [
+      "128x128",
+      "B*256",
+      "256x256",
+      "Variable-sized"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The MatrixMatrixMultiply instruction takes a variable-sized B*256 input and multiplies it by a 256x256 constant input, producing a B*256 output."
+  },
+  {
+    "id": "q21",
+    "text": "How many pipelined cycles does the TPU's MatrixMatrixMultiply operation take to complete?",
+    "options": [
+      "B pipelined cycles",
+      "256 pipelined cycles",
+      "B*256 pipelined cycles",
+      "One cycle"
+    ],
+    "correctAnswer": 0,
+    "explanation": "According to the lecture, the MatrixMatrixMultiply operation takes B pipelined cycles to complete, where B is the variable size of the input."
+  },
+  {
+    "id": "q22",
+    "text": "What percentage of a server-class CPU's arithmetic units does the TPU have?",
+    "options": [
+      "50X",
+      "100X",
+      "250X",
+      "500X"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture states that the TPU has 250X the arithmetic units of a server-class CPU."
+  },
+  {
+    "id": "q23",
+    "text": "What percentage of the TPU is dedicated to memory according to the guidelines comparison?",
+    "options": [
+      "30% of a server-class CPU",
+      "60% of a server-class CPU",
+      "Equal to a server-class CPU",
+      "120% of a server-class CPU"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The TPU uses 60% of the memory of a server-class CPU, demonstrating the investment in dedicated memories guideline."
+  },
+  {
+    "id": "q24",
+    "text": "Which domain-specific programming language does the TPU use?",
+    "options": [
+      "TensorFlow",
+      "Halide",
+      "Verilog RTL",
+      "CUDA"
+    ],
+    "correctAnswer": 0,
+    "explanation": "According to the lecture, the TPU uses TensorFlow as its domain-specific programming language."
+  },
+  {
+    "id": "q25",
+    "text": "What is the power limit for Microsoft's Catapult FPGA board?",
+    "options": [
+      "15 watts",
+      "25 watts",
+      "50 watts",
+      "100 watts"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states that Microsoft's Catapult board is limited to 25 watts."
+  },
+  {
+    "id": "q26",
+    "text": "How many 18-bit ALUs does the unconfigured Catapult FPGA have?",
+    "options": [
+      "2048",
+      "3962",
+      "4096",
+      "5000"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states that the FPGA (unconfigured) has 3962 18-bit ALUs."
+  },
+  {
+    "id": "q27",
+    "text": "What percentage of the Catapult FPGA is consumed by the Shell infrastructure?",
+    "options": [
+      "10%",
+      "23%",
+      "44%",
+      "50%"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In the first version of Catapult, the Shell is 23% of the FPGA. This increased to 44% in version 2."
+  },
+  {
+    "id": "q28",
+    "text": "In Microsoft Catapult's search ranking pipeline, how many FPGAs are used for feature extraction?",
+    "options": [
+      "1 FPGA",
+      "2 FPGAs",
+      "3 FPGAs",
+      "4 FPGAs"
+    ],
+    "correctAnswer": 0,
+    "explanation": "According to the lecture, feature extraction uses 1 FPGA, which extracts 4500 features for every document-query pair."
+  },
+  {
+    "id": "q29",
+    "text": "How many features does the Catapult search ranking system extract for every document-query pair?",
+    "options": [
+      "1500",
+      "3000",
+      "4500",
+      "6000"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The feature extraction stage extracts 4500 features for every document-query pair."
+  },
+  {
+    "id": "q30",
+    "text": "In the Catapult search ranking system, how many cores does the free-form expression evaluation processor have?",
+    "options": [
+      "32 cores",
+      "48 cores",
+      "60 cores",
+      "128 cores"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The free-form expression evaluation uses a 60 core processor with pipelined cores."
+  },
+  {
+    "id": "q31",
+    "text": "In Catapult version 2, where is the FPGA positioned in the system architecture?",
+    "options": [
+      "Between the CPU and memory controller",
+      "Between the CPU and NIC",
+      "On a separate PCIe card",
+      "Integrated with the GPU"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Version 2 of Catapult placed the FPGA between the CPU and NIC (Network Interface Card)."
+  },
+  {
+    "id": "q32",
+    "text": "What network speed upgrade occurred in Catapult version 2?",
+    "options": [
+      "1 Gb/s to 10 Gb/s",
+      "10 Gb/s to 40 Gb/s",
+      "40 Gb/s to 100 Gb/s",
+      "10 Gb/s to 100 Gb/s"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Catapult version 2 increased the network from 10 Gb/s to 40 Gb/s."
+  },
+  {
+    "id": "q33",
+    "text": "Which guideline did Microsoft NOT follow with the Catapult design?",
+    "options": [
+      "Use dedicated memories",
+      "Use the easiest form of parallelism that matches the domain",
+      "Use a domain-specific programming language",
+      "Invest resources in arithmetic units"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture explicitly states that Microsoft did not follow the guideline to use a domain-specific programming language, as they used Verilog RTL instead."
+  },
+  {
+    "id": "q34",
+    "text": "What is Intel Crest primarily designed for?",
+    "options": [
+      "DNN inference",
+      "DNN training",
+      "Image processing",
+      "Search ranking"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Intel Crest is specifically mentioned as being designed for DNN training, using 16-bit fixed point."
+  },
+  {
+    "id": "q35",
+    "text": "What block size does Intel Crest operate on for matrix operations?",
+    "options": [
+      "16x16 matrices",
+      "32x32 matrices",
+      "64x64 matrices",
+      "256x256 matrices"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Intel Crest operates on blocks of 32x32 matrices according to the lecture."
+  },
+  {
+    "id": "q36",
+    "text": "What is the power budget for the Pixel Visual Core during bursts?",
+    "options": [
+      "2 to 4 watts",
+      "6 to 8 watts",
+      "10 to 15 watts",
+      "20 to 25 watts"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Pixel Visual Core has a power budget of 6 to 8 watts for bursts of 10-20 seconds, dropping to tens of milliwatts when not in use."
+  },
+  {
+    "id": "q37",
+    "text": "According to the Pixel Visual Core specifications, how much more energy does an 8-bit DRAM access consume compared to 8-bit integer operations?",
+    "options": [
+      "Equal to 1,250 operations",
+      "Equal to 12,500 operations",
+      "Equal to 125,000 operations",
+      "Equal to 1,250,000 operations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states that an 8-bit DRAM access is equivalent in energy to 12,500 8-bit integer operations."
+  },
+  {
+    "id": "q38",
+    "text": "What domain-specific language is used for programming the Pixel Visual Core?",
+    "options": [
+      "Halide",
+      "TensorFlow",
+      "CUDA",
+      "OpenCL"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The Pixel Visual Core software is written in Halide, a DSL (Domain-Specific Language) for image processing."
+  },
+  {
+    "id": "q39",
+    "text": "What is the size of the 2D array of processing elements per core in the Pixel Visual Core?",
+    "options": [
+      "8x8",
+      "16x16",
+      "32x32",
+      "64x64"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Pixel Visual Core has a 16x16 2D array of processing elements per core, along with a 2D shifting network per core."
+  },
+  {
+    "id": "q40",
+    "text": "Which of the following is listed as a fallacy or pitfall in designing domain-specific architectures?",
+    "options": [
+      "Being ignorant of architecture history when designing a DSA",
+      "Using dedicated memories to reduce data movement",
+      "Matching parallelism to the domain requirements",
+      "Reducing data precision to the minimum needed"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explicitly lists 'Being ignorant of architecture history when designing a DSA' as one of the fallacies and pitfalls in domain-specific architecture design."
+  }
+]
