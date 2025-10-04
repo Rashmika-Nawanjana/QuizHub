@@ -1,0 +1,482 @@
+[
+  {
+    "id": "q1",
+    "text": "What was the primary achievement that made pipelining a universal technique in processor design by 1985?",
+    "options": [
+      "The ability to overlap execution of instructions and exploit instruction-level parallelism",
+      "The introduction of multi-core processors with shared cache hierarchies",
+      "The development of dynamic voltage and frequency scaling techniques",
+      "The standardization of RISC instruction set architectures"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Pipelining became universal in 1985 primarily because it enabled overlapping execution of instructions, which exploits instruction-level parallelism (ILP). This was a fundamental breakthrough in processor performance."
+  },
+  {
+    "id": "q2",
+    "text": "In the context of instruction-level parallelism, what does the Pipeline CPI equation consist of?",
+    "options": [
+      "Base CPI + Branch misprediction penalty + Cache miss penalty",
+      "Ideal pipeline CPI + Structural stalls + Data hazard stalls + Control stalls",
+      "Instruction fetch cycles + Decode cycles + Execute cycles + Writeback cycles",
+      "Static instruction count + Dynamic instruction count + Memory access time"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Pipeline CPI is calculated as: Ideal pipeline CPI + Structural stalls + Data hazard stalls + Control stalls. This comprehensive formula accounts for all sources of pipeline delays."
+  },
+  {
+    "id": "q3",
+    "text": "Why is parallelism within a basic block fundamentally limited for ILP exploitation?",
+    "options": [
+      "Basic blocks require synchronization primitives that serialize execution",
+      "Hardware register files cannot support more than 32 simultaneous operations",
+      "Typical basic block size is only 3-6 instructions, requiring optimization across branches",
+      "Basic blocks always contain data dependencies that prevent parallel execution"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Parallelism within basic blocks is limited because the typical size of a basic block is only 3-6 instructions. Therefore, to achieve significant ILP, optimization must be performed across branch boundaries."
+  },
+  {
+    "id": "q4",
+    "text": "Which statement correctly describes when two instructions are considered data dependent?",
+    "options": [
+      "When both instructions access the same functional unit in the processor",
+      "When instruction j uses a result produced by instruction i, or j depends on k which depends on i",
+      "When both instructions are part of the same loop iteration",
+      "When the instructions share the same opcode but operate on different registers"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Instruction j is data dependent on instruction i if: (1) instruction i produces a result that may be used by instruction j, or (2) instruction j is data dependent on instruction k and instruction k is data dependent on instruction i (transitive dependency)."
+  },
+  {
+    "id": "q5",
+    "text": "What critical information do data dependencies convey about a program?",
+    "options": [
+      "The minimum number of registers required for execution",
+      "Possibility of a hazard, order of result calculation, and upper bound on exploitable ILP",
+      "The optimal clock frequency for the target processor",
+      "The memory bandwidth requirements for cache coherence"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Data dependencies convey three critical pieces of information: the possibility of a hazard, the order in which results must be calculated, and an upper bound on exploitable instruction-level parallelism."
+  },
+  {
+    "id": "q6",
+    "text": "What distinguishes a name dependence from a true data dependence?",
+    "options": [
+      "Name dependencies can be resolved at compile time while data dependencies cannot",
+      "Name dependencies involve two instructions using the same name but with no information flow between them",
+      "Name dependencies only occur in dynamically scheduled processors",
+      "Name dependencies create hazards while data dependencies do not"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A name dependence occurs when two instructions use the same register or memory location name, but there is no actual flow of information between them. This is not a true data dependence but still creates problems when reordering instructions."
+  },
+  {
+    "id": "q7",
+    "text": "In an antidependence scenario, what constraint must be maintained?",
+    "options": [
+      "Both instructions must execute on the same functional unit",
+      "Instruction j writes a location that instruction i reads; initial ordering (i before j) must be preserved",
+      "The instructions must be separated by at least the pipeline depth",
+      "The write operation must complete before any subsequent reads in the program"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An antidependence (WAR hazard) occurs when instruction j writes a register or memory location that instruction i reads. The initial ordering with i before j must be preserved to ensure correct program execution."
+  },
+  {
+    "id": "q8",
+    "text": "Which technique is used to resolve both antidependencies and output dependencies?",
+    "options": [
+      "Branch prediction with speculative execution",
+      "Increasing the pipeline depth to add more forwarding paths",
+      "Dynamic memory disambiguation using load-store queues",
+      "Register renaming techniques"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Register renaming is the technique used to resolve name dependencies, including both antidependencies (WAR) and output dependencies (WAW), by assigning different physical registers to instructions that use the same architectural register name."
+  },
+  {
+    "id": "q9",
+    "text": "Which of the following is NOT one of the three types of data hazards mentioned in the lecture?",
+    "options": [
+      "Read After Write (RAW)",
+      "Write After Write (WAW)",
+      "Read After Read (RAR)",
+      "Write After Read (WAR)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The three types of data hazards are RAW (Read After Write), WAW (Write After Write), and WAR (Write After Read). Read After Read (RAR) is not a hazard because multiple reads of the same location do not create any conflicts."
+  },
+  {
+    "id": "q10",
+    "text": "According to control dependence rules, what restriction exists for instructions control-dependent on a branch?",
+    "options": [
+      "They must execute in the same pipeline stage as the branch instruction",
+      "They cannot be moved before the branch so execution is no longer controlled by it",
+      "They must be duplicated along both branch paths for correctness",
+      "They require additional register copies to preserve program state"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An instruction that is control dependent on a branch cannot be moved before the branch so that its execution is no longer controlled by the branch. This preserves the program's intended control flow semantics."
+  },
+  {
+    "id": "q11",
+    "text": "What is the primary goal of pipeline scheduling as a compiler technique for exposing ILP?",
+    "options": [
+      "Separate dependent instructions from their source by the pipeline latency of the source",
+      "Minimize the total number of instructions in the compiled code",
+      "Maximize the utilization of branch prediction hardware",
+      "Eliminate all loop-carried dependencies through static analysis"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Pipeline scheduling aims to separate dependent instructions from their source instruction by the pipeline latency of the source instruction. This prevents pipeline stalls by ensuring operands are ready when needed."
+  },
+  {
+    "id": "q12",
+    "text": "In the initial loop example 'fld f0,0(x1); fadd.d f4,f0,f2; fsd f4,0(x1)', how many stall cycles occur in the unscheduled version?",
+    "options": [
+      "One stall after fld and two stalls after fadd.d",
+      "Two stalls after fld and one stall after fadd.d",
+      "Three stalls total distributed evenly across all instructions",
+      "No stalls occur because of hardware forwarding"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The unscheduled loop has one stall after the fld instruction (waiting for the load to complete) and two stalls after the fadd.d instruction (waiting for the floating-point add to complete before the store)."
+  },
+  {
+    "id": "q13",
+    "text": "After applying basic pipeline scheduling to the loop (without unrolling), how is the stall pattern improved?",
+    "options": [
+      "All stalls are eliminated completely",
+      "The addi instruction is moved between fld and fadd.d, but two stalls still remain before fsd",
+      "Stalls are reduced to one cycle total by reordering all instructions",
+      "The bne instruction is moved earlier to enable branch prediction"
+    ],
+    "correctAnswer": 1,
+    "explanation": "After basic scheduling, the addi instruction is moved between fld and fadd.d to fill one stall slot, but two stalls still remain before the fsd instruction because the fadd.d result is not yet ready."
+  },
+  {
+    "id": "q14",
+    "text": "When unrolling a loop by a factor of 4, what important consideration is noted regarding live registers?",
+    "options": [
+      "The number of live registers increases compared to the original loop",
+      "Live registers remain constant due to register renaming",
+      "Each unrolled iteration requires a separate register file",
+      "Live registers decrease because of better register allocation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture specifically notes that when unrolling by a factor of 4, the number of live registers increases compared to the original loop. This is because multiple iterations are executing concurrently, each requiring their own set of registers."
+  },
+  {
+    "id": "q15",
+    "text": "After both loop unrolling (factor of 4) and pipeline scheduling, what performance is achieved?",
+    "options": [
+      "7 cycles total with 1.75 cycles per element",
+      "14 cycles total with 3.5 cycles per element",
+      "28 cycles total with 7 cycles per element",
+      "4 cycles total with 1 cycle per element"
+    ],
+    "correctAnswer": 1,
+    "explanation": "After unrolling by 4 and applying pipeline scheduling, the optimized loop takes 14 cycles to process 4 elements, achieving 3.5 cycles per element. This is a significant improvement over the original unscheduled version."
+  },
+  {
+    "id": "q16",
+    "text": "What is the purpose of strip mining when the number of loop iterations is unknown?",
+    "options": [
+      "To convert all loops into tail-recursive functions",
+      "To generate a pair of loops: first executes n mod k times, second executes n/k times",
+      "To eliminate loop overhead by converting to straight-line code",
+      "To enable vectorization by padding arrays to power-of-2 sizes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Strip mining generates a pair of loops when you want k copies of the loop body but have n iterations: the first loop executes n mod k times (handling the remainder), and the second executes n/k times (handling complete groups of k iterations)."
+  },
+  {
+    "id": "q17",
+    "text": "How does a basic 2-bit branch predictor change its prediction?",
+    "options": [
+      "After every misprediction, regardless of previous history",
+      "Only when the prediction is wrong two consecutive times",
+      "Based on a weighted average of the last 8 branch outcomes",
+      "Using a neural network trained on program execution traces"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A basic 2-bit predictor maintains its current prediction (taken or not taken) until it is wrong two consecutive times, at which point it changes its prediction. This hysteresis prevents changing prediction due to a single anomalous branch outcome."
+  },
+  {
+    "id": "q18",
+    "text": "What distinguishes a correlating branch predictor from a basic 2-bit predictor?",
+    "options": [
+      "It uses multiple 2-bit predictors for each branch, one for each possible combination of outcomes of preceding n branches",
+      "It maintains a single global history that is shared across all branches in the program",
+      "It requires compiler annotations to identify correlated branches",
+      "It only works for loops and cannot handle irregular control flow"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A correlating predictor maintains multiple 2-bit predictors for each branch, with one predictor for each possible combination of outcomes from the preceding n branches. This allows it to capture correlation patterns between branches."
+  },
+  {
+    "id": "q19",
+    "text": "In an (m,n) correlating predictor notation, what do m and n represent?",
+    "options": [
+      "m is the number of branch history bits, n is the number of predictor bits per entry",
+      "m is the number of entries in the predictor table, n is the associativity",
+      "m is the number of preceding branches considered, n is the number of bits per predictor (leading to 2^m n-bit predictors)",
+      "m is the pipeline depth, n is the number of cycles for branch resolution"
+    ],
+    "correctAnswer": 2,
+    "explanation": "In (m,n) predictor notation, m represents the number of preceding branches whose outcomes are considered, and n represents the number of bits in each predictor counter. This results in 2^m different n-bit predictors for each branch."
+  },
+  {
+    "id": "q20",
+    "text": "What is the key innovation of a tournament branch predictor?",
+    "options": [
+      "It combines a correlating predictor with a local predictor and selects between them",
+      "It uses tournament sorting algorithms to order branches by prediction difficulty",
+      "It executes both branch paths simultaneously and commits the correct one",
+      "It distributes branch prediction across multiple processor cores"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A tournament predictor combines different types of predictors (typically a correlating predictor and a local predictor) and uses a meta-predictor to select which predictor to use for each branch, leveraging the strengths of both approaches."
+  },
+  {
+    "id": "q21",
+    "text": "Why do tagged hybrid predictors use multiple hash tables with increasingly shorter histories?",
+    "options": [
+      "To reduce power consumption by accessing smaller tables first",
+      "To handle the increased chance of hash collisions that occurs with longer histories",
+      "To support multi-threaded programs with different context lengths",
+      "To enable faster lookup times during the decode stage"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Tagged hybrid predictors use multiple hash tables with increasingly shorter histories because longer histories lead to an increased chance of hash collisions. Using multiple tables with different history lengths provides a fallback mechanism when collisions occur."
+  },
+  {
+    "id": "q22",
+    "text": "What is a primary advantage of dynamic scheduling over static (compiler-based) scheduling?",
+    "options": [
+      "It completely eliminates the need for branch prediction hardware",
+      "It handles cases where dependencies are unknown at compile time",
+      "It reduces the total number of instructions executed by the program",
+      "It allows programs to run without any pipeline stalls"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A key advantage of dynamic scheduling is that it can handle cases where dependencies are unknown at compile time (such as memory dependencies through pointers). The compiler doesn't need detailed knowledge of the microarchitecture, and runtime information can be exploited."
+  },
+  {
+    "id": "q23",
+    "text": "What is the primary disadvantage of implementing dynamic scheduling in hardware?",
+    "options": [
+      "It requires recompilation of all existing software",
+      "It results in substantial increase in hardware complexity and complicates exception handling",
+      "It cannot achieve better performance than static scheduling",
+      "It consumes significantly more memory than static approaches"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The main disadvantages of dynamic scheduling are the substantial increase in hardware complexity required to track dependencies and schedule instructions, and the complication it introduces for precise exception handling."
+  },
+  {
+    "id": "q24",
+    "text": "In the example 'fdiv.d f0,f2,f4; fadd.d f10,f0,f8; fsub.d f12,f8,f14', what optimization does dynamic scheduling enable?",
+    "options": [
+      "All three instructions can execute in parallel using SIMD",
+      "The fsub.d can be issued before fadd.d since it is not dependent on the slow fdiv.d",
+      "The fdiv.d can be split into multiple micro-operations",
+      "The fadd.d can use an approximation while fdiv.d completes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Since fsub.d is not dependent on the slow fdiv.d instruction (it doesn't use f0), dynamic scheduling can issue fsub.d before fadd.d, which must wait for fdiv.d to complete. This allows better utilization of execution resources."
+  },
+  {
+    "id": "q25",
+    "text": "In the example 'fdiv.d f0,f2,f4; fmul.d f6,f0,f8; fadd.d f0,f10,f14', what prevents fadd.d from being issued earlier without register renaming?",
+    "options": [
+      "A true data dependence (RAW) on register f0",
+      "An antidependence (WAR) on register f0",
+      "A structural hazard due to limited functional units",
+      "A control dependence from an earlier branch instruction"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The fadd.d instruction is not data dependent on the previous instructions, but there is an antidependence (WAR hazard) on register f0. The fmul.d reads f0, and fadd.d writes f0, so reordering would violate the antidependence without register renaming."
+  },
+  {
+    "id": "q26",
+    "text": "After applying register renaming to 'fdiv.d f0,f2,f4; fadd.d f6,f0,f8; fsd f6,0(x1); fsub.d f8,f10,f14; fmul.d f6,f10,f8', what type of hazards remain?",
+    "options": [
+      "All hazards are eliminated through renaming",
+      "Only RAW (Read After Write) hazards remain, which can be strictly ordered",
+      "Only structural hazards remain due to limited functional units",
+      "Control hazards remain due to potential branch mispredictions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "After register renaming (replacing f6 with S and f8 with T where appropriate), the WAR and WAW hazards are eliminated. Only RAW (true data) dependencies remain, and these can be strictly ordered since they represent actual data flow."
+  },
+  {
+    "id": "q27",
+    "text": "In Tomasulo's algorithm, what is the primary purpose of reservation stations?",
+    "options": [
+      "To store the final results of completed instructions before writeback",
+      "To provide register renaming in hardware and track when operands are available",
+      "To buffer memory requests during cache misses",
+      "To predict branch outcomes using historical execution data"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Reservation stations (RS) serve two key purposes in Tomasulo's algorithm: they provide register renaming in hardware to eliminate WAW and WAR hazards, and they track when operands become available, buffering operand values or the RS number of the producing instruction."
+  },
+  {
+    "id": "q28",
+    "text": "What information does a reservation station contain according to Tomasulo's approach?",
+    "options": [
+      "Only the instruction opcode and destination register",
+      "The instruction, buffered operand values (when available), and RS number providing operands",
+      "Just the program counter and predicted branch target",
+      "Only memory addresses and cache line states"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A reservation station contains three key pieces of information: the instruction itself, buffered operand values (when they become available), and the reservation station numbers of instructions that will provide operand values that aren't yet available."
+  },
+  {
+    "id": "q29",
+    "text": "What is the Common Data Bus (CDB) used for in Tomasulo's algorithm?",
+    "options": [
+      "To connect the processor to external memory and I/O devices",
+      "To broadcast result values from functional units to reservation stations and register file",
+      "To synchronize multiple processor cores in a multiprocessor system",
+      "To transfer instructions from the instruction cache to the decode stage"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Common Data Bus (CDB) is used to broadcast result values from functional units to all reservation stations and the register file simultaneously. This allows waiting instructions to capture operands directly without going through the register file."
+  },
+  {
+    "id": "q30",
+    "text": "In Tomasulo's algorithm, what happens during the Issue step?",
+    "options": [
+      "The instruction writes its result to the register file and completes",
+      "Get next instruction from FIFO queue and issue to available RS with operand values if available; stall if operands not available",
+      "Execute the instruction when all operands are ready",
+      "Broadcast the result on the common data bus to waiting instructions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "During the Issue step, the next instruction is fetched from the FIFO instruction queue. If an appropriate reservation station is available, the instruction is issued to that RS along with any available operand values. If operands are not available, the instruction stalls."
+  },
+  {
+    "id": "q31",
+    "text": "What constraint is placed on instruction execution in Tomasulo's algorithm regarding branches?",
+    "options": [
+      "Branches must always predict not-taken to simplify recovery",
+      "No instruction is allowed to initiate execution until all preceding branches have completed",
+      "Branch instructions cannot be issued to reservation stations",
+      "All instructions must wait for branch resolution before issuing"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Tomasulo's algorithm requires that no instruction be allowed to initiate execution until all branches that precede it in program order have completed. This ensures correct program semantics and simplifies exception handling."
+  },
+  {
+    "id": "q32",
+    "text": "What is the fundamental concept behind hardware-based speculation?",
+    "options": [
+      "Execute instructions along predicted paths but only commit results if prediction was correct",
+      "Always execute both paths of a branch and select the correct result later",
+      "Use compiler hints to identify which instructions can be speculated",
+      "Limit execution to non-speculative instructions only for correctness"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Hardware-based speculation executes instructions along predicted execution paths (beyond branches) but only commits the results if the prediction was correct. This allows performance gains while maintaining correctness through selective commitment."
+  },
+  {
+    "id": "q33",
+    "text": "What critical hardware component is needed to prevent irrevocable actions during speculative execution?",
+    "options": [
+      "A larger instruction cache to hold speculated instructions",
+      "Additional functional units to execute both branch paths",
+      "A reorder buffer to hold results between completion and commit",
+      "A separate register file for speculative values"
+    ],
+    "correctAnswer": 2,
+    "explanation": "A reorder buffer (ROB) is needed to hold instruction results between completion and commit. This prevents irrevocable actions (like updating architectural state or taking exceptions) until instructions are known to be on the correct execution path."
+  },
+  {
+    "id": "q34",
+    "text": "What are the four fields contained in a reorder buffer entry?",
+    "options": [
+      "Instruction address, opcode, source registers, and destination register",
+      "Instruction type, destination field, value field, and ready field",
+      "Branch target, prediction bit, history register, and confidence counter",
+      "Physical register, architectural register, valid bit, and data value"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Each reorder buffer entry contains four fields: instruction type (branch/store/register operation), destination field (register number), value field (output value), and ready field (indicating whether execution has completed)."
+  },
+  {
+    "id": "q35",
+    "text": "When using a reorder buffer, what happens when a mispredicted branch reaches the head of the ROB?",
+    "options": [
+      "Only the branch instruction is discarded while other entries remain",
+      "All entries in the ROB are discarded and execution resumes from the correct path",
+      "The processor stalls until the branch can be re-executed",
+      "A checkpoint is created and the pipeline continues speculatively"
+    ],
+    "correctAnswer": 1,
+    "explanation": "When a mispredicted branch reaches the head of the reorder buffer (ROB), all speculated entries in the ROB are cleared/discarded. This removes all incorrectly speculated work, and execution resumes from the correct branch target."
+  },
+  {
+    "id": "q36",
+    "text": "How are exceptions handled in a processor with a reorder buffer?",
+    "options": [
+      "Exceptions are processed immediately when detected during execution",
+      "Exceptions are not recognized until the faulting instruction is ready to commit",
+      "Exceptions cause immediate pipeline flush and restart from exception handler",
+      "Exceptions are logged but never actually taken to avoid speculation issues"
+    ],
+    "correctAnswer": 1,
+    "explanation": "In a processor with a reorder buffer, exceptions are not recognized until the faulting instruction reaches the head of the ROB and is ready to commit. This ensures precise exceptions by only taking exceptions for instructions that are on the correct execution path."
+  },
+  {
+    "id": "q37",
+    "text": "What are the two main approaches for statically scheduled processors to achieve CPI < 1?",
+    "options": [
+      "Deeper pipelines and higher clock frequencies",
+      "Statically scheduled superscalar processors and VLIW processors",
+      "Hyper-threading and simultaneous multithreading",
+      "Vector processors and GPU-style SIMT architectures"
+    ],
+    "correctAnswer": 1,
+    "explanation": "To achieve CPI less than 1 (completing multiple instructions per clock) with static scheduling, the two main approaches are: statically scheduled superscalar processors (which issue multiple instructions in parallel) and VLIW (Very Long Instruction Word) processors."
+  },
+  {
+    "id": "q38",
+    "text": "What is a major disadvantage of VLIW processors?",
+    "options": [
+      "They require dynamic branch prediction which adds hardware complexity",
+      "Statically finding parallelism, code size, no hazard detection hardware, and binary code compatibility issues",
+      "They cannot achieve performance competitive with scalar processors",
+      "They require too many functional units to be cost-effective"
+    ],
+    "correctAnswer": 1,
+    "explanation": "VLIW processors have several disadvantages: difficulty statically finding parallelism to fill all slots, increased code size, lack of hazard detection hardware (relying on compiler), and binary code compatibility problems when moving between implementations with different numbers of functional units."
+  },
+  {
+    "id": "q39",
+    "text": "In modern dynamically scheduled superscalar processors with multiple issue, what is typically the bottleneck?",
+    "options": [
+      "Memory bandwidth for fetching instructions from cache",
+      "The issue logic that must examine dependencies among instructions in the bundle",
+      "The number of functional units available for execution",
+      "The size of the reorder buffer for holding speculative results"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states that issue logic is the bottleneck in dynamically scheduled superscalars. The logic must examine all dependencies among instructions in the issue bundle and handle any possible dependencies, which becomes increasingly complex with wider issue widths."
+  },
+  {
+    "id": "q40",
+    "text": "According to the lecture, why is speculation only energy efficient under certain conditions?",
+    "options": [
+      "Speculation always reduces energy by completing programs faster",
+      "Speculation is only energy efficient when it significantly improves performance; mis-speculation wastes power",
+      "Speculation reduces energy by allowing lower voltage operation",
+      "Speculation requires special low-power circuits to be energy efficient"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture notes that speculation is only energy efficient when it significantly improves performance. Mis-speculation degrades both performance and power consumption (wasting energy on incorrect work), and may cause additional costly events like cache or TLB misses."
+  }
+]

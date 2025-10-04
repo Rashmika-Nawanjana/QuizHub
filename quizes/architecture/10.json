@@ -1,0 +1,482 @@
+[
+  {
+    "id": "q1",
+    "text": "What is the primary reason that modern processors have incorporated features like 512-bit SIMD units and 15+ stage pipelines?",
+    "options": [
+      "To push against the limits of performance and maximize computational capabilities",
+      "To reduce power consumption in mobile devices",
+      "To simplify the instruction set architecture",
+      "To decrease manufacturing costs"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture discusses these advanced features (multi-level caches, SIMD units, deep pipelines, branch prediction, etc.) in the context of 'Limits of performance', indicating they are methods to push performance boundaries."
+  },
+  {
+    "id": "q2",
+    "text": "Which of the following is NOT mentioned as a performance-enhancing feature in modern computer architectures?",
+    "options": [
+      "Out-of-order execution",
+      "Speculative prefetching",
+      "Quantum entanglement processing",
+      "Branch prediction"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture lists out-of-order execution, speculative prefetching, and branch prediction as modern performance features. Quantum entanglement processing is not mentioned."
+  },
+  {
+    "id": "q3",
+    "text": "What is a key characteristic of CISC (Complex Instruction Set Computer) architectures?",
+    "options": [
+      "Minimal set of hardware components",
+      "Low power consumption due to simplified operations",
+      "Large number of instructions for dedicated hardware operations",
+      "Easy programming with limited instruction choices"
+    ],
+    "correctAnswer": 2,
+    "explanation": "According to the lecture, CISC architectures have 'a large number of instructions for dedicated hardware operations' and use 'a large number of dedicated hardware co-processors/modules'."
+  },
+  {
+    "id": "q4",
+    "text": "Which statement best describes the power consumption trade-off in CISC vs RISC architectures?",
+    "options": [
+      "CISC consumes less power because it has more specialized hardware",
+      "RISC and CISC consume equal power in modern implementations",
+      "Power consumption is unrelated to instruction set complexity",
+      "CISC consumes more power because a large number of modules are active"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The lecture explicitly states that CISC 'Consumes more power, because large number of modules are active', while RISC 'Consumes less power, hardware is simple and minimal'."
+  },
+  {
+    "id": "q5",
+    "text": "What is the main advantage of RISC architecture in terms of programming?",
+    "options": [
+      "Easy to program with only a handful of instructions",
+      "Provides more optimization opportunities for compilers",
+      "Offers more ways to accomplish the same task",
+      "Requires less memory for program storage"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture states that RISC is 'Easy to program' because it has 'Only a handful of instructions', contrasting with CISC which is 'Difficult to program. Too many ways to choose from!'"
+  },
+  {
+    "id": "q6",
+    "text": "In microarchitecture design, what does the 'critical path' refer to?",
+    "options": [
+      "The most frequently executed instruction sequence",
+      "The maximum combinational logic delay that needs to be reduced",
+      "The shortest path between processor and memory",
+      "The main data bus in the processor"
+    ],
+    "correctAnswer": 1,
+    "explanation": "According to the lecture, the critical path design principle involves 'Find and decrease the maximum combinational logic delay' and 'Break a path into multiple cycles if it takes too long'."
+  },
+  {
+    "id": "q7",
+    "text": "Which microarchitecture design principle suggests focusing resources on frequently used operations?",
+    "options": [
+      "Critical Path optimization",
+      "Bottleneck elimination",
+      "Common Case vs Uncommon Case",
+      "Pipeline balancing"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The 'Common Case vs Uncommon Case' principle states 'Spend time and resources on where it matters most' and notes there is 'No point in putting much effort to improve rarely used instructions'."
+  },
+  {
+    "id": "q8",
+    "text": "In a single-cycle processor architecture, what constraint determines the clock cycle time?",
+    "options": [
+      "The average instruction execution time",
+      "The fastest instruction in the instruction set",
+      "The most commonly executed instruction",
+      "The slowest instruction/stage in the instruction set"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The lecture explicitly states that 'Single cycle processors need to adjust to the slowest stage', meaning the clock cycle must accommodate the longest instruction."
+  },
+  {
+    "id": "q9",
+    "text": "What is the key advantage of multi-cycle microarchitectures over single-cycle architectures?",
+    "options": [
+      "All instructions execute in exactly the same number of cycles",
+      "Clock cycle time can be determined independently of instruction processing time",
+      "They eliminate the need for control units",
+      "They always run faster than single-cycle processors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states the idea behind multi-cycle is to 'Determine clock cycle time independently of instruction processing time' and 'Each instruction takes as many clock cycles as it needs to take'."
+  },
+  {
+    "id": "q10",
+    "text": "According to the lecture example, how do ADDI and LOAD/STORE instructions compare in execution speed?",
+    "options": [
+      "ADDI is slow; LOAD/STORE are fast",
+      "Both take the same number of cycles",
+      "ADDI is fast; LOAD/STORE are slow",
+      "LOAD is fast but STORE is slow"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture explicitly states 'ADDI instruction is fast. LOAD/STORE instructions are slow' and gives an example where 'Load Instruction may take 8 clock cycles' while 'ADDI instruction takes only 1 clock cycle'."
+  },
+  {
+    "id": "q11",
+    "text": "What are the three main components of a Programmable Control Unit?",
+    "options": [
+      "ALU, registers, and memory",
+      "Microinstruction, control store, and micro-sequencer",
+      "Fetch unit, decode unit, and execute unit",
+      "Cache, pipeline, and branch predictor"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly lists 'Three components: Microinstruction, control store, micro-sequencer' as the components of a Programmable Control Unit."
+  },
+  {
+    "id": "q12",
+    "text": "What is the role of a micro-sequencer in a programmable control unit?",
+    "options": [
+      "It executes arithmetic operations",
+      "It stores microinstructions permanently",
+      "It determines the address of the next microinstruction",
+      "It translates high-level code to machine code"
+    ],
+    "correctAnswer": 2,
+    "explanation": "According to the lecture, the 'Micro-sequencer determines the address of the next microinstruction', controlling the flow through the microprogram."
+  },
+  {
+    "id": "q13",
+    "text": "Who typically performs the micro-coding in microprogrammed processors?",
+    "options": [
+      "End users and application developers",
+      "Operating system developers",
+      "Compiler writers",
+      "Processor manufacturers themselves"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The lecture states 'Processor manufacturers themselves usually do the micro-coding' and refers to it as Processor 'firmware'."
+  },
+  {
+    "id": "q14",
+    "text": "What abstraction does microprogramming provide to hardware designers?",
+    "options": [
+      "The ability to change processor speed dynamically",
+      "The ability to translate any desired operation to a sequence of microinstructions",
+      "Direct control over transistor-level operations",
+      "Automatic optimization of all programs"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states that microprogramming enables 'The designer can translate any desired operation to a sequence of microinstructions', providing a new level of abstraction."
+  },
+  {
+    "id": "q15",
+    "text": "What is meant by 'Soft' and dynamic datapath control signals in microprogramming?",
+    "options": [
+      "Control signals that physically wear out over time",
+      "Signals that operate at lower voltage levels",
+      "No need for additional hardware control signals if operations can be translated into existing control signals",
+      "Control signals that can be modified by user programs"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture describes soft and dynamic control signals as requiring 'no need of additional hardware control signals if the operation can be translated into existing control signals'."
+  },
+  {
+    "id": "q16",
+    "text": "Which of the following is listed as a drawback of micro-coded architectures?",
+    "options": [
+      "Complex Instruction Set leading to CISC",
+      "Insufficient computational power",
+      "Incompatibility with modern operating systems",
+      "Inability to execute floating-point operations"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture explicitly lists 'Complex Instruction Set (Leading to CISC)' as one of the drawbacks of micro-coded architectures."
+  },
+  {
+    "id": "q17",
+    "text": "What is a significant limitation of general-purpose optimizations in micro-coded architectures?",
+    "options": [
+      "They consume too much memory",
+      "Only the hardware vendor can re-purpose the instructions",
+      "They cannot handle integer arithmetic",
+      "They are incompatible with modern compilers"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture lists as a drawback: 'General Purpose optimizations, only the hardware vendor can re-purpose the instructions', limiting flexibility."
+  },
+  {
+    "id": "q18",
+    "text": "According to the lecture, what is a potential issue with high-level language compilers in relation to micro-coded ISAs?",
+    "options": [
+      "Compilers might not use the optimizations available in the ISA",
+      "Compilers cannot generate code for micro-coded processors",
+      "Compilers always use too many optimizations",
+      "Compilers require special licensing for micro-coded systems"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture notes that 'High-level language compiles might not use the optimizations available in the ISA' as a drawback of micro-coded architectures."
+  },
+  {
+    "id": "q19",
+    "text": "Which strategy is recommended for Domain Specific Architectures (DSAs) regarding memory?",
+    "options": [
+      "Use the largest possible cache sizes",
+      "Use dedicated memories to minimize the distance over which data is moved",
+      "Share all memory across multiple processors",
+      "Eliminate all forms of memory hierarchy"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states DSAs should 'Use dedicated memories to minimize the distance over which data is moved' as a key design principle."
+  },
+  {
+    "id": "q20",
+    "text": "In Domain Specific Architectures, what should be done with resources saved from dropping advanced microarchitectural optimizations?",
+    "options": [
+      "Return them as cost savings to consumers",
+      "Invest them into more arithmetic units or bigger memories",
+      "Use them to increase clock frequency",
+      "Allocate them to general-purpose tasks"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states to 'Invest the resources saved from dropping advanced microarchitectural optimizations into more arithmetic units or bigger memories'."
+  },
+  {
+    "id": "q21",
+    "text": "What approach to parallelism is recommended for Domain Specific Architectures?",
+    "options": [
+      "The most complex form available in modern processors",
+      "Thread-level parallelism exclusively",
+      "The easiest form of parallelism that matches the domain",
+      "No parallelism to reduce complexity"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture advises to 'Use the easiest form of parallelism that matches the domain' when designing DSAs, emphasizing domain-specific appropriateness."
+  },
+  {
+    "id": "q22",
+    "text": "How should data size and type be handled in Domain Specific Architectures?",
+    "options": [
+      "Reduce data size and type to the simplest needed for the domain",
+      "Always use 64-bit data types for precision",
+      "Standardize on IEEE floating-point for all operations",
+      "Maximize data width to ensure future compatibility"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture recommends to 'Reduce data size and type to the simplest needed for the domain' as a DSA design principle, optimizing for specific needs."
+  },
+  {
+    "id": "q23",
+    "text": "What programming approach is suggested for Domain Specific Architectures?",
+    "options": [
+      "Use standard C/C++ compilers only",
+      "Rely exclusively on assembly language",
+      "Use a domain-specific programming language to port code to the DSA",
+      "Avoid all high-level programming languages"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture states to 'Use a domain-specific programming language to port code to the DSA', enabling better optimization for specific domains."
+  },
+  {
+    "id": "q24",
+    "text": "In the CPU time performance equation, what does CPI stand for?",
+    "options": [
+      "Computer Performance Index",
+      "Central Processing Indicator",
+      "Cycles Per Instruction",
+      "Clock Period Interval"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture defines 'CPI = CPU clock cycles for a program / Instruction count', clearly indicating CPI means Cycles Per Instruction."
+  },
+  {
+    "id": "q25",
+    "text": "What is the relationship between IPC and CPI?",
+    "options": [
+      "IPC = CPI × Clock cycle time",
+      "IPC = CPI + 1",
+      "IPC = CPI²",
+      "IPC = 1/CPI"
+    ],
+    "correctAnswer": 3,
+    "explanation": "The lecture explicitly states 'Instructions per clock (IPC) = 1/CPI', showing they are reciprocals of each other."
+  },
+  {
+    "id": "q26",
+    "text": "According to the performance equation, CPU time equals:",
+    "options": [
+      "Instruction count × Cycles per instruction × Clock cycle time",
+      "Clock frequency × Number of cores",
+      "Cache size × Memory bandwidth",
+      "Pipeline depth × Branch prediction accuracy"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture provides the formula: 'CPU time = Instruction count × Cycles per instruction × Clock cycle time' as the complete performance equation."
+  },
+  {
+    "id": "q27",
+    "text": "What is an alternative formulation of the CPU time equation mentioned in the lecture?",
+    "options": [
+      "CPU time = Memory access time × Data size",
+      "CPU time = CPU clock cycles for a program × Clock cycle time",
+      "CPU time = Number of transistors ÷ Manufacturing process",
+      "CPU time = Power consumption × Voltage²"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'CPU time = CPU clock cycles for a program × Clock cycle time' as one form of the performance equation."
+  },
+  {
+    "id": "q28",
+    "text": "Why do benchmark requirements change according to the lecture?",
+    "options": [
+      "Due to manufacturing improvements only",
+      "With time and type of device",
+      "Only when new processors are released",
+      "Because of changes in operating systems"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states that 'Requirements change! - with time - type of device', indicating multiple factors affect benchmark requirements."
+  },
+  {
+    "id": "q29",
+    "text": "What is the primary purpose of benchmarking in computer architecture?",
+    "options": [
+      "To determine manufacturing costs",
+      "To compare two processors/systems",
+      "To measure power consumption only",
+      "To test thermal dissipation"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture mentions 'Benchmarking How to compare two processors/systems' as the purpose of performance measurements through benchmarking."
+  },
+  {
+    "id": "q30",
+    "text": "According to the lecture, performance is characterized as being:",
+    "options": [
+      "Universal across all applications",
+      "Domain Specific",
+      "Solely dependent on clock speed",
+      "Invariant to workload type"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly states 'Performance is Domain Specific' and provides examples like Neural Networks, Security/Networking, and Video Encoding/Decoding."
+  },
+  {
+    "id": "q31",
+    "text": "Which of the following is given as an example of domain-specific performance?",
+    "options": [
+      "Neural Networks",
+      "Word processing",
+      "Database indexing",
+      "File compression"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The lecture lists 'Neural Networks' as one of the examples of domain-specific performance, along with Security/Networking and Video Encoding/Decoding."
+  },
+  {
+    "id": "q32",
+    "text": "In multi-cycle architectures, which statement about instruction execution is correct?",
+    "options": [
+      "All instructions must complete in exactly 4 cycles",
+      "The states followed by each instruction can be different",
+      "Instructions cannot share execution units",
+      "Faster instructions must wait for slower ones to complete"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'The states followed by each instruction is different' and 'Each instruction takes as many clock cycles as it needs to take' in multi-cycle architectures."
+  },
+  {
+    "id": "q33",
+    "text": "What characteristic of LOAD instructions is mentioned in the multi-cycle discussion?",
+    "options": [
+      "They always take exactly 8 cycles",
+      "They may take 8 clock cycles or even an undetermined time period",
+      "They take fewer cycles than ADDI",
+      "They cannot be pipelined"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture states 'Load Instruction may take 8 clock cycles (Or even an undetermined time period)', highlighting the variable nature of memory operations."
+  },
+  {
+    "id": "q34",
+    "text": "What does a microinstruction control in a programmable control unit?",
+    "options": [
+      "Only the arithmetic logic unit",
+      "The datapath and helps determine the next state",
+      "External peripheral devices exclusively",
+      "The power management system"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture defines microinstruction as 'control signals that control the datapath and help determine the next state' in the programmable control unit."
+  },
+  {
+    "id": "q35",
+    "text": "Where are microinstructions stored in a microprogrammed architecture?",
+    "options": [
+      "In the main system RAM",
+      "In the hard disk drive",
+      "In a unique location in the control store (a special memory structure)",
+      "In the CPU registers"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture states 'Each microinstruction is stored in a unique location in the control store (a special memory structure)', distinguishing it from regular memory."
+  },
+  {
+    "id": "q36",
+    "text": "Which feature is NOT mentioned as a limit-pushing performance enhancement in modern processors?",
+    "options": [
+      "Multithreading",
+      "4th-level caches",
+      "Optical interconnects",
+      "Multiprocessing"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The lecture lists 4th-level caches, multithreading, and multiprocessing as performance features, but does not mention optical interconnects."
+  },
+  {
+    "id": "q37",
+    "text": "What is the main trade-off when using RISC architecture?",
+    "options": [
+      "Higher power consumption but better performance",
+      "Minimal hardware and simple instructions but potentially more instructions needed",
+      "Complex programming but faster execution",
+      "More silicon area but lower cost"
+    ],
+    "correctAnswer": 1,
+    "explanation": "While not explicitly stated as a trade-off, RISC's 'minimal set of hardware' and 'handful of instructions' implies potentially needing more instructions to accomplish complex tasks, though the lecture emphasizes the benefits of simplicity."
+  },
+  {
+    "id": "q38",
+    "text": "In the context of microarchitecture design questions, what does 'What determines the clock cycle time?' refer to?",
+    "options": [
+      "The critical path and maximum combinational logic delay",
+      "The power supply voltage",
+      "The physical size of the processor",
+      "The operating system scheduler"
+    ],
+    "correctAnswer": 0,
+    "explanation": "This question relates to the 'Critical Path' design principle discussed in the lecture, which involves finding and decreasing the maximum combinational logic delay that determines clock cycle time."
+  },
+  {
+    "id": "q39",
+    "text": "What advantage does the 'Common Case vs Uncommon Case' principle provide?",
+    "options": [
+      "It ensures all instructions execute equally fast",
+      "It allows efficient resource allocation by focusing on frequently used operations",
+      "It eliminates the need for caches",
+      "It simplifies the instruction set to exactly 32 instructions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The principle states 'Spend time and resources on where it matters most', meaning resources should be allocated to optimize common operations rather than wasting effort on rarely used instructions."
+  },
+  {
+    "id": "q40",
+    "text": "According to the lecture, which example domain would benefit from domain-specific architecture design?",
+    "options": [
+      "General web browsing",
+      "Video Encoding/Decoding",
+      "Text editing",
+      "Spreadsheet calculations"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The lecture explicitly lists 'Video Encoding. Decoding Etc.' as an example of domain-specific performance, making it an ideal candidate for DSA design."
+  }
+]
